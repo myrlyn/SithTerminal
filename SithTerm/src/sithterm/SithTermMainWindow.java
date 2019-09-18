@@ -13,8 +13,6 @@ import java.awt.Component;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -158,7 +156,7 @@ public class SithTermMainWindow implements Serializable
 				List<String> cmdList = settings.getCommand();
 				String[] command = new String[cmdList.size()];
 				for (int i=0; i < command.length; i++) {
-					System.err.println(cmdList.get(i));
+					logger.info(cmdList.get(i));
 					command[i]=cmdList.get(i);
 				}
 				int initialRows = 26;
@@ -346,6 +344,13 @@ public class SithTermMainWindow implements Serializable
 				procBuilder.setCygwin(isCygwin);
 				SettingsProvider settingsProvider = new DefaultSettingsProvider();
 				JediTermWidget jtw = new JediTermWidget(settingsProvider);
+				
+				logger.info("Setting bgcolor"+settings.getBgcolor().toString());
+				jtw.setBackground(settings.getBgcolor());
+				
+				logger.info("Setting fgcolor"+settings.getFgColor().toString());
+				jtw.setForeground(settings.getFgColor());
+				
 				try
 					{
 						PtyProcess myProcess = procBuilder.start();

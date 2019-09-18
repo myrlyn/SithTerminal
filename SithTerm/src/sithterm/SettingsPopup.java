@@ -4,6 +4,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+
+import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
+import com.sun.jna.platform.unix.X11.Font;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -14,12 +19,12 @@ import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.JColorChooser;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
+import javax.swing.JSpinner;
 
 public class SettingsPopup extends JDialog
 	{
@@ -222,12 +227,55 @@ public class SettingsPopup extends JDialog
 				
 				JColorChooser backgroundColorChooser = new JColorChooser();
 				backgroundColorsPanel.add(backgroundColorChooser);
-				
 				JPanel foregroundColorPanel = new JPanel();
 				tabbedPane.addTab("Foreground Color", null, foregroundColorPanel, null);
 				
 				JColorChooser foregroundColorChooser = new JColorChooser();
 				foregroundColorPanel.add(foregroundColorChooser);
+				
+				JPanel fontPanel = new JPanel();
+				tabbedPane.addTab("Font", null, fontPanel, null);
+				GridBagLayout gbl_fontPanel = new GridBagLayout();
+				gbl_fontPanel.columnWidths = new int[] {0, 0, 0};
+				gbl_fontPanel.rowHeights = new int[] {0, 0, 0};
+				gbl_fontPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				gbl_fontPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				fontPanel.setLayout(gbl_fontPanel);
+				
+				JLabel lblFont = new JLabel("Font");
+				GridBagConstraints gbc_lblFont = new GridBagConstraints();
+				gbc_lblFont.insets = new Insets(0, 0, 5, 5);
+				gbc_lblFont.gridx = 0;
+				gbc_lblFont.gridy = 0;
+				fontPanel.add(lblFont, gbc_lblFont);
+				
+				JComboBox<String> fontComboBox = new JComboBox<>();
+				GridBagConstraints gbc_fontComboBox = new GridBagConstraints();
+				gbc_fontComboBox.insets = new Insets(0, 0, 5, 0);
+				gbc_fontComboBox.anchor = GridBagConstraints.WEST;
+				gbc_fontComboBox.fill = GridBagConstraints.BOTH;
+				gbc_fontComboBox.gridx = 1;
+				gbc_fontComboBox.gridy = 0;
+				fontPanel.add(fontComboBox, gbc_fontComboBox);
+				String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+				for (String font: fontList) {
+					fontComboBox.addItem(font);
+				}
+				fontComboBox.setSelectedItem(settings.getFontFamily());
+				
+				JLabel lblFontSize = new JLabel("Font Size");
+				GridBagConstraints gbc_lblFontSize = new GridBagConstraints();
+				gbc_lblFontSize.insets = new Insets(0, 0, 0, 5);
+				gbc_lblFontSize.gridx = 0;
+				gbc_lblFontSize.gridy = 1;
+				fontPanel.add(lblFontSize, gbc_lblFontSize);
+				
+				JSpinner fontSizeSpinner = new JSpinner();
+				fontSizeSpinner.setModel(new SpinnerNumberModel(settings.getFontSize(),3.0f,64.0f,0.5f));
+				GridBagConstraints gbc_fontSizeSpinner = new GridBagConstraints();
+				gbc_fontSizeSpinner.gridx = 1;
+				gbc_fontSizeSpinner.gridy = 1;
+				fontPanel.add(fontSizeSpinner, gbc_fontSizeSpinner);
 				btnApplySettings.addActionListener(evt -> {
 					settings.setCharSetName(charSetComboBox.getSelectedItem().toString());
 					settings.setDir(dirField.getText());
@@ -235,6 +283,10 @@ public class SettingsPopup extends JDialog
 					String[] cmd = commandField.getText().split("\\s");
 					settings.setCommand(Arrays.asList(cmd));
 					settings.setOpacity(getOpacityFromInt(opacitySlider.getValue()));
+					settings.setBgcolor(backgroundColorChooser.getColor());
+					settings.setFgColor(foregroundColorChooser.getColor());
+					settings.setFontFamily(fontComboBox.getSelectedItem().toString());
+					settings.setFontSize((Float)fontSizeSpinner.getValue());
 					window.saveSettings();
 				});
 			}

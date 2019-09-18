@@ -1,5 +1,6 @@
 package sithterm;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
 
 public class SithTermSettings implements Serializable
 	{
@@ -21,10 +23,54 @@ public class SithTermSettings implements Serializable
 		private String charSetName = "UTF-8";
 		private String termType = "xterm";
 		private Map<String, Serializable> pluginSettings = new HashMap<>();
-		private float opacity = 100.0f;
+		private float opacity = 1.0f;
+		private Color bgcolor = Color.BLACK;
+		private Color fgColor = Color.WHITE;
+		private String fontFamily = new DefaultSettingsProvider().getTerminalFont().getFamily();
+		private float fontSize = new DefaultSettingsProvider().getTerminalFontSize();
+		public float getFontSize()
+			{
+				return fontSize;
+			}
+
+		public void setFontSize(float fontSize)
+			{
+				this.fontSize = fontSize;
+			}
+
+		public String getFontFamily()
+			{
+				return fontFamily;
+			}
+
+		public void setFontFamily(String fontFamily)
+			{
+				this.fontFamily = fontFamily;
+			}
+
 		public float getOpacity()
 			{
 				return opacity;
+			}
+
+		public Color getBgcolor()
+			{
+				return bgcolor;
+			}
+
+		public void setBgcolor(Color bgcolor)
+			{
+				this.bgcolor = bgcolor;
+			}
+
+		public Color getFgColor()
+			{
+				return fgColor;
+			}
+
+		public void setFgColor(Color fgColor)
+			{
+				this.fgColor = fgColor;
 			}
 
 		public void setOpacity(float opacity)
