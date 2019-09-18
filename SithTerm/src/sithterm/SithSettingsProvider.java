@@ -1,10 +1,11 @@
 package sithterm;
 
+import java.awt.Color;
 import java.awt.Font;
-
-import javax.swing.KeyStroke;
+import java.awt.GraphicsEnvironment;
 
 import com.jediterm.terminal.HyperlinkStyle.HighlightMode;
+import com.jediterm.terminal.TerminalColor;
 import com.jediterm.terminal.TextStyle;
 import com.jediterm.terminal.emulator.ColorPalette;
 import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
@@ -22,30 +23,33 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		public ColorPalette getTerminalColorPalette()
 			{
 				// TODO Auto-generated method stub
-				return ColorPalette.WINDOWS_PALETTE;
+				return ColorPalette.XTERM_PALETTE;
 			}
 		@Override
 		public Font getTerminalFont()
 			{
-				// TODO Auto-generated method stub
-				return super.getTerminalFont();
+
+				Font f = new Font(settings.getFontFamily(),Font.PLAIN,(int)settings.getFontSize());
+				f = f.deriveFont(settings.getFontSize());
+				return f;
+				
 			}
 		@Override
 		public float getTerminalFontSize()
 			{
-				return super.getTerminalFontSize();
+				return settings.getFontSize();
 			}
 		@Override
 		public float getLineSpace()
 			{
-				// TODO Auto-generated method stub
-				return super.getLineSpace();
+				return settings.getLineSpace();
 			}
 		@Override
 		public TextStyle getDefaultStyle()
 			{
-				// TODO Auto-generated method stub
-				return super.getDefaultStyle();
+				TerminalColor bg = TerminalColor.awt(settings.getBgcolor());
+				TerminalColor fg = TerminalColor.awt(settings.getFgColor());
+				return new TextStyle(fg, bg);
 			}
 		@Override
 		public TextStyle getSelectionColor()

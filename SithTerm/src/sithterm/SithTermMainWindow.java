@@ -2,6 +2,7 @@ package sithterm;
 
 import java.awt.EventQueue;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -21,8 +22,6 @@ import com.google.gson.GsonBuilder;
 import com.jediterm.pty.PtyProcessTtyConnector;
 import com.jediterm.terminal.TtyConnector;
 import com.jediterm.terminal.ui.JediTermWidget;
-import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
-import com.jediterm.terminal.ui.settings.SettingsProvider;
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
 
@@ -37,6 +36,11 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class SithTermMainWindow implements Serializable
 	{
@@ -60,9 +64,10 @@ public class SithTermMainWindow implements Serializable
 		private SettingsPopup spop = null;
 		private SithTermSettings settings = new SithTermSettings();
 		private transient Gson jsParser = new GsonBuilder().setPrettyPrinting().setLenient().create();
-		
+		private Map<String,String> lnfMap = new HashMap<>();
 		public static void main(String[] args)
 			{ 
+				
 				BasicConfigurator.configure();
 				EventQueue.invokeLater(() -> {
 					try
@@ -91,32 +96,48 @@ public class SithTermMainWindow implements Serializable
 		 * Initialize the contents of the frame.
 		 */
 		private void initialize()
-			{	try
+			{	
+				JDialog.setDefaultLookAndFeelDecorated(true);
+				JFrame.setDefaultLookAndFeelDecorated(true);
+				//initialize the look and feel that should work everwhere
+				try
 				{
-					UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
+					UIManager.setLookAndFeel(javax.swing.plaf.metal.MetalLookAndFeel.class.getName());
+					
 				}
-			catch (UnsupportedLookAndFeelException  e)
+			catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException  e)
 				{
 					logger.error("Unsupported Look and Feel", e);
 				}
-				JFrame.setDefaultLookAndFeelDecorated(true);
+			
+				UIManager.LookAndFeelInfo[] lnfs = UIManager.getInstalledLookAndFeels();
+				for (UIManager.LookAndFeelInfo lnf : lnfs ) {
+					lnfMap.put(lnf.getName(), lnf.getClassName());
+				}
+			
 				loadSettings();
 				spop = new SettingsPopup("JediTerm Settings", this);
-				spop.setBounds(100, 100, 450, 300);
+				spop.setBounds(100, 100, 500, 500);
 				frame = new JFrame();
+				frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SithTermMainWindow.class.getResource("/sw.png")));
+				
 				frame.setBounds(100, 100, 450, 300);
 				frame.setOpacity(settings.getOpacity());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setJMenuBar(menuBar);
 				menuBar.add(mnFile);
+				mntmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 				mntmClose.addActionListener(evt -> System.exit(0));
 				mnFile.add(mntmClose);
 				menuBar.add(mnTabs);
+				mntmNewTab.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 				mntmNewTab.addActionListener(evt -> addNewTab());
 				mnTabs.add(mntmNewTab);
+				mntmCloseTab.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
 				mntmCloseTab.addActionListener(evt -> closeCurrentTab());
 				mnTabs.add(mntmCloseTab);
 				menuBar.add(mnSettings);
+				mntmTerminalSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 				mntmTerminalSettings.addActionListener(evt -> spop.setVisible(true));
 				mnSettings.add(mntmTerminalSettings);
 				frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -125,6 +146,21 @@ public class SithTermMainWindow implements Serializable
 				addNewTab();
 			}
 			
+		public Map<String, String> getLnfMap()
+			{
+				return lnfMap;
+			}
+
+		public void setLnfMap(Map<String, String> lnfMap)
+			{
+				this.lnfMap = lnfMap;
+			}
+
+		public static long getSerialversionuid()
+			{
+				return serialVersionUID;
+			}
+
 		private void closeCurrentTab()
 			{
 				Component c = tabbedPane.getSelectedComponent();
@@ -342,7 +378,7 @@ public class SithTermMainWindow implements Serializable
 				Charset cset = Charset.forName(chsetName);
 				procBuilder.setConsole(isConsole);
 				procBuilder.setCygwin(isCygwin);
-				SettingsProvider settingsProvider = new DefaultSettingsProvider();
+				SithSettingsProvider settingsProvider = new SithSettingsProvider(settings);
 				JediTermWidget jtw = new JediTermWidget(settingsProvider);
 				
 				logger.info("Setting bgcolor"+settings.getBgcolor().toString());
@@ -361,8 +397,8 @@ public class SithTermMainWindow implements Serializable
 					{
 						logger.error("IO Exception building PTY Process", e);
 					}
-				jtw.start();
-				return jtw;
+				jtw.start(); 
+				return jtw; 
 			}
 			
 		public void saveSettings()

@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
 
 public class SithTermSettings implements Serializable
@@ -28,6 +26,28 @@ public class SithTermSettings implements Serializable
 		private Color fgColor = Color.WHITE;
 		private String fontFamily = new DefaultSettingsProvider().getTerminalFont().getFamily();
 		private float fontSize = new DefaultSettingsProvider().getTerminalFontSize();
+		private float lineSpace = 0.0f;
+		private String lnf =javax.swing.plaf.metal.MetalLookAndFeel.class.getName();
+		public String getLnf()
+			{
+				return lnf;
+			}
+
+		public void setLnf(String lnf)
+			{
+				this.lnf = lnf;
+			}
+
+		public float getLineSpace()
+			{
+				return lineSpace;
+			}
+
+		public void setLineSpace(float lineSpace)
+			{
+				this.lineSpace = lineSpace;
+			}
+
 		public float getFontSize()
 			{
 				return fontSize;
