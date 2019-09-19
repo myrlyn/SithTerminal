@@ -117,7 +117,7 @@ public class SithTermMainWindow implements Serializable
 			
 				loadSettings();
 				spop = new SettingsPopup("JediTerm Settings", this);
-				spop.setBounds(100, 100, 500, 500);
+				spop.setBounds(50, 50, 700, 700);
 				frame = new JFrame();
 				frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SithTermMainWindow.class.getResource("/sw.png")));
 				

@@ -5,7 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
+
+import com.jediterm.terminal.HyperlinkStyle;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -248,11 +250,11 @@ public class SettingsPopup extends JDialog
 				gbl_fontPanel.columnWidths = new int[]
 					{ 0, 0, 0 };
 				gbl_fontPanel.rowHeights = new int[]
-					{ 0, 0, 0 };
+					{ 0, 0, 0, 0 };
 				gbl_fontPanel.columnWeights = new double[]
-					{ 0.0, 0.0, Double.MIN_VALUE };
+					{ 0.0, 1.0, Double.MIN_VALUE };
 				gbl_fontPanel.rowWeights = new double[]
-					{ 0.0, 0.0, Double.MIN_VALUE };
+					{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
 				fontPanel.setLayout(gbl_fontPanel);
 				JLabel lblFont = new JLabel("Font");
 				lblFont.setToolTipText("name of the font family, not all will actually work");
@@ -278,16 +280,129 @@ public class SettingsPopup extends JDialog
 				JLabel lblFontSize = new JLabel("Font Size");
 				lblFontSize.setToolTipText("font size for terminal text");
 				GridBagConstraints gbc_lblFontSize = new GridBagConstraints();
-				gbc_lblFontSize.insets = new Insets(0, 0, 0, 5);
+				gbc_lblFontSize.insets = new Insets(0, 0, 5, 5);
 				gbc_lblFontSize.gridx = 0;
 				gbc_lblFontSize.gridy = 1;
 				fontPanel.add(lblFontSize, gbc_lblFontSize);
 				JSpinner fontSizeSpinner = new JSpinner();
 				fontSizeSpinner.setModel(new SpinnerNumberModel(settings.getFontSize(), 3.0f, 64.0f, 0.5f));
 				GridBagConstraints gbc_fontSizeSpinner = new GridBagConstraints();
+				gbc_fontSizeSpinner.insets = new Insets(0, 0, 5, 0);
 				gbc_fontSizeSpinner.gridx = 1;
 				gbc_fontSizeSpinner.gridy = 1;
 				fontPanel.add(fontSizeSpinner, gbc_fontSizeSpinner);
+				JLabel lblLinkHighlightStyle = new JLabel("Link Highlight Style");
+				GridBagConstraints gbc_lblLinkHighlightStyle = new GridBagConstraints();
+				gbc_lblLinkHighlightStyle.anchor = GridBagConstraints.EAST;
+				gbc_lblLinkHighlightStyle.insets = new Insets(0, 0, 0, 5);
+				gbc_lblLinkHighlightStyle.gridx = 0;
+				gbc_lblLinkHighlightStyle.gridy = 2;
+				fontPanel.add(lblLinkHighlightStyle, gbc_lblLinkHighlightStyle);
+				JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
+				GridBagConstraints gbc_comboBox = new GridBagConstraints();
+				gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_comboBox.gridx = 1;
+				gbc_comboBox.gridy = 2;
+				fontPanel.add(linkHighlightModeComboBox);
+				linkHighlightModeComboBox.addItem("ALWAYS");
+				linkHighlightModeComboBox.addItem("NEVER");
+				linkHighlightModeComboBox.addItem("HOVER");
+				if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.ALWAYS)
+					{
+						linkHighlightModeComboBox.setSelectedItem("ALWAYS");
+					}
+				else if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.NEVER)
+					{
+						linkHighlightModeComboBox.setSelectedItem("NEVER");
+					}
+				else
+					{
+						linkHighlightModeComboBox.setSelectedItem("HOVER");
+					}
+				JTabbedPane colorTabPane = new JTabbedPane(JTabbedPane.TOP);
+				tabbedPane.addTab("Palette", null, colorTabPane, "Color Palette for 16-color terminal");
+				JColorChooser blackColorChooser = new JColorChooser();
+				colorTabPane.addTab("Black", null, blackColorChooser, null);
+				blackColorChooser.setColor(settings.getBlack());
+				JColorChooser redColorChooser = new JColorChooser();
+				colorTabPane.addTab("Red", null, redColorChooser, null);
+				redColorChooser.setColor(settings.getRed());
+				JColorChooser greenColorChooser = new JColorChooser();
+				colorTabPane.addTab("Green", null, greenColorChooser, null);
+				greenColorChooser.setColor(settings.getGreen());
+				JColorChooser yellowColorChooser = new JColorChooser();
+				colorTabPane.addTab("Yellow", null, yellowColorChooser, null);
+				yellowColorChooser.setColor(settings.getYellow());
+				JColorChooser blueColorChooser = new JColorChooser();
+				colorTabPane.addTab("Blue", null, blueColorChooser, null);
+				blueColorChooser.setColor(settings.getBlue());
+				JColorChooser brightYellowColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Yellow", null, brightYellowColorChooser, null);
+				brightYellowColorChooser.setColor(settings.getBrightYellow());
+				JColorChooser magentaColorChooser = new JColorChooser();
+				colorTabPane.addTab("Magenta", null, magentaColorChooser, null);
+				magentaColorChooser.setColor(settings.getMagenta());
+				JColorChooser brightMagentaColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Magenta", null, brightMagentaColorChooser, null);
+				brightMagentaColorChooser.setColor(settings.getBrightMagenta());
+				JColorChooser cyanColorChooser = new JColorChooser();
+				colorTabPane.addTab("Cyan", null, cyanColorChooser, null);
+				cyanColorChooser.setColor(settings.getCyan());
+				JColorChooser whiteColorChooser = new JColorChooser();
+				colorTabPane.addTab("White", null, whiteColorChooser, null);
+				whiteColorChooser.setColor(settings.getWhite());
+				JColorChooser brightBlackColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Black", null, brightBlackColorChooser, null);
+				brightBlackColorChooser.setColor(settings.getBrightBlack());
+				JColorChooser brightRedColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Red", null, brightRedColorChooser, null);
+				brightRedColorChooser.setColor(settings.getBrightRed());
+				JColorChooser brightGreenColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Green", null, brightGreenColorChooser, null);
+				brightGreenColorChooser.setColor(settings.getBrightGreen());
+				JColorChooser brightBlueColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Blue", null, brightBlueColorChooser, null);
+				brightBlueColorChooser.setColor(settings.getBrightBlack());
+				JColorChooser brightCyanColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright Cyan", null, brightCyanColorChooser, null);
+				brightCyanColorChooser.setColor(settings.getBrightCyan());
+				JColorChooser brightWhiteColorChooser = new JColorChooser();
+				colorTabPane.addTab("Bright White", null, brightWhiteColorChooser, null);
+				brightWhiteColorChooser.setColor(settings.getBrightWhite());
+				JPanel FontColorsPanel = new JPanel();
+				tabbedPane.addTab("Text Styles", null, FontColorsPanel, null);
+				JTabbedPane fontColorsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				FontColorsPanel.add(fontColorsTabbedPane);
+				JPanel textSelectionPanel = new JPanel();
+				fontColorsTabbedPane.addTab("Selection", null, textSelectionPanel, null);
+				JTabbedPane selectionColors = new JTabbedPane(JTabbedPane.TOP);
+				textSelectionPanel.add(selectionColors);
+				JColorChooser selectionFGColorChooser = new JColorChooser();
+				selectionColors.addTab("Foreground", null, selectionFGColorChooser, null);
+				selectionFGColorChooser.setColor(settings.getSelectionForeground());
+				JColorChooser selectionBGColorChooser = new JColorChooser();
+				selectionColors.addTab("Background", null, selectionBGColorChooser, null);
+				selectionBGColorChooser.setColor(settings.getSelectionBackground());
+				JPanel panel = new JPanel();
+				selectionColors.addTab("Hyperlink", null, panel, null);
+				JTabbedPane hyperlinkTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				panel.add(hyperlinkTabbedPane);
+				JColorChooser hyperlinkForegroundColorChooser = new JColorChooser();
+				hyperlinkTabbedPane.addTab("Foreground", null, hyperlinkForegroundColorChooser, null);
+				hyperlinkForegroundColorChooser.setColor(settings.getHyperlinkForeground());
+				JColorChooser hyperlinkBackgroundColorChooser = new JColorChooser();
+				hyperlinkTabbedPane.addTab("Background", null, hyperlinkBackgroundColorChooser, null);
+				hyperlinkBackgroundColorChooser.setColor(settings.getHyperlinkBackground());
+				JPanel patternFoundPanel = new JPanel();
+				fontColorsTabbedPane.addTab("Pattern Found", null, patternFoundPanel, null);
+				JTabbedPane patternFoundTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				patternFoundPanel.add(patternFoundTabbedPane);
+				JColorChooser foundPatternForegroundColorChooser = new JColorChooser();
+				patternFoundTabbedPane.addTab("Foreground", null, foundPatternForegroundColorChooser, null);
+				foundPatternForegroundColorChooser.setColor(settings.getFoundPatternForeGround());
+				JColorChooser foundPatternBackgroundColorChooser = new JColorChooser();
+				patternFoundTabbedPane.addTab("Background", null, foundPatternBackgroundColorChooser, null);
+				foundPatternBackgroundColorChooser.setColor(settings.getFoundPatternBackGround());
 				btnApplySettings.addActionListener(evt -> {
 					settings.setCharSetName(charSetComboBox.getSelectedItem().toString());
 					settings.setDir(dirField.getText());
@@ -300,6 +415,38 @@ public class SettingsPopup extends JDialog
 					settings.setFontFamily(fontComboBox.getSelectedItem().toString());
 					settings.setFontSize(((Double) fontSizeSpinner.getValue()).floatValue());
 					settings.setLineSpace((float) lineSpaceSpinner.getValue());
+					settings.setBlack(blackColorChooser.getColor());
+					settings.setBlue(blueColorChooser.getColor());
+					settings.setBrightBlack(brightBlackColorChooser.getColor());
+					settings.setBrightBlue(brightBlueColorChooser.getColor());
+					settings.setBrightCyan(brightCyanColorChooser.getColor());
+					settings.setBrightGreen(brightGreenColorChooser.getColor());
+					settings.setBrightMagenta(brightMagentaColorChooser.getColor());
+					settings.setBrightRed(brightRedColorChooser.getColor());
+					settings.setBrightWhite(brightWhiteColorChooser.getColor());
+					settings.setBrightWhite(brightWhiteColorChooser.getColor());
+					settings.setCyan(cyanColorChooser.getColor());
+					settings.setGreen(greenColorChooser.getColor());
+					settings.setMagenta(magentaColorChooser.getColor());
+					settings.setRed(redColorChooser.getColor());
+					settings.setWhite(whiteColorChooser.getColor());
+					settings.setYellow(yellowColorChooser.getColor());
+					settings.setSelectionBackground(selectionBGColorChooser.getColor());
+					settings.setSelectionForeground(selectionFGColorChooser.getColor());
+					settings.setFoundPatternBackGround(foundPatternBackgroundColorChooser.getColor());
+					settings.setFoundPatternForeGround(foundPatternForegroundColorChooser.getColor());
+					settings.setHyperlinkForeground(hyperlinkForegroundColorChooser.getColor());
+					settings.setHyperlinkBackground(hyperlinkBackgroundColorChooser.getColor());
+					if (linkHighlightModeComboBox.getSelectedItem().toString().equals("ALWAYS"))
+						{
+							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.ALWAYS);
+						}
+					else if (linkHighlightModeComboBox.getSelectedItem().toString().equals("NEVER"))
+						{
+							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.NEVER);
+						}
+					else
+						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
 					window.saveSettings();
 				});
 			}
