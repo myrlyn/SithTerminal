@@ -13,10 +13,11 @@ import java.awt.Component;
 
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.alee.laf.WebLookAndFeel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jediterm.pty.PtyProcessTtyConnector;
@@ -37,10 +38,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 
 public class SithTermMainWindow implements Serializable
 	{
@@ -97,31 +99,27 @@ public class SithTermMainWindow implements Serializable
 		 */
 		private void initialize()
 			{	
+				//initialize the look and feel that should work everwhere
+				loadSettings();
+				logger.setLevel(Level.toLevel(settings.getLogLevel()));
+				WebLookAndFeel.install();
+				
 				JDialog.setDefaultLookAndFeelDecorated(true);
 				JFrame.setDefaultLookAndFeelDecorated(true);
-				//initialize the look and feel that should work everwhere
-				try
-				{
-					UIManager.setLookAndFeel(javax.swing.plaf.metal.MetalLookAndFeel.class.getName());
 					
-				}
-			catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException  e)
-				{
-					logger.error("Unsupported Look and Feel", e);
-				}
-			
 				UIManager.LookAndFeelInfo[] lnfs = UIManager.getInstalledLookAndFeels();
 				for (UIManager.LookAndFeelInfo lnf : lnfs ) {
 					lnfMap.put(lnf.getName(), lnf.getClassName());
 				}
 			
-				loadSettings();
+				
 				spop = new SettingsPopup("JediTerm Settings", this);
 				spop.setBounds(50, 50, 700, 700);
 				frame = new JFrame();
 				frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SithTermMainWindow.class.getResource("/sw.png")));
 				
 				frame.setBounds(100, 100, 450, 300);
+				
 				frame.setOpacity(settings.getOpacity());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setJMenuBar(menuBar);
@@ -143,6 +141,7 @@ public class SithTermMainWindow implements Serializable
 				frame.getContentPane().add(panel, BorderLayout.CENTER);
 				panel.setLayout(new BorderLayout(0, 0));
 				panel.add(tabbedPane, BorderLayout.CENTER);
+				SwingUtilities.updateComponentTreeUI(frame);
 				addNewTab();
 			}
 			

@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import org.apache.log4j.Level;
+
 import com.jediterm.terminal.HyperlinkStyle;
 
 import java.awt.GridBagLayout;
@@ -203,7 +205,7 @@ public class SettingsPopup extends JDialog
 				opacitySlider.setMinorTickSpacing(5);
 				opacitySlider.setMaximum(OPACITY_SLIDER_MAX);
 				opacitySlider.setValue((int) (OPACITY_SLIDER_MAX * settings.getOpacity()));
-				// TODO make work with other LOOK AND FEEL, currently only works with METAL
+				// TODO make work with other LOOK AND FEEL, currently only works with METAL and WEBLAF
 				opacitySlider.addChangeListener(evt -> window.getFrame().setOpacity(getOpacityFromInt(opacitySlider.getValue())));
 				GridBagConstraints gbc_opacitySlider = new GridBagConstraints();
 				gbc_opacitySlider.fill = GridBagConstraints.HORIZONTAL;
@@ -226,6 +228,32 @@ public class SettingsPopup extends JDialog
 				gbc_lineSpaceSpinner.gridx = 1;
 				gbc_lineSpaceSpinner.gridy = 5;
 				settingsPanel.add(lineSpaceSpinner, gbc_lineSpaceSpinner);
+				
+				JLabel lblLoglevel = new JLabel("LogLevel");
+				GridBagConstraints gbc_lblLoglevel = new GridBagConstraints();
+				gbc_lblLoglevel.anchor = GridBagConstraints.EAST;
+				gbc_lblLoglevel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblLoglevel.gridx = 0;
+				gbc_lblLoglevel.gridy = 6;
+				settingsPanel.add(lblLoglevel, gbc_lblLoglevel);
+				
+				JComboBox<String> logLevelComboBox = new JComboBox<>();
+				GridBagConstraints gbc_llcomboBox = new GridBagConstraints();
+				gbc_llcomboBox.insets = new Insets(0, 0, 5, 0);
+				gbc_llcomboBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_llcomboBox.gridx = 1;
+				gbc_llcomboBox.gridy = 6;
+				settingsPanel.add(logLevelComboBox, gbc_llcomboBox);
+				logLevelComboBox.addItem(Level.ALL.toString());
+				logLevelComboBox.addItem(Level.DEBUG.toString());
+				logLevelComboBox.addItem(Level.TRACE.toString());
+				logLevelComboBox.addItem(Level.INFO.toString());
+				logLevelComboBox.addItem(Level.WARN.toString());
+				logLevelComboBox.addItem(Level.ERROR.toString());
+				logLevelComboBox.addItem(Level.FATAL.toString());
+				logLevelComboBox.addItem(Level.TRACE.toString());
+				logLevelComboBox.addItem(Level.OFF.toString());
+				logLevelComboBox.setSelectedItem(SithTermMainWindow.getLogger().getLevel().toString());
 				JButton btnApplySettings = new JButton("Apply Settings");
 				GridBagConstraints gbc_btnApplySettings = new GridBagConstraints();
 				gbc_btnApplySettings.anchor = GridBagConstraints.WEST;
@@ -666,6 +694,9 @@ public class SettingsPopup extends JDialog
 					settings.setAmbiguousCharsDoubleWidth(chckbxAmbiguousCharsAre.isSelected());
 					settings.setConsole(chckbxConsole.isSelected());
 					settings.setCygwin(chckbxCygwin.isSelected());
+					settings.setLogLevel(logLevelComboBox.getSelectedItem().toString());
+					SithTermMainWindow.getLogger().setLevel(Level.toLevel(settings.getLogLevel()));
+					
 					
 					//save settings
 					window.saveSettings();

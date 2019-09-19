@@ -74,7 +74,17 @@ public class SithTermSettings implements Serializable
 		private boolean ambiguousCharsDoubleWidth = new DefaultSettingsProvider().ambiguousCharsAreDoubleWidth();
 		private boolean cygwin = false;
 		private boolean console = false;
-		
+		private String logLevel = org.apache.log4j.Level.INFO.toString();  	
+		public String getLogLevel()
+			{
+				return logLevel;
+			}
+
+		public void setLogLevel(String logLevel)
+			{
+				this.logLevel = logLevel;
+			}
+
 		public boolean isCygwin()
 			{
 				return cygwin;
@@ -314,7 +324,6 @@ public class SithTermSettings implements Serializable
 			{
 				this.selectionBackground = selectionBackground;
 			}
-		private String lnf = javax.swing.plaf.metal.MetalLookAndFeel.class.getName();
 		
 		public Color[] getPalette()
 			{
@@ -481,16 +490,6 @@ public class SithTermSettings implements Serializable
 		public void setBrightWhite(Color brightWhite)
 			{
 				this.brightWhite = brightWhite;
-			}
-			
-		public String getLnf()
-			{
-				return lnf;
-			}
-			
-		public void setLnf(String lnf)
-			{
-				this.lnf = lnf;
 			}
 			
 		public float getLineSpace()

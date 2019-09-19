@@ -2,8 +2,6 @@ package sithterm;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-
 import com.jediterm.terminal.HyperlinkStyle.HighlightMode;
 import com.jediterm.terminal.TerminalColor;
 import com.jediterm.terminal.TextStyle;
@@ -67,8 +65,8 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 			{
 				TerminalColor fgc  =  TerminalColor.awt(settings.getSelectionForeground());
 				TerminalColor bgc  =  TerminalColor.awt(settings.getSelectionBackground());
-				TextStyle ts = new TextStyle(fgc, bgc);
-				return ts;
+				return new TextStyle(fgc, bgc);
+				
 			}
 			
 		@Override
@@ -176,7 +174,6 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public boolean ambiguousCharsAreDoubleWidth()
 			{
-				// TODO Auto-generated method stub
-				return super.ambiguousCharsAreDoubleWidth();
+				return settings.isAmbiguousCharsDoubleWidth();
 			}
 	}
