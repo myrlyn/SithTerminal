@@ -1,6 +1,7 @@
 package sithterm;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,15 +75,15 @@ public class SithTermSettings implements Serializable
 		private boolean ambiguousCharsDoubleWidth = new DefaultSettingsProvider().ambiguousCharsAreDoubleWidth();
 		private boolean cygwin = false;
 		private boolean console = false;
-		private String logLevel = org.apache.log4j.Level.INFO.toString();  	
-		public String getLogLevel()
+		private String log4jconf = System.getProperty("user.home")+File.separator+".Sith"+File.separator+"log4j.properties";
+		public String getLog4jconf()
 			{
-				return logLevel;
+				return log4jconf;
 			}
 
-		public void setLogLevel(String logLevel)
+		public void setLog4jconf(String log4jconf)
 			{
-				this.logLevel = logLevel;
+				this.log4jconf = log4jconf;
 			}
 
 		public boolean isCygwin()

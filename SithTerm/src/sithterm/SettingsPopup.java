@@ -6,8 +6,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import org.apache.log4j.Level;
-
 import com.jediterm.terminal.HyperlinkStyle;
 
 import java.awt.GridBagLayout;
@@ -29,6 +27,11 @@ import javax.swing.JCheckBox;
 
 public class SettingsPopup extends JDialog
 	{// TODO make the rest of the items in SithSettingsProvider configurable here
+		private static final String HOVER = "HOVER";
+		private static final String NEVER = "NEVER";
+		private static final String ALWAYS = "ALWAYS";
+		private static final String BACKGROUND = "Background";
+		private static final String FOREGROUND = "Foreground";
 		private static final int OPACITY_SLIDER_MAX = 100;
 		/**
 		* 
@@ -39,7 +42,878 @@ public class SettingsPopup extends JDialog
 		private JTextField termField;
 		private SithTermSettings settings = null;
 		private SithTermMainWindow window = null;
+		private JTextField txtLogjconffield;
+		private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JPanel settingsPanel = new JPanel();
+		private JLabel lblCommand = new JLabel("Command");
+		private JLabel lblCharacterSet = new JLabel("Character Set");
+		private JComboBox<String> charSetComboBox = new JComboBox<>();
+		private JLabel lblTermType = new JLabel("Term Type");
+		private JLabel lblDirectory = new JLabel("Directory");
+		private JLabel lblOpacity = new JLabel("Opacity");
+		private JSlider opacitySlider = new JSlider();
+		private JLabel lblLineSpacing = new JLabel("Line Spacing");
+		private JSpinner lineSpaceSpinner = new JSpinner();
+		private JLabel lblLogjConfFile = new JLabel("Log4J Conf File");
+		private JLabel lblFontSize = new JLabel("Font Size");
+		private JButton btnApplySettings = new JButton("Apply Settings");
+		private JPanel fontPanel = new JPanel();
+		private JLabel lblFont = new JLabel("Font");
+		private JComboBox<String> fontComboBox = new JComboBox<>();
+		private 		JSpinner fontSizeSpinner = new JSpinner();
+		private JLabel lblLinkHighlightStyle = new JLabel("Link Highlight Style");
+		private JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
+		private JTabbedPane palettePane = new JTabbedPane(JTabbedPane.TOP);
+		private JColorChooser blackColorChooser = new JColorChooser();
+		private JColorChooser redColorChooser = new JColorChooser();
+		private JColorChooser greenColorChooser = new JColorChooser();
+		private JColorChooser yellowColorChooser = new JColorChooser();
+		private JColorChooser magentaColorChooser = new JColorChooser();
+		private JColorChooser blueColorChooser = new JColorChooser();
+		private JColorChooser brightYellowColorChooser = new JColorChooser();
+		private JColorChooser brightMagentaColorChooser = new JColorChooser();
+		private JColorChooser cyanColorChooser = new JColorChooser();
+		private JColorChooser whiteColorChooser = new JColorChooser();
+		private JColorChooser brightRedColorChooser = new JColorChooser();
+		private JColorChooser brightGreenColorChooser = new JColorChooser();
+		private JColorChooser brightBlueColorChooser = new JColorChooser();
+		private JColorChooser brightCyanColorChooser = new JColorChooser();
+		private JColorChooser brightWhiteColorChooser = new JColorChooser();
+		private JPanel FontColorsPanel = new JPanel();
+		private JColorChooser brightBlackColorChooser = new JColorChooser();
+		private JTabbedPane fontColorsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JPanel textSelectionPanel = new JPanel();
+		private JTabbedPane selectionColors = new JTabbedPane(JTabbedPane.TOP);
+		private JColorChooser selectionFGColorChooser = new JColorChooser();
+		private JColorChooser selectionBGColorChooser = new JColorChooser();
+		private JPanel patternFoundPanel = new JPanel();
+		private JTabbedPane patternFoundTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JColorChooser foundPatternForegroundColorChooser = new JColorChooser();
+		private JColorChooser foundPatternBackgroundColorChooser = new JColorChooser();
+		private JPanel linkPanel = new JPanel();
+		private JTabbedPane hyperlinkTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JColorChooser hyperlinkForegroundColorChooser = new JColorChooser();
+		private JColorChooser hyperlinkBackgroundColorChooser = new JColorChooser();
+		private JPanel defaultStylePanel = new JPanel();
+		private JTabbedPane defstyleTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JPanel foregroundColorPanel = new JPanel();
+		private JColorChooser foregroundColorChooser = new JColorChooser();
+		private JPanel backgroundColorsPanel = new JPanel();
+		private JColorChooser backgroundColorChooser = new JColorChooser();
+		private JPanel miscPanel = new JPanel();
+		private JCheckBox inverseSelectionColorsCheckbox = new JCheckBox("Use Inverse Selection Colors");
+		private JCheckBox chckbxCopyOnSelect = new JCheckBox("Copy On Select");
+		private JCheckBox chckbxConsole = new JCheckBox("Console");
+		private JCheckBox chckbxCygwin = new JCheckBox("Cygwin");
+		private JCheckBox chckbxPasteOnMiddle = new JCheckBox("Paste On Middle Mouse Click");
+		private JCheckBox chckbxEmulatexCopypaste = new JCheckBox("EmulateX11 Copy/Paste");
+		private JCheckBox chckbxUseAntialiasing = new JCheckBox("Use Antialiasing");
+		private JLabel lblMaxRefreshRate = new JLabel("Max Refresh Rate");
+		private JSpinner maxRefreshSpinner = new JSpinner();
+		private JCheckBox chckbxAudiBell = new JCheckBox("Audible Bell");
+		private JCheckBox chckbxMouseReporting = new JCheckBox("Enable Mouse Reporting");
+		private JLabel lblCaretBlinkMs = new JLabel("Caret Blink MS");
+		private JSpinner spinnerCaretBlink = new JSpinner();
+		private JCheckBox chckbxScrollToBottom = new JCheckBox("Scroll To Bottom On Type");
+		private JCheckBox chckbxDecCompatibilityMode = new JCheckBox("DEC Compatibility Mode");
+		private JCheckBox chckbxForceActionOn = new JCheckBox("Force Action On Mouse Report");
+		private JLabel lblBufferMaxLines = new JLabel("Buffer Max Lines");
+		private JSpinner maxBufferLinesSpinner = new JSpinner();
+		private JCheckBox chckbxAltSendsEscape = new JCheckBox("Alt Sends Escape");
+		private JCheckBox chckbxAmbiguousCharsAre = new JCheckBox("Ambiguous Chars are Double Width");
+
+
 		
+		public JPanel getSettingsPanel()
+			{
+				return settingsPanel;
+			}
+
+		public void setSettingsPanel(JPanel settingsPanel)
+			{
+				this.settingsPanel = settingsPanel;
+			}
+
+		public JLabel getLblCommand()
+			{
+				return lblCommand;
+			}
+
+		public void setLblCommand(JLabel lblCommand)
+			{
+				this.lblCommand = lblCommand;
+			}
+
+		public JLabel getLblCharacterSet()
+			{
+				return lblCharacterSet;
+			}
+
+		public void setLblCharacterSet(JLabel lblCharacterSet)
+			{
+				this.lblCharacterSet = lblCharacterSet;
+			}
+
+		public JComboBox<String> getCharSetComboBox()
+			{
+				return charSetComboBox;
+			}
+
+		public void setCharSetComboBox(JComboBox<String> charSetComboBox)
+			{
+				this.charSetComboBox = charSetComboBox;
+			}
+
+		public JLabel getLblTermType()
+			{
+				return lblTermType;
+			}
+
+		public void setLblTermType(JLabel lblTermType)
+			{
+				this.lblTermType = lblTermType;
+			}
+
+		public JLabel getLblDirectory()
+			{
+				return lblDirectory;
+			}
+
+		public void setLblDirectory(JLabel lblDirectory)
+			{
+				this.lblDirectory = lblDirectory;
+			}
+
+		public JLabel getLblOpacity()
+			{
+				return lblOpacity;
+			}
+
+		public void setLblOpacity(JLabel lblOpacity)
+			{
+				this.lblOpacity = lblOpacity;
+			}
+
+		public JSlider getOpacitySlider()
+			{
+				return opacitySlider;
+			}
+
+		public void setOpacitySlider(JSlider opacitySlider)
+			{
+				this.opacitySlider = opacitySlider;
+			}
+
+		public JLabel getLblLineSpacing()
+			{
+				return lblLineSpacing;
+			}
+
+		public void setLblLineSpacing(JLabel lblLineSpacing)
+			{
+				this.lblLineSpacing = lblLineSpacing;
+			}
+
+		public JSpinner getLineSpaceSpinner()
+			{
+				return lineSpaceSpinner;
+			}
+
+		public void setLineSpaceSpinner(JSpinner lineSpaceSpinner)
+			{
+				this.lineSpaceSpinner = lineSpaceSpinner;
+			}
+
+		public JLabel getLblLogjConfFile()
+			{
+				return lblLogjConfFile;
+			}
+
+		public void setLblLogjConfFile(JLabel lblLogjConfFile)
+			{
+				this.lblLogjConfFile = lblLogjConfFile;
+			}
+
+		public JLabel getLblFontSize()
+			{
+				return lblFontSize;
+			}
+
+		public void setLblFontSize(JLabel lblFontSize)
+			{
+				this.lblFontSize = lblFontSize;
+			}
+
+		public JButton getBtnApplySettings()
+			{
+				return btnApplySettings;
+			}
+
+		public void setBtnApplySettings(JButton btnApplySettings)
+			{
+				this.btnApplySettings = btnApplySettings;
+			}
+
+		public JPanel getFontPanel()
+			{
+				return fontPanel;
+			}
+
+		public void setFontPanel(JPanel fontPanel)
+			{
+				this.fontPanel = fontPanel;
+			}
+
+		public JLabel getLblFont()
+			{
+				return lblFont;
+			}
+
+		public void setLblFont(JLabel lblFont)
+			{
+				this.lblFont = lblFont;
+			}
+
+		public JComboBox<String> getFontComboBox()
+			{
+				return fontComboBox;
+			}
+
+		public void setFontComboBox(JComboBox<String> fontComboBox)
+			{
+				this.fontComboBox = fontComboBox;
+			}
+
+		public JSpinner getFontSizeSpinner()
+			{
+				return fontSizeSpinner;
+			}
+
+		public void setFontSizeSpinner(JSpinner fontSizeSpinner)
+			{
+				this.fontSizeSpinner = fontSizeSpinner;
+			}
+
+		public JLabel getLblLinkHighlightStyle()
+			{
+				return lblLinkHighlightStyle;
+			}
+
+		public void setLblLinkHighlightStyle(JLabel lblLinkHighlightStyle)
+			{
+				this.lblLinkHighlightStyle = lblLinkHighlightStyle;
+			}
+
+		public JComboBox<String> getLinkHighlightModeComboBox()
+			{
+				return linkHighlightModeComboBox;
+			}
+
+		public void setLinkHighlightModeComboBox(JComboBox<String> linkHighlightModeComboBox)
+			{
+				this.linkHighlightModeComboBox = linkHighlightModeComboBox;
+			}
+
+		public JTabbedPane getPalettePane()
+			{
+				return palettePane;
+			}
+
+		public void setPalettePane(JTabbedPane palettePane)
+			{
+				this.palettePane = palettePane;
+			}
+
+		public JColorChooser getBlackColorChooser()
+			{
+				return blackColorChooser;
+			}
+
+		public void setBlackColorChooser(JColorChooser blackColorChooser)
+			{
+				this.blackColorChooser = blackColorChooser;
+			}
+
+		public JColorChooser getRedColorChooser()
+			{
+				return redColorChooser;
+			}
+
+		public void setRedColorChooser(JColorChooser redColorChooser)
+			{
+				this.redColorChooser = redColorChooser;
+			}
+
+		public JColorChooser getGreenColorChooser()
+			{
+				return greenColorChooser;
+			}
+
+		public void setGreenColorChooser(JColorChooser greenColorChooser)
+			{
+				this.greenColorChooser = greenColorChooser;
+			}
+
+		public JColorChooser getYellowColorChooser()
+			{
+				return yellowColorChooser;
+			}
+
+		public void setYellowColorChooser(JColorChooser yellowColorChooser)
+			{
+				this.yellowColorChooser = yellowColorChooser;
+			}
+
+		public JColorChooser getMagentaColorChooser()
+			{
+				return magentaColorChooser;
+			}
+
+		public void setMagentaColorChooser(JColorChooser magentaColorChooser)
+			{
+				this.magentaColorChooser = magentaColorChooser;
+			}
+
+		public JColorChooser getBlueColorChooser()
+			{
+				return blueColorChooser;
+			}
+
+		public void setBlueColorChooser(JColorChooser blueColorChooser)
+			{
+				this.blueColorChooser = blueColorChooser;
+			}
+
+		public JColorChooser getBrightYellowColorChooser()
+			{
+				return brightYellowColorChooser;
+			}
+
+		public void setBrightYellowColorChooser(JColorChooser brightYellowColorChooser)
+			{
+				this.brightYellowColorChooser = brightYellowColorChooser;
+			}
+
+		public JColorChooser getBrightMagentaColorChooser()
+			{
+				return brightMagentaColorChooser;
+			}
+
+		public void setBrightMagentaColorChooser(JColorChooser brightMagentaColorChooser)
+			{
+				this.brightMagentaColorChooser = brightMagentaColorChooser;
+			}
+
+		public JColorChooser getCyanColorChooser()
+			{
+				return cyanColorChooser;
+			}
+
+		public void setCyanColorChooser(JColorChooser cyanColorChooser)
+			{
+				this.cyanColorChooser = cyanColorChooser;
+			}
+
+		public JColorChooser getWhiteColorChooser()
+			{
+				return whiteColorChooser;
+			}
+
+		public void setWhiteColorChooser(JColorChooser whiteColorChooser)
+			{
+				this.whiteColorChooser = whiteColorChooser;
+			}
+
+		public JColorChooser getBrightRedColorChooser()
+			{
+				return brightRedColorChooser;
+			}
+
+		public void setBrightRedColorChooser(JColorChooser brightRedColorChooser)
+			{
+				this.brightRedColorChooser = brightRedColorChooser;
+			}
+
+		public JColorChooser getBrightGreenColorChooser()
+			{
+				return brightGreenColorChooser;
+			}
+
+		public void setBrightGreenColorChooser(JColorChooser brightGreenColorChooser)
+			{
+				this.brightGreenColorChooser = brightGreenColorChooser;
+			}
+
+		public JColorChooser getBrightBlueColorChooser()
+			{
+				return brightBlueColorChooser;
+			}
+
+		public void setBrightBlueColorChooser(JColorChooser brightBlueColorChooser)
+			{
+				this.brightBlueColorChooser = brightBlueColorChooser;
+			}
+
+		public JColorChooser getBrightCyanColorChooser()
+			{
+				return brightCyanColorChooser;
+			}
+
+		public void setBrightCyanColorChooser(JColorChooser brightCyanColorChooser)
+			{
+				this.brightCyanColorChooser = brightCyanColorChooser;
+			}
+
+		public JColorChooser getBrightWhiteColorChooser()
+			{
+				return brightWhiteColorChooser;
+			}
+
+		public void setBrightWhiteColorChooser(JColorChooser brightWhiteColorChooser)
+			{
+				this.brightWhiteColorChooser = brightWhiteColorChooser;
+			}
+
+		public JPanel getFontColorsPanel()
+			{
+				return FontColorsPanel;
+			}
+
+		public void setFontColorsPanel(JPanel fontColorsPanel)
+			{
+				FontColorsPanel = fontColorsPanel;
+			}
+
+		public JColorChooser getBrightBlackColorChooser()
+			{
+				return brightBlackColorChooser;
+			}
+
+		public void setBrightBlackColorChooser(JColorChooser brightBlackColorChooser)
+			{
+				this.brightBlackColorChooser = brightBlackColorChooser;
+			}
+
+		public JTabbedPane getFontColorsTabbedPane()
+			{
+				return fontColorsTabbedPane;
+			}
+
+		public void setFontColorsTabbedPane(JTabbedPane fontColorsTabbedPane)
+			{
+				this.fontColorsTabbedPane = fontColorsTabbedPane;
+			}
+
+		public JPanel getTextSelectionPanel()
+			{
+				return textSelectionPanel;
+			}
+
+		public void setTextSelectionPanel(JPanel textSelectionPanel)
+			{
+				this.textSelectionPanel = textSelectionPanel;
+			}
+
+		public JTabbedPane getSelectionColors()
+			{
+				return selectionColors;
+			}
+
+		public void setSelectionColors(JTabbedPane selectionColors)
+			{
+				this.selectionColors = selectionColors;
+			}
+
+		public JColorChooser getSelectionFGColorChooser()
+			{
+				return selectionFGColorChooser;
+			}
+
+		public void setSelectionFGColorChooser(JColorChooser selectionFGColorChooser)
+			{
+				this.selectionFGColorChooser = selectionFGColorChooser;
+			}
+
+		public JColorChooser getSelectionBGColorChooser()
+			{
+				return selectionBGColorChooser;
+			}
+
+		public void setSelectionBGColorChooser(JColorChooser selectionBGColorChooser)
+			{
+				this.selectionBGColorChooser = selectionBGColorChooser;
+			}
+
+		public JPanel getPatternFoundPanel()
+			{
+				return patternFoundPanel;
+			}
+
+		public void setPatternFoundPanel(JPanel patternFoundPanel)
+			{
+				this.patternFoundPanel = patternFoundPanel;
+			}
+
+		public JTabbedPane getPatternFoundTabbedPane()
+			{
+				return patternFoundTabbedPane;
+			}
+
+		public void setPatternFoundTabbedPane(JTabbedPane patternFoundTabbedPane)
+			{
+				this.patternFoundTabbedPane = patternFoundTabbedPane;
+			}
+
+		public JColorChooser getFoundPatternForegroundColorChooser()
+			{
+				return foundPatternForegroundColorChooser;
+			}
+
+		public void setFoundPatternForegroundColorChooser(JColorChooser foundPatternForegroundColorChooser)
+			{
+				this.foundPatternForegroundColorChooser = foundPatternForegroundColorChooser;
+			}
+
+		public JColorChooser getFoundPatternBackgroundColorChooser()
+			{
+				return foundPatternBackgroundColorChooser;
+			}
+
+		public void setFoundPatternBackgroundColorChooser(JColorChooser foundPatternBackgroundColorChooser)
+			{
+				this.foundPatternBackgroundColorChooser = foundPatternBackgroundColorChooser;
+			}
+
+		public JPanel getLinkPanel()
+			{
+				return linkPanel;
+			}
+
+		public void setLinkPanel(JPanel linkPanel)
+			{
+				this.linkPanel = linkPanel;
+			}
+
+		public JTabbedPane getHyperlinkTabbedPane()
+			{
+				return hyperlinkTabbedPane;
+			}
+
+		public void setHyperlinkTabbedPane(JTabbedPane hyperlinkTabbedPane)
+			{
+				this.hyperlinkTabbedPane = hyperlinkTabbedPane;
+			}
+
+		public JColorChooser getHyperlinkForegroundColorChooser()
+			{
+				return hyperlinkForegroundColorChooser;
+			}
+
+		public void setHyperlinkForegroundColorChooser(JColorChooser hyperlinkForegroundColorChooser)
+			{
+				this.hyperlinkForegroundColorChooser = hyperlinkForegroundColorChooser;
+			}
+
+		public JColorChooser getHyperlinkBackgroundColorChooser()
+			{
+				return hyperlinkBackgroundColorChooser;
+			}
+
+		public void setHyperlinkBackgroundColorChooser(JColorChooser hyperlinkBackgroundColorChooser)
+			{
+				this.hyperlinkBackgroundColorChooser = hyperlinkBackgroundColorChooser;
+			}
+
+		public JPanel getDefaultStylePanel()
+			{
+				return defaultStylePanel;
+			}
+
+		public void setDefaultStylePanel(JPanel defaultStylePanel)
+			{
+				this.defaultStylePanel = defaultStylePanel;
+			}
+
+		public JTabbedPane getDefstyleTabbedPane()
+			{
+				return defstyleTabbedPane;
+			}
+
+		public void setDefstyleTabbedPane(JTabbedPane defstyleTabbedPane)
+			{
+				this.defstyleTabbedPane = defstyleTabbedPane;
+			}
+
+		public JPanel getForegroundColorPanel()
+			{
+				return foregroundColorPanel;
+			}
+
+		public void setForegroundColorPanel(JPanel foregroundColorPanel)
+			{
+				this.foregroundColorPanel = foregroundColorPanel;
+			}
+
+		public JColorChooser getForegroundColorChooser()
+			{
+				return foregroundColorChooser;
+			}
+
+		public void setForegroundColorChooser(JColorChooser foregroundColorChooser)
+			{
+				this.foregroundColorChooser = foregroundColorChooser;
+			}
+
+		public JPanel getBackgroundColorsPanel()
+			{
+				return backgroundColorsPanel;
+			}
+
+		public void setBackgroundColorsPanel(JPanel backgroundColorsPanel)
+			{
+				this.backgroundColorsPanel = backgroundColorsPanel;
+			}
+
+		public JColorChooser getBackgroundColorChooser()
+			{
+				return backgroundColorChooser;
+			}
+
+		public void setBackgroundColorChooser(JColorChooser backgroundColorChooser)
+			{
+				this.backgroundColorChooser = backgroundColorChooser;
+			}
+
+		public JPanel getMiscPanel()
+			{
+				return miscPanel;
+			}
+
+		public void setMiscPanel(JPanel miscPanel)
+			{
+				this.miscPanel = miscPanel;
+			}
+
+		public JCheckBox getInverseSelectionColorsCheckbox()
+			{
+				return inverseSelectionColorsCheckbox;
+			}
+
+		public void setInverseSelectionColorsCheckbox(JCheckBox inverseSelectionColorsCheckbox)
+			{
+				this.inverseSelectionColorsCheckbox = inverseSelectionColorsCheckbox;
+			}
+
+		public JCheckBox getChckbxCopyOnSelect()
+			{
+				return chckbxCopyOnSelect;
+			}
+
+		public void setChckbxCopyOnSelect(JCheckBox chckbxCopyOnSelect)
+			{
+				this.chckbxCopyOnSelect = chckbxCopyOnSelect;
+			}
+
+		public JCheckBox getChckbxConsole()
+			{
+				return chckbxConsole;
+			}
+
+		public void setChckbxConsole(JCheckBox chckbxConsole)
+			{
+				this.chckbxConsole = chckbxConsole;
+			}
+
+		public JCheckBox getChckbxCygwin()
+			{
+				return chckbxCygwin;
+			}
+
+		public void setChckbxCygwin(JCheckBox chckbxCygwin)
+			{
+				this.chckbxCygwin = chckbxCygwin;
+			}
+
+		public JCheckBox getChckbxPasteOnMiddle()
+			{
+				return chckbxPasteOnMiddle;
+			}
+
+		public void setChckbxPasteOnMiddle(JCheckBox chckbxPasteOnMiddle)
+			{
+				this.chckbxPasteOnMiddle = chckbxPasteOnMiddle;
+			}
+
+		public JCheckBox getChckbxEmulatexCopypaste()
+			{
+				return chckbxEmulatexCopypaste;
+			}
+
+		public void setChckbxEmulatexCopypaste(JCheckBox chckbxEmulatexCopypaste)
+			{
+				this.chckbxEmulatexCopypaste = chckbxEmulatexCopypaste;
+			}
+
+		public JCheckBox getChckbxUseAntialiasing()
+			{
+				return chckbxUseAntialiasing;
+			}
+
+		public void setChckbxUseAntialiasing(JCheckBox chckbxUseAntialiasing)
+			{
+				this.chckbxUseAntialiasing = chckbxUseAntialiasing;
+			}
+
+		public JLabel getLblMaxRefreshRate()
+			{
+				return lblMaxRefreshRate;
+			}
+
+		public void setLblMaxRefreshRate(JLabel lblMaxRefreshRate)
+			{
+				this.lblMaxRefreshRate = lblMaxRefreshRate;
+			}
+
+		public JSpinner getMaxRefreshSpinner()
+			{
+				return maxRefreshSpinner;
+			}
+
+		public void setMaxRefreshSpinner(JSpinner maxRefreshSpinner)
+			{
+				this.maxRefreshSpinner = maxRefreshSpinner;
+			}
+
+		public JCheckBox getChckbxAudiBell()
+			{
+				return chckbxAudiBell;
+			}
+
+		public void setChckbxAudiBell(JCheckBox chckbxAudiBell)
+			{
+				this.chckbxAudiBell = chckbxAudiBell;
+			}
+
+		public JCheckBox getChckbxMouseReporting()
+			{
+				return chckbxMouseReporting;
+			}
+
+		public void setChckbxMouseReporting(JCheckBox chckbxMouseReporting)
+			{
+				this.chckbxMouseReporting = chckbxMouseReporting;
+			}
+
+		public JLabel getLblCaretBlinkMs()
+			{
+				return lblCaretBlinkMs;
+			}
+
+		public void setLblCaretBlinkMs(JLabel lblCaretBlinkMs)
+			{
+				this.lblCaretBlinkMs = lblCaretBlinkMs;
+			}
+
+		public JSpinner getSpinnerCaretBlink()
+			{
+				return spinnerCaretBlink;
+			}
+
+		public void setSpinnerCaretBlink(JSpinner spinnerCaretBlink)
+			{
+				this.spinnerCaretBlink = spinnerCaretBlink;
+			}
+
+		public JCheckBox getChckbxScrollToBottom()
+			{
+				return chckbxScrollToBottom;
+			}
+
+		public void setChckbxScrollToBottom(JCheckBox chckbxScrollToBottom)
+			{
+				this.chckbxScrollToBottom = chckbxScrollToBottom;
+			}
+
+		public JCheckBox getChckbxDecCompatibilityMode()
+			{
+				return chckbxDecCompatibilityMode;
+			}
+
+		public void setChckbxDecCompatibilityMode(JCheckBox chckbxDecCompatibilityMode)
+			{
+				this.chckbxDecCompatibilityMode = chckbxDecCompatibilityMode;
+			}
+
+		public JCheckBox getChckbxForceActionOn()
+			{
+				return chckbxForceActionOn;
+			}
+
+		public void setChckbxForceActionOn(JCheckBox chckbxForceActionOn)
+			{
+				this.chckbxForceActionOn = chckbxForceActionOn;
+			}
+
+		public JLabel getLblBufferMaxLines()
+			{
+				return lblBufferMaxLines;
+			}
+
+		public void setLblBufferMaxLines(JLabel lblBufferMaxLines)
+			{
+				this.lblBufferMaxLines = lblBufferMaxLines;
+			}
+
+		public JSpinner getMaxBufferLinesSpinner()
+			{
+				return maxBufferLinesSpinner;
+			}
+
+		public void setMaxBufferLinesSpinner(JSpinner maxBufferLinesSpinner)
+			{
+				this.maxBufferLinesSpinner = maxBufferLinesSpinner;
+			}
+
+		public JCheckBox getChckbxAltSendsEscape()
+			{
+				return chckbxAltSendsEscape;
+			}
+
+		public void setChckbxAltSendsEscape(JCheckBox chckbxAltSendsEscape)
+			{
+				this.chckbxAltSendsEscape = chckbxAltSendsEscape;
+			}
+
+		public JCheckBox getChckbxAmbiguousCharsAre()
+			{
+				return chckbxAmbiguousCharsAre;
+			}
+
+		public void setChckbxAmbiguousCharsAre(JCheckBox chckbxAmbiguousCharsAre)
+			{
+				this.chckbxAmbiguousCharsAre = chckbxAmbiguousCharsAre;
+			}
+
+		public JTextField getTxtLogjconffield()
+			{
+				return txtLogjconffield;
+			}
+			
+		public void setTxtLogjconffield(JTextField txtLogjconffield)
+			{
+				this.txtLogjconffield = txtLogjconffield;
+			}
+			
+		public JTabbedPane getTabbedPane()
+			{
+				return tabbedPane;
+			}
+			
+		public void setTabbedPane(JTabbedPane tabbedPane)
+			{
+				this.tabbedPane = tabbedPane;
+			}
+			
 		public JTextField getCommandField()
 			{
 				return commandField;
@@ -105,9 +979,7 @@ public class SettingsPopup extends JDialog
 						sb.append(s).append(" ");
 					}
 				Map<String, Charset> optList = Charset.availableCharsets();
-				JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 				getContentPane().add(tabbedPane, BorderLayout.NORTH);
-				JPanel settingsPanel = new JPanel();
 				tabbedPane.addTab("Terminal Settings", null, settingsPanel, null);
 				GridBagLayout gbl_settingsPanel = new GridBagLayout();
 				gbl_settingsPanel.columnWidths = new int[]
@@ -119,7 +991,6 @@ public class SettingsPopup extends JDialog
 				gbl_settingsPanel.rowWeights = new double[]
 					{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 				settingsPanel.setLayout(gbl_settingsPanel);
-				JLabel lblCommand = new JLabel("Command");
 				lblCommand.setToolTipText("Command to start in each tab");
 				GridBagConstraints gbc_lblCommand = new GridBagConstraints();
 				gbc_lblCommand.anchor = GridBagConstraints.WEST;
@@ -137,7 +1008,6 @@ public class SettingsPopup extends JDialog
 				settingsPanel.add(commandField, gbc_commandField);
 				commandField.setColumns(10);
 				commandField.setText(sb.toString().trim());
-				JLabel lblDirectory = new JLabel("Directory");
 				lblDirectory.setToolTipText("Directory to start in...");
 				GridBagConstraints gbc_lblDirectory = new GridBagConstraints();
 				gbc_lblDirectory.anchor = GridBagConstraints.WEST;
@@ -154,7 +1024,6 @@ public class SettingsPopup extends JDialog
 				settingsPanel.add(dirField, gbc_dirField);
 				dirField.setColumns(10);
 				dirField.setText(settings.getDir());
-				JLabel lblCharacterSet = new JLabel("Character Set");
 				lblCharacterSet.setToolTipText("Character set for the terminals...");
 				GridBagConstraints gbc_lblCharacterSet = new GridBagConstraints();
 				gbc_lblCharacterSet.anchor = GridBagConstraints.WEST;
@@ -162,7 +1031,6 @@ public class SettingsPopup extends JDialog
 				gbc_lblCharacterSet.gridx = 0;
 				gbc_lblCharacterSet.gridy = 2;
 				settingsPanel.add(lblCharacterSet, gbc_lblCharacterSet);
-				JComboBox<String> charSetComboBox = new JComboBox<>();
 				GridBagConstraints gbc_charSetComboBox = new GridBagConstraints();
 				gbc_charSetComboBox.insets = new Insets(0, 0, 5, 0);
 				gbc_charSetComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -174,7 +1042,6 @@ public class SettingsPopup extends JDialog
 						charSetComboBox.addItem(key);
 					}
 				charSetComboBox.setSelectedItem(settings.getCharSetName());
-				JLabel lblTermType = new JLabel("Term Type");
 				lblTermType.setToolTipText("set the environment variable TERM");
 				GridBagConstraints gbc_lblTermType = new GridBagConstraints();
 				gbc_lblTermType.anchor = GridBagConstraints.WEST;
@@ -191,7 +1058,6 @@ public class SettingsPopup extends JDialog
 				settingsPanel.add(termField, gbc_termField);
 				termField.setColumns(10);
 				termField.setText(settings.getTermType());
-				JLabel lblOpacity = new JLabel("Opacity");
 				lblOpacity.setToolTipText("set the opacity of the main window");
 				GridBagConstraints gbc_lblOpacity = new GridBagConstraints();
 				gbc_lblOpacity.anchor = GridBagConstraints.WEST;
@@ -199,13 +1065,15 @@ public class SettingsPopup extends JDialog
 				gbc_lblOpacity.gridx = 0;
 				gbc_lblOpacity.gridy = 4;
 				settingsPanel.add(lblOpacity, gbc_lblOpacity);
-				JSlider opacitySlider = new JSlider();
 				opacitySlider.setMinimum(0);
 				opacitySlider.setMajorTickSpacing(5);
 				opacitySlider.setMinorTickSpacing(5);
 				opacitySlider.setMaximum(OPACITY_SLIDER_MAX);
 				opacitySlider.setValue((int) (OPACITY_SLIDER_MAX * settings.getOpacity()));
-				// TODO make work with other LOOK AND FEEL, currently only works with METAL and WEBLAF
+				// TODO make work with other LOOK AND FEEL, currently only works with METAL and
+				// WEBLAF
+				// TODO make LAF configurable
+				// TODO make LOGGING configurable
 				opacitySlider.addChangeListener(evt -> window.getFrame().setOpacity(getOpacityFromInt(opacitySlider.getValue())));
 				GridBagConstraints gbc_opacitySlider = new GridBagConstraints();
 				gbc_opacitySlider.fill = GridBagConstraints.HORIZONTAL;
@@ -213,7 +1081,6 @@ public class SettingsPopup extends JDialog
 				gbc_opacitySlider.gridx = 1;
 				gbc_opacitySlider.gridy = 4;
 				settingsPanel.add(opacitySlider, gbc_opacitySlider);
-				JLabel lblLineSpacing = new JLabel("Line Spacing");
 				lblLineSpacing.setToolTipText("spacing between new terminal lines");
 				GridBagConstraints gbc_lblLineSpacing = new GridBagConstraints();
 				gbc_lblLineSpacing.anchor = GridBagConstraints.WEST;
@@ -221,47 +1088,35 @@ public class SettingsPopup extends JDialog
 				gbc_lblLineSpacing.gridx = 0;
 				gbc_lblLineSpacing.gridy = 5;
 				settingsPanel.add(lblLineSpacing, gbc_lblLineSpacing);
-				JSpinner lineSpaceSpinner = new JSpinner();
 				lineSpaceSpinner.setModel(new SpinnerNumberModel(settings.getLineSpace(), -0.1f, 64.0f, 0.1f));
 				GridBagConstraints gbc_lineSpaceSpinner = new GridBagConstraints();
 				gbc_lineSpaceSpinner.insets = new Insets(0, 0, 5, 0);
 				gbc_lineSpaceSpinner.gridx = 1;
 				gbc_lineSpaceSpinner.gridy = 5;
 				settingsPanel.add(lineSpaceSpinner, gbc_lineSpaceSpinner);
-				
-				JLabel lblLoglevel = new JLabel("LogLevel");
-				GridBagConstraints gbc_lblLoglevel = new GridBagConstraints();
-				gbc_lblLoglevel.anchor = GridBagConstraints.EAST;
-				gbc_lblLoglevel.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLoglevel.gridx = 0;
-				gbc_lblLoglevel.gridy = 6;
-				settingsPanel.add(lblLoglevel, gbc_lblLoglevel);
-				
-				JComboBox<String> logLevelComboBox = new JComboBox<>();
-				GridBagConstraints gbc_llcomboBox = new GridBagConstraints();
-				gbc_llcomboBox.insets = new Insets(0, 0, 5, 0);
-				gbc_llcomboBox.fill = GridBagConstraints.HORIZONTAL;
-				gbc_llcomboBox.gridx = 1;
-				gbc_llcomboBox.gridy = 6;
-				settingsPanel.add(logLevelComboBox, gbc_llcomboBox);
-				logLevelComboBox.addItem(Level.ALL.toString());
-				logLevelComboBox.addItem(Level.DEBUG.toString());
-				logLevelComboBox.addItem(Level.TRACE.toString());
-				logLevelComboBox.addItem(Level.INFO.toString());
-				logLevelComboBox.addItem(Level.WARN.toString());
-				logLevelComboBox.addItem(Level.ERROR.toString());
-				logLevelComboBox.addItem(Level.FATAL.toString());
-				logLevelComboBox.addItem(Level.TRACE.toString());
-				logLevelComboBox.addItem(Level.OFF.toString());
-				logLevelComboBox.setSelectedItem(SithTermMainWindow.getLogger().getLevel().toString());
-				JButton btnApplySettings = new JButton("Apply Settings");
+				lblLogjConfFile.setToolTipText("requires restart");
+				GridBagConstraints gbc_lblLogjConfFile = new GridBagConstraints();
+				gbc_lblLogjConfFile.anchor = GridBagConstraints.WEST;
+				gbc_lblLogjConfFile.insets = new Insets(0, 0, 5, 5);
+				gbc_lblLogjConfFile.gridx = 0;
+				gbc_lblLogjConfFile.gridy = 6;
+				settingsPanel.add(lblLogjConfFile, gbc_lblLogjConfFile);
+				txtLogjconffield = new JTextField();
+				txtLogjconffield.setToolTipText("requires restart");
+				GridBagConstraints gbc_txtLogjconffield = new GridBagConstraints();
+				gbc_txtLogjconffield.insets = new Insets(0, 0, 5, 0);
+				gbc_txtLogjconffield.fill = GridBagConstraints.HORIZONTAL;
+				gbc_txtLogjconffield.gridx = 1;
+				gbc_txtLogjconffield.gridy = 6;
+				settingsPanel.add(txtLogjconffield, gbc_txtLogjconffield);
+				txtLogjconffield.setColumns(10);
+				txtLogjconffield.setText(settings.getLog4jconf());
 				GridBagConstraints gbc_btnApplySettings = new GridBagConstraints();
 				gbc_btnApplySettings.anchor = GridBagConstraints.WEST;
 				gbc_btnApplySettings.insets = new Insets(0, 0, 0, 5);
 				gbc_btnApplySettings.gridx = 0;
 				gbc_btnApplySettings.gridy = 9;
 				settingsPanel.add(btnApplySettings, gbc_btnApplySettings);
-				JPanel fontPanel = new JPanel();
 				tabbedPane.addTab("Font", null, fontPanel, null);
 				GridBagLayout gbl_fontPanel = new GridBagLayout();
 				gbl_fontPanel.columnWidths = new int[]
@@ -273,14 +1128,12 @@ public class SettingsPopup extends JDialog
 				gbl_fontPanel.rowWeights = new double[]
 					{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
 				fontPanel.setLayout(gbl_fontPanel);
-				JLabel lblFont = new JLabel("Font");
 				lblFont.setToolTipText("name of the font family, not all will actually work");
 				GridBagConstraints gbc_lblFont = new GridBagConstraints();
 				gbc_lblFont.insets = new Insets(0, 0, 5, 5);
 				gbc_lblFont.gridx = 0;
 				gbc_lblFont.gridy = 0;
 				fontPanel.add(lblFont, gbc_lblFont);
-				JComboBox<String> fontComboBox = new JComboBox<>();
 				GridBagConstraints gbc_fontComboBox = new GridBagConstraints();
 				gbc_fontComboBox.insets = new Insets(0, 0, 5, 5);
 				gbc_fontComboBox.anchor = GridBagConstraints.WEST;
@@ -294,14 +1147,12 @@ public class SettingsPopup extends JDialog
 						fontComboBox.addItem(font);
 					}
 				fontComboBox.setSelectedItem(settings.getFontFamily());
-				JLabel lblFontSize = new JLabel("Font Size");
 				lblFontSize.setToolTipText("font size for terminal text");
 				GridBagConstraints gbc_lblFontSize = new GridBagConstraints();
 				gbc_lblFontSize.insets = new Insets(0, 0, 5, 5);
 				gbc_lblFontSize.gridx = 0;
 				gbc_lblFontSize.gridy = 1;
 				fontPanel.add(lblFontSize, gbc_lblFontSize);
-				JSpinner fontSizeSpinner = new JSpinner();
 				fontSizeSpinner.setModel(new SpinnerNumberModel(settings.getFontSize(), 3.0f, 64.0f, 0.5f));
 				GridBagConstraints gbc_fontSizeSpinner = new GridBagConstraints();
 				gbc_fontSizeSpinner.anchor = GridBagConstraints.WEST;
@@ -309,7 +1160,6 @@ public class SettingsPopup extends JDialog
 				gbc_fontSizeSpinner.gridx = 1;
 				gbc_fontSizeSpinner.gridy = 1;
 				fontPanel.add(fontSizeSpinner, gbc_fontSizeSpinner);
-				JLabel lblLinkHighlightStyle = new JLabel("Link Highlight Style");
 				GridBagConstraints gbc_lblLinkHighlightStyle = new GridBagConstraints();
 				gbc_lblLinkHighlightStyle.anchor = GridBagConstraints.EAST;
 				gbc_lblLinkHighlightStyle.insets = new Insets(0, 0, 0, 5);
@@ -320,141 +1170,101 @@ public class SettingsPopup extends JDialog
 				gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 				gbc_comboBox.gridx = 1;
 				gbc_comboBox.gridy = 2;
-				JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
 				GridBagConstraints gbc_linkHighlightModeComboBox = new GridBagConstraints();
 				gbc_linkHighlightModeComboBox.anchor = GridBagConstraints.WEST;
 				gbc_linkHighlightModeComboBox.insets = new Insets(0, 0, 0, 5);
 				gbc_linkHighlightModeComboBox.gridx = 1;
 				gbc_linkHighlightModeComboBox.gridy = 2;
 				fontPanel.add(linkHighlightModeComboBox, gbc_linkHighlightModeComboBox);
-				linkHighlightModeComboBox.addItem("ALWAYS");
-				linkHighlightModeComboBox.addItem("NEVER");
-				linkHighlightModeComboBox.addItem("HOVER");
+				linkHighlightModeComboBox.addItem(ALWAYS);
+				linkHighlightModeComboBox.addItem(NEVER);
+				linkHighlightModeComboBox.addItem(HOVER);
 				if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.ALWAYS)
 					{
-						linkHighlightModeComboBox.setSelectedItem("ALWAYS");
+						linkHighlightModeComboBox.setSelectedItem(ALWAYS);
 					}
 				else if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.NEVER)
 					{
-						linkHighlightModeComboBox.setSelectedItem("NEVER");
+						linkHighlightModeComboBox.setSelectedItem(NEVER);
 					}
 				else
 					{
-						linkHighlightModeComboBox.setSelectedItem("HOVER");
+						linkHighlightModeComboBox.setSelectedItem(HOVER);
 					}
-				JTabbedPane palettePane = new JTabbedPane(JTabbedPane.TOP);
 				tabbedPane.addTab("Indexed Palette", null, palettePane, "Color Palette for 16-color terminal");
-				JColorChooser blackColorChooser = new JColorChooser();
 				palettePane.addTab("Black", null, blackColorChooser, null);
 				blackColorChooser.setColor(settings.getBlack());
-				JColorChooser redColorChooser = new JColorChooser();
 				palettePane.addTab("Red", null, redColorChooser, null);
 				redColorChooser.setColor(settings.getRed());
-				JColorChooser greenColorChooser = new JColorChooser();
 				palettePane.addTab("Green", null, greenColorChooser, null);
 				greenColorChooser.setColor(settings.getGreen());
-				JColorChooser yellowColorChooser = new JColorChooser();
 				palettePane.addTab("Yellow", null, yellowColorChooser, null);
 				yellowColorChooser.setColor(settings.getYellow());
-				JColorChooser blueColorChooser = new JColorChooser();
 				palettePane.addTab("Blue", null, blueColorChooser, null);
 				blueColorChooser.setColor(settings.getBlue());
-				JColorChooser brightYellowColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Yellow", null, brightYellowColorChooser, null);
 				brightYellowColorChooser.setColor(settings.getBrightYellow());
-				JColorChooser magentaColorChooser = new JColorChooser();
 				palettePane.addTab("Magenta", null, magentaColorChooser, null);
 				magentaColorChooser.setColor(settings.getMagenta());
-				JColorChooser brightMagentaColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Magenta", null, brightMagentaColorChooser, null);
 				brightMagentaColorChooser.setColor(settings.getBrightMagenta());
-				JColorChooser cyanColorChooser = new JColorChooser();
 				palettePane.addTab("Cyan", null, cyanColorChooser, null);
 				cyanColorChooser.setColor(settings.getCyan());
-				JColorChooser whiteColorChooser = new JColorChooser();
 				palettePane.addTab("White", null, whiteColorChooser, null);
 				whiteColorChooser.setColor(settings.getWhite());
-				JColorChooser brightBlackColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Black", null, brightBlackColorChooser, null);
 				brightBlackColorChooser.setColor(settings.getBrightBlack());
-				JColorChooser brightRedColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Red", null, brightRedColorChooser, null);
 				brightRedColorChooser.setColor(settings.getBrightRed());
-				JColorChooser brightGreenColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Green", null, brightGreenColorChooser, null);
 				brightGreenColorChooser.setColor(settings.getBrightGreen());
-				JColorChooser brightBlueColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Blue", null, brightBlueColorChooser, null);
 				brightBlueColorChooser.setColor(settings.getBrightBlack());
-				JColorChooser brightCyanColorChooser = new JColorChooser();
 				palettePane.addTab("Bright Cyan", null, brightCyanColorChooser, null);
 				brightCyanColorChooser.setColor(settings.getBrightCyan());
-				JColorChooser brightWhiteColorChooser = new JColorChooser();
 				palettePane.addTab("Bright White", null, brightWhiteColorChooser, null);
 				brightWhiteColorChooser.setColor(settings.getBrightWhite());
-				JPanel FontColorsPanel = new JPanel();
 				tabbedPane.addTab("Text Styles", null, FontColorsPanel, null);
-				JTabbedPane fontColorsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 				FontColorsPanel.add(fontColorsTabbedPane);
-				JPanel textSelectionPanel = new JPanel();
 				fontColorsTabbedPane.addTab("Selection", null, textSelectionPanel, null);
-				JTabbedPane selectionColors = new JTabbedPane(JTabbedPane.TOP);
 				textSelectionPanel.add(selectionColors);
-				JColorChooser selectionFGColorChooser = new JColorChooser();
-				selectionColors.addTab("Foreground", null, selectionFGColorChooser, null);
+				selectionColors.addTab(FOREGROUND, null, selectionFGColorChooser, null);
 				selectionFGColorChooser.setColor(settings.getSelectionForeground());
-				JColorChooser selectionBGColorChooser = new JColorChooser();
-				selectionColors.addTab("Background", null, selectionBGColorChooser, null);
+				selectionColors.addTab(BACKGROUND, null, selectionBGColorChooser, null);
 				selectionBGColorChooser.setColor(settings.getSelectionBackground());
-				JPanel patternFoundPanel = new JPanel();
 				fontColorsTabbedPane.addTab("Pattern Found", null, patternFoundPanel, null);
-				JTabbedPane patternFoundTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 				patternFoundPanel.add(patternFoundTabbedPane);
-				JColorChooser foundPatternForegroundColorChooser = new JColorChooser();
-				patternFoundTabbedPane.addTab("Foreground", null, foundPatternForegroundColorChooser, null);
+				patternFoundTabbedPane.addTab(FOREGROUND, null, foundPatternForegroundColorChooser, null);
 				foundPatternForegroundColorChooser.setColor(settings.getFoundPatternForeGround());
-				JColorChooser foundPatternBackgroundColorChooser = new JColorChooser();
-				patternFoundTabbedPane.addTab("Background", null, foundPatternBackgroundColorChooser, null);
+				patternFoundTabbedPane.addTab(BACKGROUND, null, foundPatternBackgroundColorChooser, null);
 				foundPatternBackgroundColorChooser.setColor(settings.getFoundPatternBackGround());
-				JPanel linkPanel = new JPanel();
 				fontColorsTabbedPane.addTab("Links", null, linkPanel, null);
-				JTabbedPane hyperlinkTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 				linkPanel.add(hyperlinkTabbedPane);
-				JColorChooser hyperlinkForegroundColorChooser = new JColorChooser();
-				hyperlinkTabbedPane.addTab("Foreground", null, hyperlinkForegroundColorChooser, null);
+				hyperlinkTabbedPane.addTab(FOREGROUND, null, hyperlinkForegroundColorChooser, null);
 				hyperlinkForegroundColorChooser.setColor(settings.getHyperlinkForeground());
-				JColorChooser hyperlinkBackgroundColorChooser = new JColorChooser();
-				hyperlinkTabbedPane.addTab("Background", null, hyperlinkBackgroundColorChooser, null);
+				hyperlinkTabbedPane.addTab(BACKGROUND, null, hyperlinkBackgroundColorChooser, null);
 				hyperlinkBackgroundColorChooser.setColor(settings.getHyperlinkBackground());
-				
-				JPanel defaultStylePanel = new JPanel();
 				fontColorsTabbedPane.addTab("Default", null, defaultStylePanel, null);
-				
-				JTabbedPane defstyleTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 				defaultStylePanel.add(defstyleTabbedPane);
-				JPanel foregroundColorPanel = new JPanel();
-				defstyleTabbedPane.addTab("Foreground", null, foregroundColorPanel, null);
-				JColorChooser foregroundColorChooser = new JColorChooser();
+				defstyleTabbedPane.addTab(FOREGROUND, null, foregroundColorPanel, null);
 				foregroundColorChooser.setToolTipText("color for foreground of the terminal");
 				foregroundColorPanel.add(foregroundColorChooser);
 				foregroundColorChooser.setColor(settings.getFgColor());
-				JPanel backgroundColorsPanel = new JPanel();
-				defstyleTabbedPane.addTab("Background", null, backgroundColorsPanel, null);
+				defstyleTabbedPane.addTab(BACKGROUND, null, backgroundColorsPanel, null);
 				backgroundColorsPanel.setToolTipText("color for terminal background");
-				JColorChooser backgroundColorChooser = new JColorChooser();
 				backgroundColorsPanel.add(backgroundColorChooser);
 				backgroundColorChooser.setColor(settings.getBgcolor());
-				
-				JPanel miscPanel = new JPanel();
 				tabbedPane.addTab("Misc.", null, miscPanel, null);
 				GridBagLayout gbl_miscPanel = new GridBagLayout();
-				gbl_miscPanel.columnWidths = new int[]{0, 0, 0};
-				gbl_miscPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-				gbl_miscPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-				gbl_miscPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				gbl_miscPanel.columnWidths = new int[]
+					{ 0, 0, 0 };
+				gbl_miscPanel.rowHeights = new int[]
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+				gbl_miscPanel.columnWeights = new double[]
+					{ 0.0, 0.0, Double.MIN_VALUE };
+				gbl_miscPanel.rowWeights = new double[]
+					{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 				miscPanel.setLayout(gbl_miscPanel);
-				
-				JCheckBox inverseSelectionColorsCheckbox = new JCheckBox("Use Inverse Selection Colors");
 				GridBagConstraints gbc_inverseSelectionColorsCheckbox = new GridBagConstraints();
 				gbc_inverseSelectionColorsCheckbox.anchor = GridBagConstraints.WEST;
 				gbc_inverseSelectionColorsCheckbox.insets = new Insets(0, 0, 5, 5);
@@ -462,8 +1272,6 @@ public class SettingsPopup extends JDialog
 				gbc_inverseSelectionColorsCheckbox.gridy = 0;
 				miscPanel.add(inverseSelectionColorsCheckbox, gbc_inverseSelectionColorsCheckbox);
 				inverseSelectionColorsCheckbox.setSelected(settings.isUseInverseSelectionColor());
-				
-				JCheckBox chckbxCopyOnSelect = new JCheckBox("Copy On Select");
 				GridBagConstraints gbc_chckbxCopyOnSelect = new GridBagConstraints();
 				gbc_chckbxCopyOnSelect.anchor = GridBagConstraints.WEST;
 				gbc_chckbxCopyOnSelect.insets = new Insets(0, 0, 5, 5);
@@ -471,8 +1279,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxCopyOnSelect.gridy = 1;
 				miscPanel.add(chckbxCopyOnSelect, gbc_chckbxCopyOnSelect);
 				chckbxCopyOnSelect.setSelected(settings.isCopyOnSelect());
-				
-				JCheckBox chckbxConsole = new JCheckBox("Console");
 				GridBagConstraints gbc_chckbxConsole = new GridBagConstraints();
 				gbc_chckbxConsole.anchor = GridBagConstraints.WEST;
 				gbc_chckbxConsole.insets = new Insets(0, 0, 5, 5);
@@ -480,8 +1286,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxConsole.gridy = 2;
 				miscPanel.add(chckbxConsole, gbc_chckbxConsole);
 				chckbxConsole.setSelected(settings.isConsole());
-				
-				JCheckBox chckbxCygwin = new JCheckBox("Cygwin");
 				GridBagConstraints gbc_chckbxCygwin = new GridBagConstraints();
 				gbc_chckbxCygwin.anchor = GridBagConstraints.WEST;
 				gbc_chckbxCygwin.insets = new Insets(0, 0, 5, 5);
@@ -489,8 +1293,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxCygwin.gridy = 3;
 				miscPanel.add(chckbxCygwin, gbc_chckbxCygwin);
 				chckbxCygwin.setSelected(settings.isCygwin());
-				
-				JCheckBox chckbxPasteOnMiddle = new JCheckBox("Paste On Middle Mouse Click");
 				GridBagConstraints gbc_chckbxPasteOnMiddle = new GridBagConstraints();
 				gbc_chckbxPasteOnMiddle.anchor = GridBagConstraints.WEST;
 				gbc_chckbxPasteOnMiddle.insets = new Insets(0, 0, 5, 5);
@@ -498,8 +1300,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxPasteOnMiddle.gridy = 4;
 				miscPanel.add(chckbxPasteOnMiddle, gbc_chckbxPasteOnMiddle);
 				chckbxPasteOnMiddle.setSelected(settings.isPasteOnMiddleMouseClick());
-				
-				JCheckBox chckbxEmulatexCopypaste = new JCheckBox("EmulateX11 Copy/Paste");
 				GridBagConstraints gbc_chckbxEmulatexCopypaste = new GridBagConstraints();
 				gbc_chckbxEmulatexCopypaste.anchor = GridBagConstraints.WEST;
 				gbc_chckbxEmulatexCopypaste.insets = new Insets(0, 0, 5, 5);
@@ -507,8 +1307,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxEmulatexCopypaste.gridy = 5;
 				miscPanel.add(chckbxEmulatexCopypaste, gbc_chckbxEmulatexCopypaste);
 				chckbxEmulatexCopypaste.setSelected(settings.isEmulateX11CopyPaste());
-				
-				JCheckBox chckbxUseAntialiasing = new JCheckBox("Use Antialiasing");
 				GridBagConstraints gbc_chckbxUseAntialiasing = new GridBagConstraints();
 				gbc_chckbxUseAntialiasing.anchor = GridBagConstraints.WEST;
 				gbc_chckbxUseAntialiasing.insets = new Insets(0, 0, 5, 5);
@@ -516,16 +1314,12 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxUseAntialiasing.gridy = 6;
 				miscPanel.add(chckbxUseAntialiasing, gbc_chckbxUseAntialiasing);
 				chckbxUseAntialiasing.setSelected(settings.isUseAntiAliasing());
-				
-				JLabel lblMaxRefreshRate = new JLabel("Max Refresh Rate");
 				GridBagConstraints gbc_lblMaxRefreshRate = new GridBagConstraints();
 				gbc_lblMaxRefreshRate.anchor = GridBagConstraints.WEST;
 				gbc_lblMaxRefreshRate.insets = new Insets(0, 0, 5, 5);
 				gbc_lblMaxRefreshRate.gridx = 0;
 				gbc_lblMaxRefreshRate.gridy = 7;
 				miscPanel.add(lblMaxRefreshRate, gbc_lblMaxRefreshRate);
-				
-				JSpinner maxRefreshSpinner = new JSpinner();
 				GridBagConstraints gbc_spinnerCaretBlink = new GridBagConstraints();
 				gbc_spinnerCaretBlink.insets = new Insets(0, 0, 5, 0);
 				gbc_spinnerCaretBlink.fill = GridBagConstraints.HORIZONTAL;
@@ -534,8 +1328,6 @@ public class SettingsPopup extends JDialog
 				gbc_spinnerCaretBlink.gridy = 7;
 				miscPanel.add(maxRefreshSpinner, gbc_spinnerCaretBlink);
 				maxRefreshSpinner.setValue(settings.getMaxRefreshRate());
-				
-				JCheckBox chckbxAudiBell = new JCheckBox("Audible Bell");
 				GridBagConstraints gbc_chckbxAudiBell = new GridBagConstraints();
 				gbc_chckbxAudiBell.anchor = GridBagConstraints.WEST;
 				gbc_chckbxAudiBell.insets = new Insets(0, 0, 5, 5);
@@ -543,8 +1335,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxAudiBell.gridy = 8;
 				miscPanel.add(chckbxAudiBell, gbc_chckbxAudiBell);
 				chckbxAudiBell.setSelected(settings.isAudibleBell());
-				
-				JCheckBox chckbxMouseReporting = new JCheckBox("Enable Mouse Reporting");
 				GridBagConstraints gbc_chckbxMouseReporting = new GridBagConstraints();
 				gbc_chckbxMouseReporting.anchor = GridBagConstraints.WEST;
 				gbc_chckbxMouseReporting.insets = new Insets(0, 0, 5, 5);
@@ -552,16 +1342,12 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxMouseReporting.gridy = 9;
 				miscPanel.add(chckbxMouseReporting, gbc_chckbxMouseReporting);
 				chckbxMouseReporting.setSelected(settings.isEnableMouseReporting());
-				
-				JLabel lblCaretBlinkMs = new JLabel("Caret Blink MS");
 				GridBagConstraints gbc_lblCaretBlinkMs = new GridBagConstraints();
 				gbc_lblCaretBlinkMs.anchor = GridBagConstraints.WEST;
 				gbc_lblCaretBlinkMs.insets = new Insets(0, 0, 5, 5);
 				gbc_lblCaretBlinkMs.gridx = 0;
 				gbc_lblCaretBlinkMs.gridy = 10;
 				miscPanel.add(lblCaretBlinkMs, gbc_lblCaretBlinkMs);
-				
-				JSpinner spinnerCaretBlink = new JSpinner();
 				GridBagConstraints gbc_spinnerCaretBlinkMS = new GridBagConstraints();
 				gbc_spinnerCaretBlinkMS.insets = new Insets(0, 0, 5, 0);
 				gbc_spinnerCaretBlinkMS.anchor = GridBagConstraints.WEST;
@@ -569,8 +1355,6 @@ public class SettingsPopup extends JDialog
 				gbc_spinnerCaretBlinkMS.gridy = 10;
 				miscPanel.add(spinnerCaretBlink, gbc_spinnerCaretBlinkMS);
 				spinnerCaretBlink.setValue(settings.getCaretBlinkingMS());
-				
-				JCheckBox chckbxScrollToBottom = new JCheckBox("Scroll To Bottom On Type");
 				GridBagConstraints gbc_chckbxScrollToBottom = new GridBagConstraints();
 				gbc_chckbxScrollToBottom.anchor = GridBagConstraints.WEST;
 				gbc_chckbxScrollToBottom.insets = new Insets(0, 0, 5, 5);
@@ -578,8 +1362,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxScrollToBottom.gridy = 11;
 				miscPanel.add(chckbxScrollToBottom, gbc_chckbxScrollToBottom);
 				chckbxScrollToBottom.setSelected(settings.isScrollToBottomOnTyping());
-				
-				JCheckBox chckbxDecCompatibilityMode = new JCheckBox("DEC Compatibility Mode");
 				GridBagConstraints gbc_chckbxDecCompatibilityMode = new GridBagConstraints();
 				gbc_chckbxDecCompatibilityMode.anchor = GridBagConstraints.WEST;
 				gbc_chckbxDecCompatibilityMode.insets = new Insets(0, 0, 5, 5);
@@ -587,8 +1369,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxDecCompatibilityMode.gridy = 12;
 				miscPanel.add(chckbxDecCompatibilityMode, gbc_chckbxDecCompatibilityMode);
 				chckbxDecCompatibilityMode.setSelected(settings.isDecmode());
-				
-				JCheckBox chckbxForceActionOn = new JCheckBox("Force Action On Mouse Report");
 				GridBagConstraints gbc_chckbxForceActionOn = new GridBagConstraints();
 				gbc_chckbxForceActionOn.anchor = GridBagConstraints.WEST;
 				gbc_chckbxForceActionOn.insets = new Insets(0, 0, 5, 5);
@@ -596,16 +1376,12 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxForceActionOn.gridy = 13;
 				miscPanel.add(chckbxForceActionOn, gbc_chckbxForceActionOn);
 				chckbxForceActionOn.setSelected(settings.isForceActionOnMouseReporting());
-				
-				JLabel lblBufferMaxLines = new JLabel("Buffer Max Lines");
 				GridBagConstraints gbc_lblBufferMaxLines = new GridBagConstraints();
 				gbc_lblBufferMaxLines.anchor = GridBagConstraints.WEST;
 				gbc_lblBufferMaxLines.insets = new Insets(0, 0, 5, 5);
 				gbc_lblBufferMaxLines.gridx = 0;
 				gbc_lblBufferMaxLines.gridy = 14;
 				miscPanel.add(lblBufferMaxLines, gbc_lblBufferMaxLines);
-				
-				JSpinner maxBufferLinesSpinner = new JSpinner();
 				GridBagConstraints gbc_spinner = new GridBagConstraints();
 				gbc_spinner.insets = new Insets(0, 0, 5, 0);
 				gbc_spinner.anchor = GridBagConstraints.WEST;
@@ -613,8 +1389,6 @@ public class SettingsPopup extends JDialog
 				gbc_spinner.gridy = 14;
 				miscPanel.add(maxBufferLinesSpinner, gbc_spinner);
 				maxBufferLinesSpinner.setValue(settings.getBufferMaxLinesCount());
-				
-				JCheckBox chckbxAltSendsEscape = new JCheckBox("Alt Sends Escape");
 				GridBagConstraints gbc_chckbxAltSendsEscape = new GridBagConstraints();
 				gbc_chckbxAltSendsEscape.anchor = GridBagConstraints.WEST;
 				gbc_chckbxAltSendsEscape.insets = new Insets(0, 0, 5, 5);
@@ -622,8 +1396,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxAltSendsEscape.gridy = 15;
 				miscPanel.add(chckbxAltSendsEscape, gbc_chckbxAltSendsEscape);
 				chckbxAltSendsEscape.setSelected(settings.isAltSendsEscape());
-				
-				JCheckBox chckbxAmbiguousCharsAre = new JCheckBox("Ambiguous Chars are Double Width");
 				GridBagConstraints gbc_chckbxAmbiguousCharsAre = new GridBagConstraints();
 				gbc_chckbxAmbiguousCharsAre.anchor = GridBagConstraints.WEST;
 				gbc_chckbxAmbiguousCharsAre.insets = new Insets(0, 0, 0, 5);
@@ -631,7 +1403,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxAmbiguousCharsAre.gridy = 16;
 				miscPanel.add(chckbxAmbiguousCharsAre, gbc_chckbxAmbiguousCharsAre);
 				chckbxAmbiguousCharsAre.setSelected(settings.isAmbiguousCharsDoubleWidth());
-				
 				btnApplySettings.addActionListener(evt -> {
 					settings.setCharSetName(charSetComboBox.getSelectedItem().toString());
 					settings.setDir(dirField.getText());
@@ -666,39 +1437,37 @@ public class SettingsPopup extends JDialog
 					settings.setFoundPatternForeGround(foundPatternForegroundColorChooser.getColor());
 					settings.setHyperlinkForeground(hyperlinkForegroundColorChooser.getColor());
 					settings.setHyperlinkBackground(hyperlinkBackgroundColorChooser.getColor());
-					if (linkHighlightModeComboBox.getSelectedItem().toString().equals("ALWAYS"))
+					if (linkHighlightModeComboBox.getSelectedItem().toString().equals(ALWAYS))
 						{
 							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.ALWAYS);
 						}
-					else if (linkHighlightModeComboBox.getSelectedItem().toString().equals("NEVER"))
+					else if (linkHighlightModeComboBox.getSelectedItem().toString().equals(NEVER))
 						{
 							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.NEVER);
 						}
-					else {
-						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
-					}
+					else
+						{
+							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
+						}
 					settings.setUseInverseSelectionColor(inverseSelectionColorsCheckbox.isSelected());
 					settings.setCopyOnSelect(chckbxCopyOnSelect.isSelected());
 					settings.setPasteOnMiddleMouseClick(chckbxPasteOnMiddle.isSelected());
 					settings.setEmulateX11CopyPaste(chckbxEmulatexCopypaste.isSelected());
 					settings.setUseAntiAliasing(chckbxUseAntialiasing.isSelected());
-					settings.setMaxRefreshRate((Integer)maxRefreshSpinner.getValue());
+					settings.setMaxRefreshRate((Integer) maxRefreshSpinner.getValue());
 					settings.setAudibleBell(chckbxAudiBell.isSelected());
 					settings.setEnableMouseReporting(chckbxMouseReporting.isSelected());
-					settings.setCaretBlinkingMS((Integer)spinnerCaretBlink.getValue());
+					settings.setCaretBlinkingMS((Integer) spinnerCaretBlink.getValue());
 					settings.setScrollToBottomOnTyping(chckbxScrollToBottom.isSelected());
 					settings.setDecmode(chckbxDecCompatibilityMode.isSelected());
 					settings.setForceActionOnMouseReporting(chckbxForceActionOn.isSelected());
-					settings.setBufferMaxLinesCount((Integer)maxBufferLinesSpinner.getValue());
+					settings.setBufferMaxLinesCount((Integer) maxBufferLinesSpinner.getValue());
 					settings.setAltSendsEscape(chckbxAltSendsEscape.isSelected());
 					settings.setAmbiguousCharsDoubleWidth(chckbxAmbiguousCharsAre.isSelected());
 					settings.setConsole(chckbxConsole.isSelected());
 					settings.setCygwin(chckbxCygwin.isSelected());
-					settings.setLogLevel(logLevelComboBox.getSelectedItem().toString());
-					SithTermMainWindow.getLogger().setLevel(Level.toLevel(settings.getLogLevel()));
-					
-					
-					//save settings
+					settings.setLog4jconf(txtLogjconffield.getText());
+					// save settings
 					window.saveSettings();
 				});
 			}

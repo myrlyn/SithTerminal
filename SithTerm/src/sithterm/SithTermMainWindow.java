@@ -13,9 +13,10 @@ import java.awt.Component;
 
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.alee.laf.WebLookAndFeel;
 import com.google.gson.Gson;
@@ -33,9 +34,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.charset.Charset;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.List;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -67,10 +76,10 @@ public class SithTermMainWindow implements Serializable
 		private SithTermSettings settings = new SithTermSettings();
 		private transient Gson jsParser = new GsonBuilder().setPrettyPrinting().setLenient().create();
 		private Map<String,String> lnfMap = new HashMap<>();
+		private Map<String,SithTermPlugin_V1> pluginMapV1 = new HashMap<>();
 		public static void main(String[] args)
 			{ 
 				
-				BasicConfigurator.configure();
 				EventQueue.invokeLater(() -> {
 					try
 						{
@@ -83,7 +92,95 @@ public class SithTermMainWindow implements Serializable
 						}
 				});
 			}
-			
+		public void loadPlugins()
+			{
+				loadPlugins(System.getProperty("user.home") + File.separator + ".Sith" + File.separator + "plugins"
+				    + File.separator);
+			}
+		public void loadPlugins(String pluginsDir)
+			{
+				File pd = new File(pluginsDir);
+				if (pd.exists())
+					{
+						if (pd.isDirectory())
+							{
+								String[] jars = pd.list((File dir, String name) -> name.toLowerCase().endsWith(".jar"));
+								for (String jar : jars)
+									{
+										logger.info("Found Jar " + jar);
+										loadAndInitializePlugin(jar);
+									}
+							}
+						else
+							{
+								logger.warn("plugin directory name refers to file, not directory!");
+							}
+					}
+				else
+					{
+						pd.mkdirs();
+					}
+			}
+		public void loadAndInitializePlugin(String jar)
+			{
+				logger.info( "Initializ this jar: " + jar);
+				try (
+				    JarFile jf = new JarFile(System.getProperty("user.home") + File.separator + ".Sith"
+				        + File.separator + "plugins" + File.separator + jar);
+				)
+					{
+						logger.info( "Check Jar File" + jf.toString());
+						Enumeration<JarEntry> pluginEntries = jf.entries();
+						URL[] urls =
+							{ new URL("jar:file:" + System.getProperty("user.home") + File.separator + ".Sith"
+							    + File.separator + "plugins" + File.separator + jar + "!/") };
+						logger.info("Loader URL: " + urls[0]);
+						try (URLClassLoader jarloader = URLClassLoader.newInstance(urls);)
+							{
+								List<Class<SithTermPlugin_V1>> pluginsToInit;
+								pluginsToInit = new LinkedList<>();
+								while (pluginEntries.hasMoreElements())
+									{
+										JarEntry entry = pluginEntries.nextElement();
+										if (!entry.isDirectory() && entry.getName().endsWith("class"))
+											{
+												// -6 because ".class".length == 6, so to strip '.class off the end of the
+												// classname we want to load, we remove the last 6 characters
+												// replace separators with dots to construct full classmame
+												String className = entry.getName().substring(0, entry.getName().length() - 6).replace('/', '.');
+												logger.info( "Class Name: " + className);
+												if ("module-info".equalsIgnoreCase(className))
+													continue;
+												Class<?> c = jarloader.loadClass(className);
+												if (SithTermPlugin_V1.class.isAssignableFrom(c))
+													{
+														@SuppressWarnings("unchecked") // I just checked the typesafety of this above...
+														Class<SithTermPlugin_V1> plugToInitTyped = (Class<SithTermPlugin_V1>) c;
+														pluginsToInit.add(plugToInitTyped);
+														// SPOTBUGS complains, but the
+														// type-checking her is done...
+													}
+											}
+									}
+								for (Class<SithTermPlugin_V1> plugin : pluginsToInit)
+									{
+										Constructor<SithTermPlugin_V1> pluginConstructor = plugin.getConstructor(SithTermMainWindow.class);
+										SithTermPlugin_V1 plug = pluginConstructor.newInstance(this);
+										logger.info("Initialize this!  " + plug.getPluginName());
+										plug.initialize(System.getProperty("user.home") + File.separator + ".Sith" + File.separator
+										    + "plugins" + File.separator + jar);
+										this.pluginMapV1.put(plug.getPluginName(), plug);
+									}
+							}
+					}
+				catch (
+				    IOException | ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+				    | IllegalAccessException | IllegalArgumentException | InvocationTargetException e
+				)
+					{
+						logger.warn("ERROR LOADING JAR PLUGIN", e);
+					}
+			}
 		/**
 		 * Create the application.
 		 * 
@@ -99,11 +196,19 @@ public class SithTermMainWindow implements Serializable
 		 */
 		private void initialize()
 			{	
+				//TODO enable plugins
 				//initialize the look and feel that should work everwhere
+				BasicConfigurator.configure();
 				loadSettings();
-				logger.setLevel(Level.toLevel(settings.getLogLevel()));
-				WebLookAndFeel.install();
+				if (new File(settings.getLog4jconf()).exists()) {
+					System.setProperty("log4j.configuration", settings.getLog4jconf());
+					PropertyConfigurator.configure(settings.getLog4jconf());
+				}else
+					{
+						logger.warn("NO SUCH FILE "+settings.getLog4jconf());
+					}
 				
+				WebLookAndFeel.install();
 				JDialog.setDefaultLookAndFeelDecorated(true);
 				JFrame.setDefaultLookAndFeelDecorated(true);
 					
@@ -112,7 +217,6 @@ public class SithTermMainWindow implements Serializable
 					lnfMap.put(lnf.getName(), lnf.getClassName());
 				}
 			
-				
 				spop = new SettingsPopup("JediTerm Settings", this);
 				spop.setBounds(50, 50, 700, 700);
 				frame = new JFrame();
