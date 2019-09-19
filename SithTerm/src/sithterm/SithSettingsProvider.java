@@ -86,106 +86,91 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public HighlightMode getHyperlinkHighlightingMode()
 			{
-				// TODO Auto-generated method stub
-				return super.getHyperlinkHighlightingMode();
+				return settings.getLinkHighlightStyle();
 			}
 			
 		@Override
 		public boolean useInverseSelectionColor()
 			{
-				// TODO Auto-generated method stub
-				return super.useInverseSelectionColor();
+				return settings.isUseInverseSelectionColor();
 			}
 			
 		@Override
 		public boolean copyOnSelect()
 			{
-				// TODO Auto-generated method stub
-				return super.copyOnSelect();
+				return settings.isCopyOnSelect();
 			}
 			
 		@Override
 		public boolean pasteOnMiddleMouseClick()
 			{
-				// TODO Auto-generated method stub
-				return super.pasteOnMiddleMouseClick();
+			return settings.isPasteOnMiddleMouseClick();
 			}
 			
 		@Override
 		public boolean emulateX11CopyPaste()
 			{
-				// TODO Auto-generated method stub
-				return super.emulateX11CopyPaste();
+				return settings.isEmulateX11CopyPaste();
 			}
 			
 		@Override
 		public boolean useAntialiasing()
 			{
-				// TODO Auto-generated method stub
-				return super.useAntialiasing();
+				return settings.isUseAntiAliasing();
 			}
 			
 		@Override
 		public int maxRefreshRate()
 			{
-				// TODO Auto-generated method stub
-				return super.maxRefreshRate();
+				return settings.getMaxRefreshRate();
 			}
 			
 		@Override
 		public boolean audibleBell()
 			{
-				// TODO Auto-generated method stub
-				return super.audibleBell();
+				return settings.isAudibleBell();
 			}
 			
 		@Override
 		public boolean enableMouseReporting()
 			{
-				// TODO Auto-generated method stub
-				return super.enableMouseReporting();
+				return settings.isEnableMouseReporting();
 			}
 			
 		@Override
 		public int caretBlinkingMs()
 			{
-				// TODO Auto-generated method stub
-				return super.caretBlinkingMs();
+				return settings.getCaretBlinkingMS();
 			}
 			
 		@Override
 		public boolean scrollToBottomOnTyping()
 			{
-				// TODO Auto-generated method stub
-				return super.scrollToBottomOnTyping();
+				return settings.isScrollToBottomOnTyping();
 			}
 			
 		@Override
 		public boolean DECCompatibilityMode()
 			{
-				// TODO Auto-generated method stub
-				return super.DECCompatibilityMode();
+			return settings.isDecmode();
 			}
 			
 		@Override
 		public boolean forceActionOnMouseReporting()
 			{
-				// TODO Auto-generated method stub
-				return super.forceActionOnMouseReporting();
+				return settings.isForceActionOnMouseReporting();
 			}
 			
 		@Override
 		public int getBufferMaxLinesCount()
 			{
-				// TODO Auto-generated method stub
-				return super.getBufferMaxLinesCount();
+				return settings.getBufferMaxLinesCount();
 			}
 			
 		@Override
 		public boolean altSendsEscape()
 			{
-				// TODO Auto-generated method stub
-				return super.altSendsEscape();
+				return settings.isAltSendsEscape();
 			}
 			
 		@Override

@@ -195,12 +195,12 @@ public class SithTermMainWindow implements Serializable
 					logger.info(cmdList.get(i));
 					command[i]=cmdList.get(i);
 				}
-				int initialRows = 26;
-				int initialColumns = 80;
+				int initialRows = 26;//TODO make configurable
+				int initialColumns = 80;//TODO make configurable
 				boolean windowAnsiColor = true;
-				String dir = ".";
-				String chsetName = "UTF-8";
-				String termType = "xterm";
+				String dir = settings.getDir();
+				String chsetName = settings.getCharSetName();
+				String termType = settings.getTermType();
 				tabbedPane.addTab("Term: " + this.tabNumber++,
 				    this.getWidget(command, initialRows, initialColumns, windowAnsiColor, dir, chsetName, termType));
 			}

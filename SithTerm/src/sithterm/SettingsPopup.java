@@ -23,6 +23,7 @@ import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JSpinner;
+import javax.swing.JCheckBox;
 
 public class SettingsPopup extends JDialog
 	{// TODO make the rest of the items in SithSettingsProvider configurable here
@@ -232,18 +233,6 @@ public class SettingsPopup extends JDialog
 				gbc_btnApplySettings.gridx = 0;
 				gbc_btnApplySettings.gridy = 9;
 				settingsPanel.add(btnApplySettings, gbc_btnApplySettings);
-				JPanel backgroundColorsPanel = new JPanel();
-				backgroundColorsPanel.setToolTipText("color for terminal background");
-				tabbedPane.addTab("Background Color", null, backgroundColorsPanel, null);
-				JColorChooser backgroundColorChooser = new JColorChooser();
-				backgroundColorsPanel.add(backgroundColorChooser);
-				JPanel foregroundColorPanel = new JPanel();
-				tabbedPane.addTab("Foreground Color", null, foregroundColorPanel, null);
-				backgroundColorChooser.setColor(settings.getBgcolor());
-				JColorChooser foregroundColorChooser = new JColorChooser();
-				foregroundColorChooser.setToolTipText("color for foreground of the terminal");
-				foregroundColorPanel.add(foregroundColorChooser);
-				foregroundColorChooser.setColor(settings.getFgColor());
 				JPanel fontPanel = new JPanel();
 				tabbedPane.addTab("Font", null, fontPanel, null);
 				GridBagLayout gbl_fontPanel = new GridBagLayout();
@@ -265,7 +254,7 @@ public class SettingsPopup extends JDialog
 				fontPanel.add(lblFont, gbc_lblFont);
 				JComboBox<String> fontComboBox = new JComboBox<>();
 				GridBagConstraints gbc_fontComboBox = new GridBagConstraints();
-				gbc_fontComboBox.insets = new Insets(0, 0, 5, 0);
+				gbc_fontComboBox.insets = new Insets(0, 0, 5, 5);
 				gbc_fontComboBox.anchor = GridBagConstraints.WEST;
 				gbc_fontComboBox.fill = GridBagConstraints.BOTH;
 				gbc_fontComboBox.gridx = 1;
@@ -287,7 +276,8 @@ public class SettingsPopup extends JDialog
 				JSpinner fontSizeSpinner = new JSpinner();
 				fontSizeSpinner.setModel(new SpinnerNumberModel(settings.getFontSize(), 3.0f, 64.0f, 0.5f));
 				GridBagConstraints gbc_fontSizeSpinner = new GridBagConstraints();
-				gbc_fontSizeSpinner.insets = new Insets(0, 0, 5, 0);
+				gbc_fontSizeSpinner.anchor = GridBagConstraints.WEST;
+				gbc_fontSizeSpinner.insets = new Insets(0, 0, 5, 5);
 				gbc_fontSizeSpinner.gridx = 1;
 				gbc_fontSizeSpinner.gridy = 1;
 				fontPanel.add(fontSizeSpinner, gbc_fontSizeSpinner);
@@ -298,12 +288,17 @@ public class SettingsPopup extends JDialog
 				gbc_lblLinkHighlightStyle.gridx = 0;
 				gbc_lblLinkHighlightStyle.gridy = 2;
 				fontPanel.add(lblLinkHighlightStyle, gbc_lblLinkHighlightStyle);
-				JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
 				GridBagConstraints gbc_comboBox = new GridBagConstraints();
 				gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 				gbc_comboBox.gridx = 1;
 				gbc_comboBox.gridy = 2;
-				fontPanel.add(linkHighlightModeComboBox);
+				JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
+				GridBagConstraints gbc_linkHighlightModeComboBox = new GridBagConstraints();
+				gbc_linkHighlightModeComboBox.anchor = GridBagConstraints.WEST;
+				gbc_linkHighlightModeComboBox.insets = new Insets(0, 0, 0, 5);
+				gbc_linkHighlightModeComboBox.gridx = 1;
+				gbc_linkHighlightModeComboBox.gridy = 2;
+				fontPanel.add(linkHighlightModeComboBox, gbc_linkHighlightModeComboBox);
 				linkHighlightModeComboBox.addItem("ALWAYS");
 				linkHighlightModeComboBox.addItem("NEVER");
 				linkHighlightModeComboBox.addItem("HOVER");
@@ -319,55 +314,55 @@ public class SettingsPopup extends JDialog
 					{
 						linkHighlightModeComboBox.setSelectedItem("HOVER");
 					}
-				JTabbedPane colorTabPane = new JTabbedPane(JTabbedPane.TOP);
-				tabbedPane.addTab("Palette", null, colorTabPane, "Color Palette for 16-color terminal");
+				JTabbedPane palettePane = new JTabbedPane(JTabbedPane.TOP);
+				tabbedPane.addTab("Indexed Palette", null, palettePane, "Color Palette for 16-color terminal");
 				JColorChooser blackColorChooser = new JColorChooser();
-				colorTabPane.addTab("Black", null, blackColorChooser, null);
+				palettePane.addTab("Black", null, blackColorChooser, null);
 				blackColorChooser.setColor(settings.getBlack());
 				JColorChooser redColorChooser = new JColorChooser();
-				colorTabPane.addTab("Red", null, redColorChooser, null);
+				palettePane.addTab("Red", null, redColorChooser, null);
 				redColorChooser.setColor(settings.getRed());
 				JColorChooser greenColorChooser = new JColorChooser();
-				colorTabPane.addTab("Green", null, greenColorChooser, null);
+				palettePane.addTab("Green", null, greenColorChooser, null);
 				greenColorChooser.setColor(settings.getGreen());
 				JColorChooser yellowColorChooser = new JColorChooser();
-				colorTabPane.addTab("Yellow", null, yellowColorChooser, null);
+				palettePane.addTab("Yellow", null, yellowColorChooser, null);
 				yellowColorChooser.setColor(settings.getYellow());
 				JColorChooser blueColorChooser = new JColorChooser();
-				colorTabPane.addTab("Blue", null, blueColorChooser, null);
+				palettePane.addTab("Blue", null, blueColorChooser, null);
 				blueColorChooser.setColor(settings.getBlue());
 				JColorChooser brightYellowColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Yellow", null, brightYellowColorChooser, null);
+				palettePane.addTab("Bright Yellow", null, brightYellowColorChooser, null);
 				brightYellowColorChooser.setColor(settings.getBrightYellow());
 				JColorChooser magentaColorChooser = new JColorChooser();
-				colorTabPane.addTab("Magenta", null, magentaColorChooser, null);
+				palettePane.addTab("Magenta", null, magentaColorChooser, null);
 				magentaColorChooser.setColor(settings.getMagenta());
 				JColorChooser brightMagentaColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Magenta", null, brightMagentaColorChooser, null);
+				palettePane.addTab("Bright Magenta", null, brightMagentaColorChooser, null);
 				brightMagentaColorChooser.setColor(settings.getBrightMagenta());
 				JColorChooser cyanColorChooser = new JColorChooser();
-				colorTabPane.addTab("Cyan", null, cyanColorChooser, null);
+				palettePane.addTab("Cyan", null, cyanColorChooser, null);
 				cyanColorChooser.setColor(settings.getCyan());
 				JColorChooser whiteColorChooser = new JColorChooser();
-				colorTabPane.addTab("White", null, whiteColorChooser, null);
+				palettePane.addTab("White", null, whiteColorChooser, null);
 				whiteColorChooser.setColor(settings.getWhite());
 				JColorChooser brightBlackColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Black", null, brightBlackColorChooser, null);
+				palettePane.addTab("Bright Black", null, brightBlackColorChooser, null);
 				brightBlackColorChooser.setColor(settings.getBrightBlack());
 				JColorChooser brightRedColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Red", null, brightRedColorChooser, null);
+				palettePane.addTab("Bright Red", null, brightRedColorChooser, null);
 				brightRedColorChooser.setColor(settings.getBrightRed());
 				JColorChooser brightGreenColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Green", null, brightGreenColorChooser, null);
+				palettePane.addTab("Bright Green", null, brightGreenColorChooser, null);
 				brightGreenColorChooser.setColor(settings.getBrightGreen());
 				JColorChooser brightBlueColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Blue", null, brightBlueColorChooser, null);
+				palettePane.addTab("Bright Blue", null, brightBlueColorChooser, null);
 				brightBlueColorChooser.setColor(settings.getBrightBlack());
 				JColorChooser brightCyanColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright Cyan", null, brightCyanColorChooser, null);
+				palettePane.addTab("Bright Cyan", null, brightCyanColorChooser, null);
 				brightCyanColorChooser.setColor(settings.getBrightCyan());
 				JColorChooser brightWhiteColorChooser = new JColorChooser();
-				colorTabPane.addTab("Bright White", null, brightWhiteColorChooser, null);
+				palettePane.addTab("Bright White", null, brightWhiteColorChooser, null);
 				brightWhiteColorChooser.setColor(settings.getBrightWhite());
 				JPanel FontColorsPanel = new JPanel();
 				tabbedPane.addTab("Text Styles", null, FontColorsPanel, null);
@@ -383,16 +378,6 @@ public class SettingsPopup extends JDialog
 				JColorChooser selectionBGColorChooser = new JColorChooser();
 				selectionColors.addTab("Background", null, selectionBGColorChooser, null);
 				selectionBGColorChooser.setColor(settings.getSelectionBackground());
-				JPanel panel = new JPanel();
-				selectionColors.addTab("Hyperlink", null, panel, null);
-				JTabbedPane hyperlinkTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-				panel.add(hyperlinkTabbedPane);
-				JColorChooser hyperlinkForegroundColorChooser = new JColorChooser();
-				hyperlinkTabbedPane.addTab("Foreground", null, hyperlinkForegroundColorChooser, null);
-				hyperlinkForegroundColorChooser.setColor(settings.getHyperlinkForeground());
-				JColorChooser hyperlinkBackgroundColorChooser = new JColorChooser();
-				hyperlinkTabbedPane.addTab("Background", null, hyperlinkBackgroundColorChooser, null);
-				hyperlinkBackgroundColorChooser.setColor(settings.getHyperlinkBackground());
 				JPanel patternFoundPanel = new JPanel();
 				fontColorsTabbedPane.addTab("Pattern Found", null, patternFoundPanel, null);
 				JTabbedPane patternFoundTabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -403,6 +388,222 @@ public class SettingsPopup extends JDialog
 				JColorChooser foundPatternBackgroundColorChooser = new JColorChooser();
 				patternFoundTabbedPane.addTab("Background", null, foundPatternBackgroundColorChooser, null);
 				foundPatternBackgroundColorChooser.setColor(settings.getFoundPatternBackGround());
+				JPanel linkPanel = new JPanel();
+				fontColorsTabbedPane.addTab("Links", null, linkPanel, null);
+				JTabbedPane hyperlinkTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				linkPanel.add(hyperlinkTabbedPane);
+				JColorChooser hyperlinkForegroundColorChooser = new JColorChooser();
+				hyperlinkTabbedPane.addTab("Foreground", null, hyperlinkForegroundColorChooser, null);
+				hyperlinkForegroundColorChooser.setColor(settings.getHyperlinkForeground());
+				JColorChooser hyperlinkBackgroundColorChooser = new JColorChooser();
+				hyperlinkTabbedPane.addTab("Background", null, hyperlinkBackgroundColorChooser, null);
+				hyperlinkBackgroundColorChooser.setColor(settings.getHyperlinkBackground());
+				
+				JPanel defaultStylePanel = new JPanel();
+				fontColorsTabbedPane.addTab("Default", null, defaultStylePanel, null);
+				
+				JTabbedPane defstyleTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				defaultStylePanel.add(defstyleTabbedPane);
+				JPanel foregroundColorPanel = new JPanel();
+				defstyleTabbedPane.addTab("Foreground", null, foregroundColorPanel, null);
+				JColorChooser foregroundColorChooser = new JColorChooser();
+				foregroundColorChooser.setToolTipText("color for foreground of the terminal");
+				foregroundColorPanel.add(foregroundColorChooser);
+				foregroundColorChooser.setColor(settings.getFgColor());
+				JPanel backgroundColorsPanel = new JPanel();
+				defstyleTabbedPane.addTab("Background", null, backgroundColorsPanel, null);
+				backgroundColorsPanel.setToolTipText("color for terminal background");
+				JColorChooser backgroundColorChooser = new JColorChooser();
+				backgroundColorsPanel.add(backgroundColorChooser);
+				backgroundColorChooser.setColor(settings.getBgcolor());
+				
+				JPanel miscPanel = new JPanel();
+				tabbedPane.addTab("Misc.", null, miscPanel, null);
+				GridBagLayout gbl_miscPanel = new GridBagLayout();
+				gbl_miscPanel.columnWidths = new int[]{0, 0, 0};
+				gbl_miscPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+				gbl_miscPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				gbl_miscPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				miscPanel.setLayout(gbl_miscPanel);
+				
+				JCheckBox inverseSelectionColorsCheckbox = new JCheckBox("Use Inverse Selection Colors");
+				GridBagConstraints gbc_inverseSelectionColorsCheckbox = new GridBagConstraints();
+				gbc_inverseSelectionColorsCheckbox.anchor = GridBagConstraints.WEST;
+				gbc_inverseSelectionColorsCheckbox.insets = new Insets(0, 0, 5, 5);
+				gbc_inverseSelectionColorsCheckbox.gridx = 0;
+				gbc_inverseSelectionColorsCheckbox.gridy = 0;
+				miscPanel.add(inverseSelectionColorsCheckbox, gbc_inverseSelectionColorsCheckbox);
+				inverseSelectionColorsCheckbox.setSelected(settings.isUseInverseSelectionColor());
+				
+				JCheckBox chckbxCopyOnSelect = new JCheckBox("Copy On Select");
+				GridBagConstraints gbc_chckbxCopyOnSelect = new GridBagConstraints();
+				gbc_chckbxCopyOnSelect.anchor = GridBagConstraints.WEST;
+				gbc_chckbxCopyOnSelect.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxCopyOnSelect.gridx = 0;
+				gbc_chckbxCopyOnSelect.gridy = 1;
+				miscPanel.add(chckbxCopyOnSelect, gbc_chckbxCopyOnSelect);
+				chckbxCopyOnSelect.setSelected(settings.isCopyOnSelect());
+				
+				JCheckBox chckbxConsole = new JCheckBox("Console");
+				GridBagConstraints gbc_chckbxConsole = new GridBagConstraints();
+				gbc_chckbxConsole.anchor = GridBagConstraints.WEST;
+				gbc_chckbxConsole.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxConsole.gridx = 0;
+				gbc_chckbxConsole.gridy = 2;
+				miscPanel.add(chckbxConsole, gbc_chckbxConsole);
+				chckbxConsole.setSelected(settings.isConsole());
+				
+				JCheckBox chckbxCygwin = new JCheckBox("Cygwin");
+				GridBagConstraints gbc_chckbxCygwin = new GridBagConstraints();
+				gbc_chckbxCygwin.anchor = GridBagConstraints.WEST;
+				gbc_chckbxCygwin.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxCygwin.gridx = 0;
+				gbc_chckbxCygwin.gridy = 3;
+				miscPanel.add(chckbxCygwin, gbc_chckbxCygwin);
+				chckbxCygwin.setSelected(settings.isCygwin());
+				
+				JCheckBox chckbxPasteOnMiddle = new JCheckBox("Paste On Middle Mouse Click");
+				GridBagConstraints gbc_chckbxPasteOnMiddle = new GridBagConstraints();
+				gbc_chckbxPasteOnMiddle.anchor = GridBagConstraints.WEST;
+				gbc_chckbxPasteOnMiddle.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxPasteOnMiddle.gridx = 0;
+				gbc_chckbxPasteOnMiddle.gridy = 4;
+				miscPanel.add(chckbxPasteOnMiddle, gbc_chckbxPasteOnMiddle);
+				chckbxPasteOnMiddle.setSelected(settings.isPasteOnMiddleMouseClick());
+				
+				JCheckBox chckbxEmulatexCopypaste = new JCheckBox("EmulateX11 Copy/Paste");
+				GridBagConstraints gbc_chckbxEmulatexCopypaste = new GridBagConstraints();
+				gbc_chckbxEmulatexCopypaste.anchor = GridBagConstraints.WEST;
+				gbc_chckbxEmulatexCopypaste.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxEmulatexCopypaste.gridx = 0;
+				gbc_chckbxEmulatexCopypaste.gridy = 5;
+				miscPanel.add(chckbxEmulatexCopypaste, gbc_chckbxEmulatexCopypaste);
+				chckbxEmulatexCopypaste.setSelected(settings.isEmulateX11CopyPaste());
+				
+				JCheckBox chckbxUseAntialiasing = new JCheckBox("Use Antialiasing");
+				GridBagConstraints gbc_chckbxUseAntialiasing = new GridBagConstraints();
+				gbc_chckbxUseAntialiasing.anchor = GridBagConstraints.WEST;
+				gbc_chckbxUseAntialiasing.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxUseAntialiasing.gridx = 0;
+				gbc_chckbxUseAntialiasing.gridy = 6;
+				miscPanel.add(chckbxUseAntialiasing, gbc_chckbxUseAntialiasing);
+				chckbxUseAntialiasing.setSelected(settings.isUseAntiAliasing());
+				
+				JLabel lblMaxRefreshRate = new JLabel("Max Refresh Rate");
+				GridBagConstraints gbc_lblMaxRefreshRate = new GridBagConstraints();
+				gbc_lblMaxRefreshRate.anchor = GridBagConstraints.WEST;
+				gbc_lblMaxRefreshRate.insets = new Insets(0, 0, 5, 5);
+				gbc_lblMaxRefreshRate.gridx = 0;
+				gbc_lblMaxRefreshRate.gridy = 7;
+				miscPanel.add(lblMaxRefreshRate, gbc_lblMaxRefreshRate);
+				
+				JSpinner maxRefreshSpinner = new JSpinner();
+				GridBagConstraints gbc_spinnerCaretBlink = new GridBagConstraints();
+				gbc_spinnerCaretBlink.insets = new Insets(0, 0, 5, 0);
+				gbc_spinnerCaretBlink.fill = GridBagConstraints.HORIZONTAL;
+				gbc_spinnerCaretBlink.anchor = GridBagConstraints.WEST;
+				gbc_spinnerCaretBlink.gridx = 1;
+				gbc_spinnerCaretBlink.gridy = 7;
+				miscPanel.add(maxRefreshSpinner, gbc_spinnerCaretBlink);
+				maxRefreshSpinner.setValue(settings.getMaxRefreshRate());
+				
+				JCheckBox chckbxAudiBell = new JCheckBox("Audible Bell");
+				GridBagConstraints gbc_chckbxAudiBell = new GridBagConstraints();
+				gbc_chckbxAudiBell.anchor = GridBagConstraints.WEST;
+				gbc_chckbxAudiBell.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxAudiBell.gridx = 0;
+				gbc_chckbxAudiBell.gridy = 8;
+				miscPanel.add(chckbxAudiBell, gbc_chckbxAudiBell);
+				chckbxAudiBell.setSelected(settings.isAudibleBell());
+				
+				JCheckBox chckbxMouseReporting = new JCheckBox("Enable Mouse Reporting");
+				GridBagConstraints gbc_chckbxMouseReporting = new GridBagConstraints();
+				gbc_chckbxMouseReporting.anchor = GridBagConstraints.WEST;
+				gbc_chckbxMouseReporting.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxMouseReporting.gridx = 0;
+				gbc_chckbxMouseReporting.gridy = 9;
+				miscPanel.add(chckbxMouseReporting, gbc_chckbxMouseReporting);
+				chckbxMouseReporting.setSelected(settings.isEnableMouseReporting());
+				
+				JLabel lblCaretBlinkMs = new JLabel("Caret Blink MS");
+				GridBagConstraints gbc_lblCaretBlinkMs = new GridBagConstraints();
+				gbc_lblCaretBlinkMs.anchor = GridBagConstraints.WEST;
+				gbc_lblCaretBlinkMs.insets = new Insets(0, 0, 5, 5);
+				gbc_lblCaretBlinkMs.gridx = 0;
+				gbc_lblCaretBlinkMs.gridy = 10;
+				miscPanel.add(lblCaretBlinkMs, gbc_lblCaretBlinkMs);
+				
+				JSpinner spinnerCaretBlink = new JSpinner();
+				GridBagConstraints gbc_spinnerCaretBlinkMS = new GridBagConstraints();
+				gbc_spinnerCaretBlinkMS.insets = new Insets(0, 0, 5, 0);
+				gbc_spinnerCaretBlinkMS.anchor = GridBagConstraints.WEST;
+				gbc_spinnerCaretBlinkMS.gridx = 1;
+				gbc_spinnerCaretBlinkMS.gridy = 10;
+				miscPanel.add(spinnerCaretBlink, gbc_spinnerCaretBlinkMS);
+				spinnerCaretBlink.setValue(settings.getCaretBlinkingMS());
+				
+				JCheckBox chckbxScrollToBottom = new JCheckBox("Scroll To Bottom On Type");
+				GridBagConstraints gbc_chckbxScrollToBottom = new GridBagConstraints();
+				gbc_chckbxScrollToBottom.anchor = GridBagConstraints.WEST;
+				gbc_chckbxScrollToBottom.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxScrollToBottom.gridx = 0;
+				gbc_chckbxScrollToBottom.gridy = 11;
+				miscPanel.add(chckbxScrollToBottom, gbc_chckbxScrollToBottom);
+				chckbxScrollToBottom.setSelected(settings.isScrollToBottomOnTyping());
+				
+				JCheckBox chckbxDecCompatibilityMode = new JCheckBox("DEC Compatibility Mode");
+				GridBagConstraints gbc_chckbxDecCompatibilityMode = new GridBagConstraints();
+				gbc_chckbxDecCompatibilityMode.anchor = GridBagConstraints.WEST;
+				gbc_chckbxDecCompatibilityMode.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxDecCompatibilityMode.gridx = 0;
+				gbc_chckbxDecCompatibilityMode.gridy = 12;
+				miscPanel.add(chckbxDecCompatibilityMode, gbc_chckbxDecCompatibilityMode);
+				chckbxDecCompatibilityMode.setSelected(settings.isDecmode());
+				
+				JCheckBox chckbxForceActionOn = new JCheckBox("Force Action On Mouse Report");
+				GridBagConstraints gbc_chckbxForceActionOn = new GridBagConstraints();
+				gbc_chckbxForceActionOn.anchor = GridBagConstraints.WEST;
+				gbc_chckbxForceActionOn.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxForceActionOn.gridx = 0;
+				gbc_chckbxForceActionOn.gridy = 13;
+				miscPanel.add(chckbxForceActionOn, gbc_chckbxForceActionOn);
+				chckbxForceActionOn.setSelected(settings.isForceActionOnMouseReporting());
+				
+				JLabel lblBufferMaxLines = new JLabel("Buffer Max Lines");
+				GridBagConstraints gbc_lblBufferMaxLines = new GridBagConstraints();
+				gbc_lblBufferMaxLines.anchor = GridBagConstraints.WEST;
+				gbc_lblBufferMaxLines.insets = new Insets(0, 0, 5, 5);
+				gbc_lblBufferMaxLines.gridx = 0;
+				gbc_lblBufferMaxLines.gridy = 14;
+				miscPanel.add(lblBufferMaxLines, gbc_lblBufferMaxLines);
+				
+				JSpinner maxBufferLinesSpinner = new JSpinner();
+				GridBagConstraints gbc_spinner = new GridBagConstraints();
+				gbc_spinner.insets = new Insets(0, 0, 5, 0);
+				gbc_spinner.anchor = GridBagConstraints.WEST;
+				gbc_spinner.gridx = 1;
+				gbc_spinner.gridy = 14;
+				miscPanel.add(maxBufferLinesSpinner, gbc_spinner);
+				maxBufferLinesSpinner.setValue(settings.getBufferMaxLinesCount());
+				
+				JCheckBox chckbxAltSendsEscape = new JCheckBox("Alt Sends Escape");
+				GridBagConstraints gbc_chckbxAltSendsEscape = new GridBagConstraints();
+				gbc_chckbxAltSendsEscape.anchor = GridBagConstraints.WEST;
+				gbc_chckbxAltSendsEscape.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxAltSendsEscape.gridx = 0;
+				gbc_chckbxAltSendsEscape.gridy = 15;
+				miscPanel.add(chckbxAltSendsEscape, gbc_chckbxAltSendsEscape);
+				chckbxAltSendsEscape.setSelected(settings.isAltSendsEscape());
+				
+				JCheckBox chckbxAmbiguousCharsAre = new JCheckBox("Ambiguous Chars are Double Width");
+				GridBagConstraints gbc_chckbxAmbiguousCharsAre = new GridBagConstraints();
+				gbc_chckbxAmbiguousCharsAre.anchor = GridBagConstraints.WEST;
+				gbc_chckbxAmbiguousCharsAre.insets = new Insets(0, 0, 0, 5);
+				gbc_chckbxAmbiguousCharsAre.gridx = 0;
+				gbc_chckbxAmbiguousCharsAre.gridy = 16;
+				miscPanel.add(chckbxAmbiguousCharsAre, gbc_chckbxAmbiguousCharsAre);
+				chckbxAmbiguousCharsAre.setSelected(settings.isAmbiguousCharsDoubleWidth());
+				
 				btnApplySettings.addActionListener(evt -> {
 					settings.setCharSetName(charSetComboBox.getSelectedItem().toString());
 					settings.setDir(dirField.getText());
@@ -414,7 +615,7 @@ public class SettingsPopup extends JDialog
 					settings.setFgColor(foregroundColorChooser.getColor());
 					settings.setFontFamily(fontComboBox.getSelectedItem().toString());
 					settings.setFontSize(((Double) fontSizeSpinner.getValue()).floatValue());
-					settings.setLineSpace((float) lineSpaceSpinner.getValue());
+					settings.setLineSpace(((Double) lineSpaceSpinner.getValue()).floatValue());
 					settings.setBlack(blackColorChooser.getColor());
 					settings.setBlue(blueColorChooser.getColor());
 					settings.setBrightBlack(brightBlackColorChooser.getColor());
@@ -445,8 +646,28 @@ public class SettingsPopup extends JDialog
 						{
 							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.NEVER);
 						}
-					else
+					else {
 						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
+					}
+					settings.setUseInverseSelectionColor(inverseSelectionColorsCheckbox.isSelected());
+					settings.setCopyOnSelect(chckbxCopyOnSelect.isSelected());
+					settings.setPasteOnMiddleMouseClick(chckbxPasteOnMiddle.isSelected());
+					settings.setEmulateX11CopyPaste(chckbxEmulatexCopypaste.isSelected());
+					settings.setUseAntiAliasing(chckbxUseAntialiasing.isSelected());
+					settings.setMaxRefreshRate((Integer)maxRefreshSpinner.getValue());
+					settings.setAudibleBell(chckbxAudiBell.isSelected());
+					settings.setEnableMouseReporting(chckbxMouseReporting.isSelected());
+					settings.setCaretBlinkingMS((Integer)spinnerCaretBlink.getValue());
+					settings.setScrollToBottomOnTyping(chckbxScrollToBottom.isSelected());
+					settings.setDecmode(chckbxDecCompatibilityMode.isSelected());
+					settings.setForceActionOnMouseReporting(chckbxForceActionOn.isSelected());
+					settings.setBufferMaxLinesCount((Integer)maxBufferLinesSpinner.getValue());
+					settings.setAltSendsEscape(chckbxAltSendsEscape.isSelected());
+					settings.setAmbiguousCharsDoubleWidth(chckbxAmbiguousCharsAre.isSelected());
+					settings.setConsole(chckbxConsole.isSelected());
+					settings.setCygwin(chckbxCygwin.isSelected());
+					
+					//save settings
 					window.saveSettings();
 				});
 			}
