@@ -1428,6 +1428,7 @@ public class SettingsPopup extends JDialog
 				for (String s : lnfs.keySet()) {
 					lafComboBox.addItem(s);
 				}
+				lafComboBox.setSelectedItem(settings.getLookAndFeel());
 				
 				
 				btnApplySettings.addActionListener(evt -> {
