@@ -49,15 +49,12 @@ public class SithTermSettings implements Serializable
 		private String fontFamily = new DefaultSettingsProvider().getTerminalFont().getFamily();
 		private float fontSize = new DefaultSettingsProvider().getTerminalFontSize();
 		private float lineSpace = 0.0f;
-		private Color selectionForeground = new DefaultSettingsProvider().getTerminalColorPalette()
-		    .getIndexColors()[new DefaultSettingsProvider().getSelectionColor().getForeground().getIndex()];
-		private Color selectionBackground = new DefaultSettingsProvider().getSelectionColor().getBackground().toAwtColor();
-		private Color foundPatternForeGround = new DefaultSettingsProvider().getTerminalColorPalette()
-		    .getIndexColors()[new DefaultSettingsProvider().getFoundPatternColor().getForeground().getIndex()];
-		private Color foundPatternBackGround = new DefaultSettingsProvider().getFoundPatternColor().getBackground().toAwtColor();
-		private Color hyperlinkForeground = new DefaultSettingsProvider().getHyperlinkColor().getForeground().toAwtColor();
-		private Color hyperlinkBackground = new DefaultSettingsProvider().getTerminalColorPalette()
-		    .getIndexColors()[new DefaultSettingsProvider().getHyperlinkColor().getBackground().getIndex()];
+		private Color selectionForeground = new Color(-1);//magic number derived from DefaultSettingsProvider color
+		private Color selectionBackground = new Color(-11375195); //magic number derived from DefaultSettingsProvider color 
+		private Color foundPatternForeGround = new Color(-16777216);//magic number derived from DefaultSettingsProvider color 
+		private Color foundPatternBackGround = new Color(-256);//magic number derived from DefaultSettingsProvider color 
+		private Color hyperlinkBackground = new Color(-1);//magic number derived from DefaultSettingsProvider color 
+		private Color hyperlinkForeground = new Color(-16776961);//magic number derived from DefaultSettingsProvider color 
 		private HyperlinkStyle.HighlightMode linkHighlightStyle = HyperlinkStyle.HighlightMode.HOVER;
 		private boolean useInverseSelectionColor = new DefaultSettingsProvider().useInverseSelectionColor();
 		private boolean copyOnSelect = new DefaultSettingsProvider().copyOnSelect();
@@ -78,6 +75,28 @@ public class SithTermSettings implements Serializable
 		private boolean console = false;
 		private String log4jconf = System.getProperty("user.home")+File.separator+".Sith"+File.separator+"log4j.properties";
 		private String lookAndFeel = new WebLookAndFeel().getName();
+		private int columns = 80;
+		private int rows = 24;
+		public int getColumns()
+			{
+				return columns;
+			}
+
+		public void setColumns(int columns)
+			{
+				this.columns = columns;
+			}
+
+		public int getRows()
+			{
+				return rows;
+			}
+
+		public void setRows(int rows)
+			{
+				this.rows = rows;
+			}
+
 		public String getLog4jconf()
 			{
 				return log4jconf;

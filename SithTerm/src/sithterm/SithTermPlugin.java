@@ -2,18 +2,18 @@ package sithterm;
 
 import java.io.Serializable;
 
-public abstract class SithTermPlugin_V1 implements Serializable
+public abstract class SithTermPlugin implements Serializable
 	{
 		/**
 	 * 
 	 */
 		private static final long serialVersionUID = 1L;
 		private SithTermMainWindow application;
-		private SithTermPlugin_V1()
+		private SithTermPlugin()
 			{
 				//hide no-args from other classes
 			}
-		public SithTermPlugin_V1(SithTermMainWindow application) {
+		public SithTermPlugin(SithTermMainWindow application) {
 			this();
 			this.application = application;
 		}

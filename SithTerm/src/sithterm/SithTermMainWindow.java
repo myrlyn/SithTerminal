@@ -80,7 +80,7 @@ public class SithTermMainWindow implements Serializable
 		private SithTermSettings settings = new SithTermSettings();
 		private transient Gson jsParser = new GsonBuilder().setPrettyPrinting().setLenient().create();
 		private Map<String, String> lnfMap = new HashMap<>();
-		private Map<String, SithTermPlugin_V1> pluginMapV1 = new HashMap<>();
+		private Map<String, SithTermPlugin> pluginMapV1 = new HashMap<>();
 		
 		public static void main(String[] args)
 			{
@@ -110,6 +110,8 @@ public class SithTermMainWindow implements Serializable
 						if (pd.isDirectory())
 							{
 								String[] jars = pd.list((File dir, String name) -> name.toLowerCase().endsWith(".jar"));
+								if (jars == null)
+										return;
 								for (String jar : jars)
 									{
 										logger.info("Found Jar " + jar);
@@ -143,7 +145,7 @@ public class SithTermMainWindow implements Serializable
 						logger.info("Loader URL: " + urls[0]);
 						try (URLClassLoader jarloader = URLClassLoader.newInstance(urls);)
 							{
-								List<Class<SithTermPlugin_V1>> pluginsToInit;
+								List<Class<SithTermPlugin>> pluginsToInit;
 								pluginsToInit = new LinkedList<>();
 								while (pluginEntries.hasMoreElements())
 									{
@@ -158,20 +160,20 @@ public class SithTermMainWindow implements Serializable
 												if ("module-info".equalsIgnoreCase(className))
 													continue;
 												Class<?> c = jarloader.loadClass(className);
-												if (SithTermPlugin_V1.class.isAssignableFrom(c))
+												if (SithTermPlugin.class.isAssignableFrom(c))
 													{
 														@SuppressWarnings("unchecked") // I just checked the typesafety of this above...
-														Class<SithTermPlugin_V1> plugToInitTyped = (Class<SithTermPlugin_V1>) c;
+														Class<SithTermPlugin> plugToInitTyped = (Class<SithTermPlugin>) c;
 														pluginsToInit.add(plugToInitTyped);
 														// SPOTBUGS complains, but the
 														// type-checking her is done...
 													}
 											}
 									}
-								for (Class<SithTermPlugin_V1> plugin : pluginsToInit)
+								for (Class<SithTermPlugin> plugin : pluginsToInit)
 									{
-										Constructor<SithTermPlugin_V1> pluginConstructor = plugin.getConstructor(SithTermMainWindow.class);
-										SithTermPlugin_V1 plug = pluginConstructor.newInstance(this);
+										Constructor<SithTermPlugin> pluginConstructor = plugin.getConstructor(SithTermMainWindow.class);
+										SithTermPlugin plug = pluginConstructor.newInstance(this);
 										logger.info("Initialize this!  " + plug.getPluginName());
 										plug.initialize(
 										    System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS + File.separator + jar);
@@ -264,18 +266,18 @@ public class SithTermMainWindow implements Serializable
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setJMenuBar(menuBar);
 				menuBar.add(mnFile);
-				mntmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
+				mntmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));//replace ALT_MASK and teh like with ALT_DOWN_MASK as suggested
 				mntmClose.addActionListener(evt -> System.exit(0));
 				mnFile.add(mntmClose);
 				menuBar.add(mnTabs);
-				mntmNewTab.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+				mntmNewTab.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 				mntmNewTab.addActionListener(evt -> addNewTab());
 				mnTabs.add(mntmNewTab);
-				mntmCloseTab.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+				mntmCloseTab.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
 				mntmCloseTab.addActionListener(evt -> closeCurrentTab());
 				mnTabs.add(mntmCloseTab);
 				menuBar.add(mnSettings);
-				mntmTerminalSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+				mntmTerminalSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 				mntmTerminalSettings.addActionListener(evt -> spop.setVisible(true));
 				mnSettings.add(mntmTerminalSettings);
 				frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -335,8 +337,8 @@ public class SithTermMainWindow implements Serializable
 						logger.info(cmdList.get(i));
 						command[i] = cmdList.get(i);
 					}
-				int initialRows = 26;// TODO make configurable
-				int initialColumns = 80;// TODO make configurable
+				int initialRows = settings.getRows();
+				int initialColumns = settings.getColumns();
 				boolean windowAnsiColor = true;
 				String dir = settings.getDir();
 				String chsetName = settings.getCharSetName();

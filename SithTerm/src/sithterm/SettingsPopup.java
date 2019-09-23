@@ -53,7 +53,7 @@ public class SettingsPopup extends JDialog
 		private JComboBox<String> charSetComboBox = new JComboBox<>();
 		private JLabel lblTermType = new JLabel("Term Type");
 		private JLabel lblDirectory = new JLabel("Directory");
-		private JLabel lblOpacity = new JLabel("Opacity");
+		private JLabel lblOpacity = new JLabel("Opacity*");
 		private JSlider opacitySlider = new JSlider();
 		private JLabel lblLineSpacing = new JLabel("Line Spacing");
 		private JSpinner lineSpaceSpinner = new JSpinner();
@@ -82,7 +82,7 @@ public class SettingsPopup extends JDialog
 		private JColorChooser brightBlueColorChooser = new JColorChooser();
 		private JColorChooser brightCyanColorChooser = new JColorChooser();
 		private JColorChooser brightWhiteColorChooser = new JColorChooser();
-		private JPanel FontColorsPanel = new JPanel();
+		private JPanel fontColorsJPanel = new JPanel();
 		private JColorChooser brightBlackColorChooser = new JColorChooser();
 		private JTabbedPane fontColorsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		private JPanel textSelectionPanel = new JPanel();
@@ -127,6 +127,10 @@ public class SettingsPopup extends JDialog
 		private final JLabel lblLookAndFeel = new JLabel("Look And Feel*");
 		private final JComboBox<String> lafComboBox = new JComboBox<>();
 		private final JLabel lblFineprint = new JLabel("* = may require application restart to display correctly, not all look and feel classes support transparency(try Metal, or WebLookAndFeel for that).");
+		private final JLabel lblColumns = new JLabel("COLUMNS");
+		private final JLabel lblLines = new JLabel("LINES");
+		private final JSpinner columnsSpinner = new JSpinner();
+		private final JSpinner linesSpinner = new JSpinner();
 
 
 		
@@ -482,12 +486,12 @@ public class SettingsPopup extends JDialog
 
 		public JPanel getFontColorsPanel()
 			{
-				return FontColorsPanel;
+				return fontColorsJPanel;
 			}
 
 		public void setFontColorsPanel(JPanel fontColorsPanel)
 			{
-				FontColorsPanel = fontColorsPanel;
+				fontColorsJPanel = fontColorsPanel;
 			}
 
 		public JColorChooser getBrightBlackColorChooser()
@@ -979,11 +983,7 @@ public class SettingsPopup extends JDialog
 			{
 				this.window = win;
 				settings = win.getSettings();
-				StringBuilder sb = new StringBuilder();
-				for (String s : settings.getCommand())
-					{
-						sb.append(s).append(" ");
-					}
+				String commandString = getCommandString();
 				Map<String, Charset> optList = Charset.availableCharsets();
 				getContentPane().add(tabbedPane, BorderLayout.NORTH);
 				tabbedPane.addTab("Terminal Settings", null, settingsPanel, null);
@@ -1013,7 +1013,7 @@ public class SettingsPopup extends JDialog
 				gbc_commandField.gridy = 0;
 				settingsPanel.add(commandField, gbc_commandField);
 				commandField.setColumns(10);
-				commandField.setText(sb.toString().trim());
+				commandField.setText(commandString);
 				lblDirectory.setToolTipText("Directory to start in...");
 				GridBagConstraints gbc_lblDirectory = new GridBagConstraints();
 				gbc_lblDirectory.anchor = GridBagConstraints.WEST;
@@ -1076,10 +1076,6 @@ public class SettingsPopup extends JDialog
 				opacitySlider.setMinorTickSpacing(5);
 				opacitySlider.setMaximum(OPACITY_SLIDER_MAX);
 				opacitySlider.setValue((int) (OPACITY_SLIDER_MAX * settings.getOpacity()));
-				// TODO make work with other LOOK AND FEEL, currently only works with METAL and
-				// WEBLAF
-				// TODO make LAF configurable
-				// TODO make LOGGING configurable
 				opacitySlider.addChangeListener(evt -> window.getFrame().setOpacity(getOpacityFromInt(opacitySlider.getValue())));
 				GridBagConstraints gbc_opacitySlider = new GridBagConstraints();
 				gbc_opacitySlider.fill = GridBagConstraints.HORIZONTAL;
@@ -1096,6 +1092,7 @@ public class SettingsPopup extends JDialog
 				settingsPanel.add(lblLineSpacing, gbc_lblLineSpacing);
 				lineSpaceSpinner.setModel(new SpinnerNumberModel(settings.getLineSpace(), -0.1f, 64.0f, 0.1f));
 				GridBagConstraints gbc_lineSpaceSpinner = new GridBagConstraints();
+				gbc_lineSpaceSpinner.fill = GridBagConstraints.HORIZONTAL;
 				gbc_lineSpaceSpinner.insets = new Insets(0, 0, 5, 0);
 				gbc_lineSpaceSpinner.gridx = 1;
 				gbc_lineSpaceSpinner.gridy = 5;
@@ -1117,6 +1114,38 @@ public class SettingsPopup extends JDialog
 				settingsPanel.add(txtLogjconffield, gbc_txtLogjconffield);
 				txtLogjconffield.setColumns(10);
 				txtLogjconffield.setText(settings.getLog4jconf());
+				
+				GridBagConstraints gbc_lblColumns = new GridBagConstraints();
+				gbc_lblColumns.anchor = GridBagConstraints.WEST;
+				gbc_lblColumns.insets = new Insets(0, 0, 5, 5);
+				gbc_lblColumns.gridx = 0;
+				gbc_lblColumns.gridy = 7;
+				lblColumns.setToolTipText("initial value for the COLUMNS environment variable");
+				settingsPanel.add(lblColumns, gbc_lblColumns);
+				
+				GridBagConstraints gbc_initcolumnsSpinner = new GridBagConstraints();
+				gbc_initcolumnsSpinner.fill = GridBagConstraints.HORIZONTAL;
+				gbc_initcolumnsSpinner.insets = new Insets(0, 0, 5, 0);
+				gbc_initcolumnsSpinner.gridx = 1;
+				gbc_initcolumnsSpinner.gridy = 7;
+				settingsPanel.add(columnsSpinner, gbc_initcolumnsSpinner);
+				columnsSpinner.setValue(settings.getColumns());
+				
+				GridBagConstraints gbc_lblLines = new GridBagConstraints();
+				gbc_lblLines.anchor = GridBagConstraints.WEST;
+				gbc_lblLines.insets = new Insets(0, 0, 5, 5);
+				gbc_lblLines.gridx = 0;
+				gbc_lblLines.gridy = 8;
+				lblLines.setToolTipText("Initial value for the LINES environment value");
+				settingsPanel.add(lblLines, gbc_lblLines);
+				
+				GridBagConstraints gbc_linesSpinner = new GridBagConstraints();
+				gbc_linesSpinner.fill = GridBagConstraints.HORIZONTAL;
+				gbc_linesSpinner.insets = new Insets(0, 0, 5, 0);
+				gbc_linesSpinner.gridx = 1;
+				gbc_linesSpinner.gridy = 8;
+				settingsPanel.add(linesSpinner, gbc_linesSpinner);
+				linesSpinner.setValue(settings.getRows());
 				GridBagConstraints gbc_btnApplySettings = new GridBagConstraints();
 				gbc_btnApplySettings.anchor = GridBagConstraints.WEST;
 				gbc_btnApplySettings.insets = new Insets(0, 0, 0, 5);
@@ -1181,18 +1210,7 @@ public class SettingsPopup extends JDialog
 				linkHighlightModeComboBox.addItem(ALWAYS);
 				linkHighlightModeComboBox.addItem(NEVER);
 				linkHighlightModeComboBox.addItem(HOVER);
-				if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.ALWAYS)
-					{
-						linkHighlightModeComboBox.setSelectedItem(ALWAYS);
-					}
-				else if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.NEVER)
-					{
-						linkHighlightModeComboBox.setSelectedItem(NEVER);
-					}
-				else
-					{
-						linkHighlightModeComboBox.setSelectedItem(HOVER);
-					}
+				setCurrentLinkHiglightMode();
 				tabbedPane.addTab("Indexed Palette", null, palettePane, "Color Palette for 16-color terminal");
 				palettePane.addTab("Black", null, blackColorChooser, null);
 				blackColorChooser.setColor(settings.getBlack());
@@ -1226,8 +1244,8 @@ public class SettingsPopup extends JDialog
 				brightCyanColorChooser.setColor(settings.getBrightCyan());
 				palettePane.addTab("Bright White", null, brightWhiteColorChooser, null);
 				brightWhiteColorChooser.setColor(settings.getBrightWhite());
-				tabbedPane.addTab("Text Styles", null, FontColorsPanel, null);
-				FontColorsPanel.add(fontColorsTabbedPane);
+				tabbedPane.addTab("Text Styles", null, fontColorsJPanel, null);
+				fontColorsJPanel.add(fontColorsTabbedPane);
 				fontColorsTabbedPane.addTab("Selection", null, textSelectionPanel, null);
 				textSelectionPanel.add(selectionColors);
 				selectionColors.addTab(FOREGROUND, null, selectionFGColorChooser, null);
@@ -1400,12 +1418,12 @@ public class SettingsPopup extends JDialog
 				gbc_lblBufferMaxLines.gridx = 0;
 				gbc_lblBufferMaxLines.gridy = 15;
 				miscPanel.add(lblBufferMaxLines, gbc_lblBufferMaxLines);
-				GridBagConstraints gbc_spinner = new GridBagConstraints();
-				gbc_spinner.insets = new Insets(0, 0, 5, 0);
-				gbc_spinner.anchor = GridBagConstraints.WEST;
-				gbc_spinner.gridx = 1;
-				gbc_spinner.gridy = 15;
-				miscPanel.add(maxBufferLinesSpinner, gbc_spinner);
+				GridBagConstraints gbc_columnsSpinner = new GridBagConstraints();
+				gbc_columnsSpinner.insets = new Insets(0, 0, 5, 0);
+				gbc_columnsSpinner.anchor = GridBagConstraints.WEST;
+				gbc_columnsSpinner.gridx = 1;
+				gbc_columnsSpinner.gridy = 15;
+				miscPanel.add(maxBufferLinesSpinner, gbc_columnsSpinner);
 				maxBufferLinesSpinner.setValue(settings.getBufferMaxLinesCount());
 				GridBagConstraints gbc_chckbxAltSendsEscape = new GridBagConstraints();
 				gbc_chckbxAltSendsEscape.anchor = GridBagConstraints.WEST;
@@ -1465,18 +1483,7 @@ public class SettingsPopup extends JDialog
 					settings.setFoundPatternForeGround(foundPatternForegroundColorChooser.getColor());
 					settings.setHyperlinkForeground(hyperlinkForegroundColorChooser.getColor());
 					settings.setHyperlinkBackground(hyperlinkBackgroundColorChooser.getColor());
-					if (linkHighlightModeComboBox.getSelectedItem().toString().equals(ALWAYS))
-						{
-							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.ALWAYS);
-						}
-					else if (linkHighlightModeComboBox.getSelectedItem().toString().equals(NEVER))
-						{
-							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.NEVER);
-						}
-					else
-						{
-							settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
-						}
+					getSelectedLinkHilightMode();
 					settings.setUseInverseSelectionColor(inverseSelectionColorsCheckbox.isSelected());
 					settings.setCopyOnSelect(chckbxCopyOnSelect.isSelected());
 					settings.setPasteOnMiddleMouseClick(chckbxPasteOnMiddle.isSelected());
@@ -1496,25 +1503,74 @@ public class SettingsPopup extends JDialog
 					settings.setCygwin(chckbxCygwin.isSelected());
 					settings.setLog4jconf(txtLogjconffield.getText());
 					settings.setLookAndFeel(lafComboBox.getSelectedItem().toString());
-					String lafClass = window.getLnfMap().get(lafComboBox.getSelectedItem());
-					if (lafClass != null) {
-						try
-							{
-								UIManager.setLookAndFeel(lafClass);
-								SwingUtilities.updateComponentTreeUI(window.getFrame());
-								SwingUtilities.updateComponentTreeUI(this);
-								
-							}
-						catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
-							{
-								SithTermMainWindow.getLogger().error("Could not change look and feel!",e);
-							}
-						
-					}
+					settings.setColumns((Integer)columnsSpinner.getValue());
+					settings.setRows((Integer)linesSpinner.getValue());
+					changeLookAndFeel();
 
 					// save settings
 					window.saveSettings();
 				});
+			}
+
+		private void changeLookAndFeel()
+			{
+				String lafClass = window.getLnfMap().get(lafComboBox.getSelectedItem());
+				if (lafClass != null) {
+					try
+						{
+							UIManager.setLookAndFeel(lafClass);
+							SwingUtilities.updateComponentTreeUI(window.getFrame());
+							SwingUtilities.updateComponentTreeUI(this);
+							
+						}
+					catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
+						{
+							SithTermMainWindow.getLogger().error("Could not change look and feel!",e);
+						}
+					
+				}
+			}
+
+		private void getSelectedLinkHilightMode()
+			{
+				if (linkHighlightModeComboBox.getSelectedItem().toString().equals(ALWAYS))
+					{
+						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.ALWAYS);
+					}
+				else if (linkHighlightModeComboBox.getSelectedItem().toString().equals(NEVER))
+					{
+						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.NEVER);
+					}
+				else
+					{
+						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
+					}
+			}
+
+		private void setCurrentLinkHiglightMode()
+			{
+				if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.ALWAYS)
+					{
+						linkHighlightModeComboBox.setSelectedItem(ALWAYS);
+					}
+				else if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.NEVER)
+					{
+						linkHighlightModeComboBox.setSelectedItem(NEVER);
+					}
+				else
+					{
+						linkHighlightModeComboBox.setSelectedItem(HOVER);
+					}
+			}
+
+		private String getCommandString()
+			{
+				StringBuilder sb = new StringBuilder();
+				for (String s : settings.getCommand())
+					{
+						sb.append(s).append(" ");
+					}
+				return sb.toString().trim();
 			}
 			
 		private float getOpacityFromInt(int value)
