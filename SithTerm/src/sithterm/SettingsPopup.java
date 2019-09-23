@@ -5,9 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.jediterm.terminal.HyperlinkStyle;
-
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -24,9 +26,10 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JSpinner;
 import javax.swing.JCheckBox;
+import java.awt.Font;
 
 public class SettingsPopup extends JDialog
-	{// TODO make the rest of the items in SithSettingsProvider configurable here
+	{
 		private static final String HOVER = "HOVER";
 		private static final String NEVER = "NEVER";
 		private static final String ALWAYS = "ALWAYS";
@@ -121,6 +124,9 @@ public class SettingsPopup extends JDialog
 		private JSpinner maxBufferLinesSpinner = new JSpinner();
 		private JCheckBox chckbxAltSendsEscape = new JCheckBox("Alt Sends Escape");
 		private JCheckBox chckbxAmbiguousCharsAre = new JCheckBox("Ambiguous Chars are Double Width");
+		private final JLabel lblLookAndFeel = new JLabel("Look And Feel*");
+		private final JComboBox<String> lafComboBox = new JComboBox<>();
+		private final JLabel lblFineprint = new JLabel("* = may require application restart to display correctly, not all look and feel classes support transparency(try Metal, or WebLookAndFeel for that).");
 
 
 		
@@ -1166,10 +1172,6 @@ public class SettingsPopup extends JDialog
 				gbc_lblLinkHighlightStyle.gridx = 0;
 				gbc_lblLinkHighlightStyle.gridy = 2;
 				fontPanel.add(lblLinkHighlightStyle, gbc_lblLinkHighlightStyle);
-				GridBagConstraints gbc_comboBox = new GridBagConstraints();
-				gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-				gbc_comboBox.gridx = 1;
-				gbc_comboBox.gridy = 2;
 				GridBagConstraints gbc_linkHighlightModeComboBox = new GridBagConstraints();
 				gbc_linkHighlightModeComboBox.anchor = GridBagConstraints.WEST;
 				gbc_linkHighlightModeComboBox.insets = new Insets(0, 0, 0, 5);
@@ -1259,150 +1261,175 @@ public class SettingsPopup extends JDialog
 				gbl_miscPanel.columnWidths = new int[]
 					{ 0, 0, 0 };
 				gbl_miscPanel.rowHeights = new int[]
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 				gbl_miscPanel.columnWeights = new double[]
-					{ 0.0, 0.0, Double.MIN_VALUE };
+					{ 0.0, 1.0, Double.MIN_VALUE };
 				gbl_miscPanel.rowWeights = new double[]
-					{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+					{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 				miscPanel.setLayout(gbl_miscPanel);
+				
+				GridBagConstraints gbc_lblLookAndFeel = new GridBagConstraints();
+				gbc_lblLookAndFeel.anchor = GridBagConstraints.WEST;
+				gbc_lblLookAndFeel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblLookAndFeel.gridx = 0;
+				gbc_lblLookAndFeel.gridy = 0;
+				miscPanel.add(lblLookAndFeel, gbc_lblLookAndFeel);
+				GridBagConstraints gbc_lafComboBox = new GridBagConstraints();
+				gbc_lafComboBox.insets = new Insets(0, 0, 5, 0);
+				gbc_lafComboBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_lafComboBox.gridx = 1;
+				gbc_lafComboBox.gridy = 0;
+				
+				
+				miscPanel.add(lafComboBox, gbc_lafComboBox);
+				lafComboBox.setSelectedItem(settings.getLookAndFeel());
 				GridBagConstraints gbc_inverseSelectionColorsCheckbox = new GridBagConstraints();
 				gbc_inverseSelectionColorsCheckbox.anchor = GridBagConstraints.WEST;
 				gbc_inverseSelectionColorsCheckbox.insets = new Insets(0, 0, 5, 5);
 				gbc_inverseSelectionColorsCheckbox.gridx = 0;
-				gbc_inverseSelectionColorsCheckbox.gridy = 0;
+				gbc_inverseSelectionColorsCheckbox.gridy = 1;
 				miscPanel.add(inverseSelectionColorsCheckbox, gbc_inverseSelectionColorsCheckbox);
 				inverseSelectionColorsCheckbox.setSelected(settings.isUseInverseSelectionColor());
 				GridBagConstraints gbc_chckbxCopyOnSelect = new GridBagConstraints();
 				gbc_chckbxCopyOnSelect.anchor = GridBagConstraints.WEST;
 				gbc_chckbxCopyOnSelect.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxCopyOnSelect.gridx = 0;
-				gbc_chckbxCopyOnSelect.gridy = 1;
+				gbc_chckbxCopyOnSelect.gridy = 2;
 				miscPanel.add(chckbxCopyOnSelect, gbc_chckbxCopyOnSelect);
 				chckbxCopyOnSelect.setSelected(settings.isCopyOnSelect());
 				GridBagConstraints gbc_chckbxConsole = new GridBagConstraints();
 				gbc_chckbxConsole.anchor = GridBagConstraints.WEST;
 				gbc_chckbxConsole.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxConsole.gridx = 0;
-				gbc_chckbxConsole.gridy = 2;
+				gbc_chckbxConsole.gridy = 3;
 				miscPanel.add(chckbxConsole, gbc_chckbxConsole);
 				chckbxConsole.setSelected(settings.isConsole());
 				GridBagConstraints gbc_chckbxCygwin = new GridBagConstraints();
 				gbc_chckbxCygwin.anchor = GridBagConstraints.WEST;
 				gbc_chckbxCygwin.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxCygwin.gridx = 0;
-				gbc_chckbxCygwin.gridy = 3;
+				gbc_chckbxCygwin.gridy = 4;
 				miscPanel.add(chckbxCygwin, gbc_chckbxCygwin);
 				chckbxCygwin.setSelected(settings.isCygwin());
 				GridBagConstraints gbc_chckbxPasteOnMiddle = new GridBagConstraints();
 				gbc_chckbxPasteOnMiddle.anchor = GridBagConstraints.WEST;
 				gbc_chckbxPasteOnMiddle.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxPasteOnMiddle.gridx = 0;
-				gbc_chckbxPasteOnMiddle.gridy = 4;
+				gbc_chckbxPasteOnMiddle.gridy = 5;
 				miscPanel.add(chckbxPasteOnMiddle, gbc_chckbxPasteOnMiddle);
 				chckbxPasteOnMiddle.setSelected(settings.isPasteOnMiddleMouseClick());
 				GridBagConstraints gbc_chckbxEmulatexCopypaste = new GridBagConstraints();
 				gbc_chckbxEmulatexCopypaste.anchor = GridBagConstraints.WEST;
 				gbc_chckbxEmulatexCopypaste.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxEmulatexCopypaste.gridx = 0;
-				gbc_chckbxEmulatexCopypaste.gridy = 5;
+				gbc_chckbxEmulatexCopypaste.gridy = 6;
 				miscPanel.add(chckbxEmulatexCopypaste, gbc_chckbxEmulatexCopypaste);
 				chckbxEmulatexCopypaste.setSelected(settings.isEmulateX11CopyPaste());
 				GridBagConstraints gbc_chckbxUseAntialiasing = new GridBagConstraints();
 				gbc_chckbxUseAntialiasing.anchor = GridBagConstraints.WEST;
 				gbc_chckbxUseAntialiasing.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxUseAntialiasing.gridx = 0;
-				gbc_chckbxUseAntialiasing.gridy = 6;
+				gbc_chckbxUseAntialiasing.gridy = 7;
 				miscPanel.add(chckbxUseAntialiasing, gbc_chckbxUseAntialiasing);
 				chckbxUseAntialiasing.setSelected(settings.isUseAntiAliasing());
 				GridBagConstraints gbc_lblMaxRefreshRate = new GridBagConstraints();
 				gbc_lblMaxRefreshRate.anchor = GridBagConstraints.WEST;
 				gbc_lblMaxRefreshRate.insets = new Insets(0, 0, 5, 5);
 				gbc_lblMaxRefreshRate.gridx = 0;
-				gbc_lblMaxRefreshRate.gridy = 7;
+				gbc_lblMaxRefreshRate.gridy = 8;
 				miscPanel.add(lblMaxRefreshRate, gbc_lblMaxRefreshRate);
 				GridBagConstraints gbc_spinnerCaretBlink = new GridBagConstraints();
 				gbc_spinnerCaretBlink.insets = new Insets(0, 0, 5, 0);
 				gbc_spinnerCaretBlink.fill = GridBagConstraints.HORIZONTAL;
 				gbc_spinnerCaretBlink.anchor = GridBagConstraints.WEST;
 				gbc_spinnerCaretBlink.gridx = 1;
-				gbc_spinnerCaretBlink.gridy = 7;
+				gbc_spinnerCaretBlink.gridy = 8;
 				miscPanel.add(maxRefreshSpinner, gbc_spinnerCaretBlink);
 				maxRefreshSpinner.setValue(settings.getMaxRefreshRate());
 				GridBagConstraints gbc_chckbxAudiBell = new GridBagConstraints();
 				gbc_chckbxAudiBell.anchor = GridBagConstraints.WEST;
 				gbc_chckbxAudiBell.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxAudiBell.gridx = 0;
-				gbc_chckbxAudiBell.gridy = 8;
+				gbc_chckbxAudiBell.gridy = 9;
 				miscPanel.add(chckbxAudiBell, gbc_chckbxAudiBell);
 				chckbxAudiBell.setSelected(settings.isAudibleBell());
 				GridBagConstraints gbc_chckbxMouseReporting = new GridBagConstraints();
 				gbc_chckbxMouseReporting.anchor = GridBagConstraints.WEST;
 				gbc_chckbxMouseReporting.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxMouseReporting.gridx = 0;
-				gbc_chckbxMouseReporting.gridy = 9;
+				gbc_chckbxMouseReporting.gridy = 10;
 				miscPanel.add(chckbxMouseReporting, gbc_chckbxMouseReporting);
 				chckbxMouseReporting.setSelected(settings.isEnableMouseReporting());
 				GridBagConstraints gbc_lblCaretBlinkMs = new GridBagConstraints();
 				gbc_lblCaretBlinkMs.anchor = GridBagConstraints.WEST;
 				gbc_lblCaretBlinkMs.insets = new Insets(0, 0, 5, 5);
 				gbc_lblCaretBlinkMs.gridx = 0;
-				gbc_lblCaretBlinkMs.gridy = 10;
+				gbc_lblCaretBlinkMs.gridy = 11;
 				miscPanel.add(lblCaretBlinkMs, gbc_lblCaretBlinkMs);
 				GridBagConstraints gbc_spinnerCaretBlinkMS = new GridBagConstraints();
 				gbc_spinnerCaretBlinkMS.insets = new Insets(0, 0, 5, 0);
 				gbc_spinnerCaretBlinkMS.anchor = GridBagConstraints.WEST;
 				gbc_spinnerCaretBlinkMS.gridx = 1;
-				gbc_spinnerCaretBlinkMS.gridy = 10;
+				gbc_spinnerCaretBlinkMS.gridy = 11;
 				miscPanel.add(spinnerCaretBlink, gbc_spinnerCaretBlinkMS);
 				spinnerCaretBlink.setValue(settings.getCaretBlinkingMS());
 				GridBagConstraints gbc_chckbxScrollToBottom = new GridBagConstraints();
 				gbc_chckbxScrollToBottom.anchor = GridBagConstraints.WEST;
 				gbc_chckbxScrollToBottom.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxScrollToBottom.gridx = 0;
-				gbc_chckbxScrollToBottom.gridy = 11;
+				gbc_chckbxScrollToBottom.gridy = 12;
 				miscPanel.add(chckbxScrollToBottom, gbc_chckbxScrollToBottom);
 				chckbxScrollToBottom.setSelected(settings.isScrollToBottomOnTyping());
 				GridBagConstraints gbc_chckbxDecCompatibilityMode = new GridBagConstraints();
 				gbc_chckbxDecCompatibilityMode.anchor = GridBagConstraints.WEST;
 				gbc_chckbxDecCompatibilityMode.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxDecCompatibilityMode.gridx = 0;
-				gbc_chckbxDecCompatibilityMode.gridy = 12;
+				gbc_chckbxDecCompatibilityMode.gridy = 13;
 				miscPanel.add(chckbxDecCompatibilityMode, gbc_chckbxDecCompatibilityMode);
 				chckbxDecCompatibilityMode.setSelected(settings.isDecmode());
 				GridBagConstraints gbc_chckbxForceActionOn = new GridBagConstraints();
 				gbc_chckbxForceActionOn.anchor = GridBagConstraints.WEST;
 				gbc_chckbxForceActionOn.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxForceActionOn.gridx = 0;
-				gbc_chckbxForceActionOn.gridy = 13;
+				gbc_chckbxForceActionOn.gridy = 14;
 				miscPanel.add(chckbxForceActionOn, gbc_chckbxForceActionOn);
 				chckbxForceActionOn.setSelected(settings.isForceActionOnMouseReporting());
 				GridBagConstraints gbc_lblBufferMaxLines = new GridBagConstraints();
 				gbc_lblBufferMaxLines.anchor = GridBagConstraints.WEST;
 				gbc_lblBufferMaxLines.insets = new Insets(0, 0, 5, 5);
 				gbc_lblBufferMaxLines.gridx = 0;
-				gbc_lblBufferMaxLines.gridy = 14;
+				gbc_lblBufferMaxLines.gridy = 15;
 				miscPanel.add(lblBufferMaxLines, gbc_lblBufferMaxLines);
 				GridBagConstraints gbc_spinner = new GridBagConstraints();
 				gbc_spinner.insets = new Insets(0, 0, 5, 0);
 				gbc_spinner.anchor = GridBagConstraints.WEST;
 				gbc_spinner.gridx = 1;
-				gbc_spinner.gridy = 14;
+				gbc_spinner.gridy = 15;
 				miscPanel.add(maxBufferLinesSpinner, gbc_spinner);
 				maxBufferLinesSpinner.setValue(settings.getBufferMaxLinesCount());
 				GridBagConstraints gbc_chckbxAltSendsEscape = new GridBagConstraints();
 				gbc_chckbxAltSendsEscape.anchor = GridBagConstraints.WEST;
 				gbc_chckbxAltSendsEscape.insets = new Insets(0, 0, 5, 5);
 				gbc_chckbxAltSendsEscape.gridx = 0;
-				gbc_chckbxAltSendsEscape.gridy = 15;
+				gbc_chckbxAltSendsEscape.gridy = 16;
 				miscPanel.add(chckbxAltSendsEscape, gbc_chckbxAltSendsEscape);
 				chckbxAltSendsEscape.setSelected(settings.isAltSendsEscape());
 				GridBagConstraints gbc_chckbxAmbiguousCharsAre = new GridBagConstraints();
 				gbc_chckbxAmbiguousCharsAre.anchor = GridBagConstraints.WEST;
 				gbc_chckbxAmbiguousCharsAre.insets = new Insets(0, 0, 0, 5);
 				gbc_chckbxAmbiguousCharsAre.gridx = 0;
-				gbc_chckbxAmbiguousCharsAre.gridy = 16;
+				gbc_chckbxAmbiguousCharsAre.gridy = 17;
 				miscPanel.add(chckbxAmbiguousCharsAre, gbc_chckbxAmbiguousCharsAre);
 				chckbxAmbiguousCharsAre.setSelected(settings.isAmbiguousCharsDoubleWidth());
+				lblFineprint.setFont(new Font("Tahoma", Font.ITALIC, 11));
+				
+				getContentPane().add(lblFineprint, BorderLayout.SOUTH);
+				Map<String, String> lnfs = window.getLnfMap();
+				for (String s : lnfs.keySet()) {
+					lafComboBox.addItem(s);
+				}
+				
+				
 				btnApplySettings.addActionListener(evt -> {
 					settings.setCharSetName(charSetComboBox.getSelectedItem().toString());
 					settings.setDir(dirField.getText());
@@ -1467,6 +1494,23 @@ public class SettingsPopup extends JDialog
 					settings.setConsole(chckbxConsole.isSelected());
 					settings.setCygwin(chckbxCygwin.isSelected());
 					settings.setLog4jconf(txtLogjconffield.getText());
+					settings.setLookAndFeel(lafComboBox.getSelectedItem().toString());
+					String lafClass = window.getLnfMap().get(lafComboBox.getSelectedItem());
+					if (lafClass != null) {
+						try
+							{
+								UIManager.setLookAndFeel(lafClass);
+								SwingUtilities.updateComponentTreeUI(window.getFrame());
+								SwingUtilities.updateComponentTreeUI(this);
+								
+							}
+						catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
+							{
+								SithTermMainWindow.getLogger().error("Could not change look and feel!",e);
+							}
+						
+					}
+
 					// save settings
 					window.saveSettings();
 				});

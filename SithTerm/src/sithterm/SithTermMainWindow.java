@@ -13,6 +13,7 @@ import java.awt.Component;
 
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -55,6 +56,9 @@ import java.awt.Toolkit;
 
 public class SithTermMainWindow implements Serializable
 	{
+		private static final String USER_HOME = "user.home";
+		private static final String SITH = ".Sith";
+		private static final String PLUGINS = "plugins";
 		/**
 		* 
 		*/
@@ -75,11 +79,11 @@ public class SithTermMainWindow implements Serializable
 		private SettingsPopup spop = null;
 		private SithTermSettings settings = new SithTermSettings();
 		private transient Gson jsParser = new GsonBuilder().setPrettyPrinting().setLenient().create();
-		private Map<String,String> lnfMap = new HashMap<>();
-		private Map<String,SithTermPlugin_V1> pluginMapV1 = new HashMap<>();
+		private Map<String, String> lnfMap = new HashMap<>();
+		private Map<String, SithTermPlugin_V1> pluginMapV1 = new HashMap<>();
+		
 		public static void main(String[] args)
-			{ 
-				
+			{
 				EventQueue.invokeLater(() -> {
 					try
 						{
@@ -92,11 +96,12 @@ public class SithTermMainWindow implements Serializable
 						}
 				});
 			}
+			
 		public void loadPlugins()
 			{
-				loadPlugins(System.getProperty("user.home") + File.separator + ".Sith" + File.separator + "plugins"
-				    + File.separator);
+				loadPlugins(System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS + File.separator);
 			}
+			
 		public void loadPlugins(String pluginsDir)
 			{
 				File pd = new File(pluginsDir);
@@ -121,19 +126,20 @@ public class SithTermMainWindow implements Serializable
 						pd.mkdirs();
 					}
 			}
+			
 		public void loadAndInitializePlugin(String jar)
 			{
-				logger.info( "Initializ this jar: " + jar);
+				logger.info("Initializ this jar: " + jar);
 				try (
-				    JarFile jf = new JarFile(System.getProperty("user.home") + File.separator + ".Sith"
-				        + File.separator + "plugins" + File.separator + jar);
+				    JarFile jf = new JarFile(
+				        System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS + File.separator + jar);
 				)
 					{
-						logger.info( "Check Jar File" + jf.toString());
+						logger.info("Check Jar File" + jf.toString());
 						Enumeration<JarEntry> pluginEntries = jf.entries();
 						URL[] urls =
-							{ new URL("jar:file:" + System.getProperty("user.home") + File.separator + ".Sith"
-							    + File.separator + "plugins" + File.separator + jar + "!/") };
+							{ new URL("jar:file:" + System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS
+							    + File.separator + jar + "!/") };
 						logger.info("Loader URL: " + urls[0]);
 						try (URLClassLoader jarloader = URLClassLoader.newInstance(urls);)
 							{
@@ -148,7 +154,7 @@ public class SithTermMainWindow implements Serializable
 												// classname we want to load, we remove the last 6 characters
 												// replace separators with dots to construct full classmame
 												String className = entry.getName().substring(0, entry.getName().length() - 6).replace('/', '.');
-												logger.info( "Class Name: " + className);
+												logger.info("Class Name: " + className);
 												if ("module-info".equalsIgnoreCase(className))
 													continue;
 												Class<?> c = jarloader.loadClass(className);
@@ -167,8 +173,8 @@ public class SithTermMainWindow implements Serializable
 										Constructor<SithTermPlugin_V1> pluginConstructor = plugin.getConstructor(SithTermMainWindow.class);
 										SithTermPlugin_V1 plug = pluginConstructor.newInstance(this);
 										logger.info("Initialize this!  " + plug.getPluginName());
-										plug.initialize(System.getProperty("user.home") + File.separator + ".Sith" + File.separator
-										    + "plugins" + File.separator + jar);
+										plug.initialize(
+										    System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS + File.separator + jar);
 										this.pluginMapV1.put(plug.getPluginName(), plug);
 									}
 							}
@@ -181,6 +187,7 @@ public class SithTermMainWindow implements Serializable
 						logger.warn("ERROR LOADING JAR PLUGIN", e);
 					}
 			}
+			
 		/**
 		 * Create the application.
 		 * 
@@ -195,35 +202,64 @@ public class SithTermMainWindow implements Serializable
 		 * Initialize the contents of the frame.
 		 */
 		private void initialize()
-			{	
-				//TODO enable plugins
-				//initialize the look and feel that should work everwhere
+			{
 				BasicConfigurator.configure();
 				loadSettings();
-				if (new File(settings.getLog4jconf()).exists()) {
-					System.setProperty("log4j.configuration", settings.getLog4jconf());
-					PropertyConfigurator.configure(settings.getLog4jconf());
-				}else
+				loadPlugins();
+				if (new File(settings.getLog4jconf()).exists())
 					{
-						logger.warn("NO SUCH FILE "+settings.getLog4jconf());
+						System.setProperty("log4j.configuration", settings.getLog4jconf());
+						PropertyConfigurator.configure(settings.getLog4jconf());
 					}
-				
-				WebLookAndFeel.install();
+				else
+					{
+						logger.warn("NO SUCH FILE " + settings.getLog4jconf());
+					}
+				UIManager.LookAndFeelInfo[] lnfs = UIManager.getInstalledLookAndFeels();
+				for (UIManager.LookAndFeelInfo lnf : lnfs)
+					{
+						lnfMap.put(lnf.getName(), lnf.getClassName());
+					}
+				String webLaf = new WebLookAndFeel().getName();
+				lnfMap.put(webLaf, "com.alee.laf.WebLookAndFeel");
+				lnfMap.put(new javax.swing.plaf.metal.MetalLookAndFeel().getName(), "javax.swing.plaf.metal.MetalLookAndFeel");
+				if (webLaf.equalsIgnoreCase(settings.getLookAndFeel()))
+					{
+						logger.debug("SETTING WEBLAF");
+
+						WebLookAndFeel.install();
+					}
+				else if (null != settings.getLookAndFeel())
+					{
+						logger.debug("LNF WAS NOT NULL");
+						String classname = lnfMap.get(settings.getLookAndFeel());
+						if (classname != null)
+							{
+								logger.debug("TRY "+classname);
+								try
+									{
+										UIManager.setLookAndFeel(classname);
+										logger.debug("Look and Feel: "+classname);
+									}
+								catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
+									{
+										logger.debug("Could not set look and feel!", e);
+									}
+							}else {
+								logger.info("Could not find LAF in MAP "+settings.getLookAndFeel());
+								logger.info(lnfMap.toString());
+							}
+					}else {
+						logger.debug("LNF WAS NULL");
+					}
 				JDialog.setDefaultLookAndFeelDecorated(true);
 				JFrame.setDefaultLookAndFeelDecorated(true);
-					
-				UIManager.LookAndFeelInfo[] lnfs = UIManager.getInstalledLookAndFeels();
-				for (UIManager.LookAndFeelInfo lnf : lnfs ) {
-					lnfMap.put(lnf.getName(), lnf.getClassName());
-				}
-			
+				
 				spop = new SettingsPopup("JediTerm Settings", this);
 				spop.setBounds(50, 50, 700, 700);
 				frame = new JFrame();
 				frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SithTermMainWindow.class.getResource("/sw.png")));
-				
 				frame.setBounds(100, 100, 450, 300);
-				
 				frame.setOpacity(settings.getOpacity());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setJMenuBar(menuBar);
@@ -253,17 +289,17 @@ public class SithTermMainWindow implements Serializable
 			{
 				return lnfMap;
 			}
-
+			
 		public void setLnfMap(Map<String, String> lnfMap)
 			{
 				this.lnfMap = lnfMap;
 			}
-
+			
 		public static long getSerialversionuid()
 			{
 				return serialVersionUID;
 			}
-
+			
 		private void closeCurrentTab()
 			{
 				Component c = tabbedPane.getSelectedComponent();
@@ -294,12 +330,13 @@ public class SithTermMainWindow implements Serializable
 			{
 				List<String> cmdList = settings.getCommand();
 				String[] command = new String[cmdList.size()];
-				for (int i=0; i < command.length; i++) {
-					logger.info(cmdList.get(i));
-					command[i]=cmdList.get(i);
-				}
-				int initialRows = 26;//TODO make configurable
-				int initialColumns = 80;//TODO make configurable
+				for (int i = 0; i < command.length; i++)
+					{
+						logger.info(cmdList.get(i));
+						command[i] = cmdList.get(i);
+					}
+				int initialRows = 26;// TODO make configurable
+				int initialColumns = 80;// TODO make configurable
 				boolean windowAnsiColor = true;
 				String dir = settings.getDir();
 				String chsetName = settings.getCharSetName();
@@ -483,13 +520,10 @@ public class SithTermMainWindow implements Serializable
 				procBuilder.setCygwin(isCygwin);
 				SithSettingsProvider settingsProvider = new SithSettingsProvider(settings);
 				JediTermWidget jtw = new JediTermWidget(settingsProvider);
-				
-				logger.info("Setting bgcolor"+settings.getBgcolor().toString());
+				logger.info("Setting bgcolor" + settings.getBgcolor().toString());
 				jtw.setBackground(settings.getBgcolor());
-				
-				logger.info("Setting fgcolor"+settings.getFgColor().toString());
+				logger.info("Setting fgcolor" + settings.getFgColor().toString());
 				jtw.setForeground(settings.getFgColor());
-				
 				try
 					{
 						PtyProcess myProcess = procBuilder.start();
@@ -500,15 +534,15 @@ public class SithTermMainWindow implements Serializable
 					{
 						logger.error("IO Exception building PTY Process", e);
 					}
-				jtw.start(); 
-				return jtw; 
+				jtw.start();
+				return jtw;
 			}
 			
 		public void saveSettings()
 			{
 				String settingsContent = jsParser.toJson(settings);
-				String homedir = System.getProperty("user.home");
-				String sithDir = homedir + File.separator + ".Sith";
+				String homedir = System.getProperty(USER_HOME);
+				String sithDir = homedir + File.separator + SITH;
 				String settingsFileName = sithDir + File.separator + "settings.json";
 				File sithDirFile = new File(sithDir);
 				if (!sithDirFile.exists())
@@ -529,8 +563,8 @@ public class SithTermMainWindow implements Serializable
 			
 		public void loadSettings()
 			{
-				String homedir = System.getProperty("user.home");
-				String sithDir = homedir + File.separator + ".Sith";
+				String homedir = System.getProperty(USER_HOME);
+				String sithDir = homedir + File.separator + SITH;
 				String settingsFileName = sithDir + File.separator + "settings.json";
 				File sithDirFile = new File(sithDir);
 				if (!sithDirFile.exists())
@@ -555,7 +589,6 @@ public class SithTermMainWindow implements Serializable
 									{
 										tsettings = new SithTermSettings();
 									}
-								
 								settings = tsettings;
 							}
 						catch (IOException e)

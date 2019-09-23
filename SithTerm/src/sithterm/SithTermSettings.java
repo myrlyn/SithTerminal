@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alee.laf.WebLookAndFeel;
 import com.jediterm.terminal.HyperlinkStyle;
 import com.jediterm.terminal.model.LinesBuffer;
 import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
@@ -76,6 +77,7 @@ public class SithTermSettings implements Serializable
 		private boolean cygwin = false;
 		private boolean console = false;
 		private String log4jconf = System.getProperty("user.home")+File.separator+".Sith"+File.separator+"log4j.properties";
+		private String lookAndFeel = new WebLookAndFeel().getName();
 		public String getLog4jconf()
 			{
 				return log4jconf;
@@ -613,5 +615,15 @@ public class SithTermSettings implements Serializable
 		public void setTermType(String termType)
 			{
 				this.termType = termType;
+			}
+
+		public String getLookAndFeel()
+			{
+					return lookAndFeel;
+			}
+
+		public void setLookAndFeel(String lookAndFeel)
+			{
+					this.lookAndFeel = lookAndFeel;
 			}
 	}
