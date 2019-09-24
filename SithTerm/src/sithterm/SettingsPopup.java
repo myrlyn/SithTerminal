@@ -22,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JColorChooser;
 import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JSpinner;
 import javax.swing.JCheckBox;
@@ -63,7 +62,7 @@ public class SettingsPopup extends JDialog
 		private JPanel fontPanel = new JPanel();
 		private JLabel lblFont = new JLabel("Font");
 		private JComboBox<String> fontComboBox = new JComboBox<>();
-		private 		JSpinner fontSizeSpinner = new JSpinner();
+		private JSpinner fontSizeSpinner = new JSpinner();
 		private JLabel lblLinkHighlightStyle = new JLabel("Link Highlight Style");
 		private JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
 		private JTabbedPane palettePane = new JTabbedPane(JTabbedPane.TOP);
@@ -126,784 +125,783 @@ public class SettingsPopup extends JDialog
 		private JCheckBox chckbxAmbiguousCharsAre = new JCheckBox("Ambiguous Chars are Double Width");
 		private final JLabel lblLookAndFeel = new JLabel("Look And Feel*");
 		private final JComboBox<String> lafComboBox = new JComboBox<>();
-		private final JLabel lblFineprint = new JLabel("* = may require application restart to display correctly, not all look and feel classes support transparency(try Metal, or WebLookAndFeel for that).");
+		private final JLabel lblFineprint = new JLabel(
+		    "<html>* = <i>may require application restart to display correctly, not all look and feel classes support transparency<br>(try Metal, or WebLookAndFeel for that).</i></html>");
 		private final JLabel lblColumns = new JLabel("COLUMNS");
 		private final JLabel lblLines = new JLabel("LINES");
 		private final JSpinner columnsSpinner = new JSpinner();
 		private final JSpinner linesSpinner = new JSpinner();
-
-
 		
 		public JPanel getSettingsPanel()
 			{
 				return settingsPanel;
 			}
-
+			
 		public void setSettingsPanel(JPanel settingsPanel)
 			{
 				this.settingsPanel = settingsPanel;
 			}
-
+			
 		public JLabel getLblCommand()
 			{
 				return lblCommand;
 			}
-
+			
 		public void setLblCommand(JLabel lblCommand)
 			{
 				this.lblCommand = lblCommand;
 			}
-
+			
 		public JLabel getLblCharacterSet()
 			{
 				return lblCharacterSet;
 			}
-
+			
 		public void setLblCharacterSet(JLabel lblCharacterSet)
 			{
 				this.lblCharacterSet = lblCharacterSet;
 			}
-
+			
 		public JComboBox<String> getCharSetComboBox()
 			{
 				return charSetComboBox;
 			}
-
+			
 		public void setCharSetComboBox(JComboBox<String> charSetComboBox)
 			{
 				this.charSetComboBox = charSetComboBox;
 			}
-
+			
 		public JLabel getLblTermType()
 			{
 				return lblTermType;
 			}
-
+			
 		public void setLblTermType(JLabel lblTermType)
 			{
 				this.lblTermType = lblTermType;
 			}
-
+			
 		public JLabel getLblDirectory()
 			{
 				return lblDirectory;
 			}
-
+			
 		public void setLblDirectory(JLabel lblDirectory)
 			{
 				this.lblDirectory = lblDirectory;
 			}
-
+			
 		public JLabel getLblOpacity()
 			{
 				return lblOpacity;
 			}
-
+			
 		public void setLblOpacity(JLabel lblOpacity)
 			{
 				this.lblOpacity = lblOpacity;
 			}
-
+			
 		public JSlider getOpacitySlider()
 			{
 				return opacitySlider;
 			}
-
+			
 		public void setOpacitySlider(JSlider opacitySlider)
 			{
 				this.opacitySlider = opacitySlider;
 			}
-
+			
 		public JLabel getLblLineSpacing()
 			{
 				return lblLineSpacing;
 			}
-
+			
 		public void setLblLineSpacing(JLabel lblLineSpacing)
 			{
 				this.lblLineSpacing = lblLineSpacing;
 			}
-
+			
 		public JSpinner getLineSpaceSpinner()
 			{
 				return lineSpaceSpinner;
 			}
-
+			
 		public void setLineSpaceSpinner(JSpinner lineSpaceSpinner)
 			{
 				this.lineSpaceSpinner = lineSpaceSpinner;
 			}
-
+			
 		public JLabel getLblLogjConfFile()
 			{
 				return lblLogjConfFile;
 			}
-
+			
 		public void setLblLogjConfFile(JLabel lblLogjConfFile)
 			{
 				this.lblLogjConfFile = lblLogjConfFile;
 			}
-
+			
 		public JLabel getLblFontSize()
 			{
 				return lblFontSize;
 			}
-
+			
 		public void setLblFontSize(JLabel lblFontSize)
 			{
 				this.lblFontSize = lblFontSize;
 			}
-
+			
 		public JButton getBtnApplySettings()
 			{
 				return btnApplySettings;
 			}
-
+			
 		public void setBtnApplySettings(JButton btnApplySettings)
 			{
 				this.btnApplySettings = btnApplySettings;
 			}
-
+			
 		public JPanel getFontPanel()
 			{
 				return fontPanel;
 			}
-
+			
 		public void setFontPanel(JPanel fontPanel)
 			{
 				this.fontPanel = fontPanel;
 			}
-
+			
 		public JLabel getLblFont()
 			{
 				return lblFont;
 			}
-
+			
 		public void setLblFont(JLabel lblFont)
 			{
 				this.lblFont = lblFont;
 			}
-
+			
 		public JComboBox<String> getFontComboBox()
 			{
 				return fontComboBox;
 			}
-
+			
 		public void setFontComboBox(JComboBox<String> fontComboBox)
 			{
 				this.fontComboBox = fontComboBox;
 			}
-
+			
 		public JSpinner getFontSizeSpinner()
 			{
 				return fontSizeSpinner;
 			}
-
+			
 		public void setFontSizeSpinner(JSpinner fontSizeSpinner)
 			{
 				this.fontSizeSpinner = fontSizeSpinner;
 			}
-
+			
 		public JLabel getLblLinkHighlightStyle()
 			{
 				return lblLinkHighlightStyle;
 			}
-
+			
 		public void setLblLinkHighlightStyle(JLabel lblLinkHighlightStyle)
 			{
 				this.lblLinkHighlightStyle = lblLinkHighlightStyle;
 			}
-
+			
 		public JComboBox<String> getLinkHighlightModeComboBox()
 			{
 				return linkHighlightModeComboBox;
 			}
-
+			
 		public void setLinkHighlightModeComboBox(JComboBox<String> linkHighlightModeComboBox)
 			{
 				this.linkHighlightModeComboBox = linkHighlightModeComboBox;
 			}
-
+			
 		public JTabbedPane getPalettePane()
 			{
 				return palettePane;
 			}
-
+			
 		public void setPalettePane(JTabbedPane palettePane)
 			{
 				this.palettePane = palettePane;
 			}
-
+			
 		public JColorChooser getBlackColorChooser()
 			{
 				return blackColorChooser;
 			}
-
+			
 		public void setBlackColorChooser(JColorChooser blackColorChooser)
 			{
 				this.blackColorChooser = blackColorChooser;
 			}
-
+			
 		public JColorChooser getRedColorChooser()
 			{
 				return redColorChooser;
 			}
-
+			
 		public void setRedColorChooser(JColorChooser redColorChooser)
 			{
 				this.redColorChooser = redColorChooser;
 			}
-
+			
 		public JColorChooser getGreenColorChooser()
 			{
 				return greenColorChooser;
 			}
-
+			
 		public void setGreenColorChooser(JColorChooser greenColorChooser)
 			{
 				this.greenColorChooser = greenColorChooser;
 			}
-
+			
 		public JColorChooser getYellowColorChooser()
 			{
 				return yellowColorChooser;
 			}
-
+			
 		public void setYellowColorChooser(JColorChooser yellowColorChooser)
 			{
 				this.yellowColorChooser = yellowColorChooser;
 			}
-
+			
 		public JColorChooser getMagentaColorChooser()
 			{
 				return magentaColorChooser;
 			}
-
+			
 		public void setMagentaColorChooser(JColorChooser magentaColorChooser)
 			{
 				this.magentaColorChooser = magentaColorChooser;
 			}
-
+			
 		public JColorChooser getBlueColorChooser()
 			{
 				return blueColorChooser;
 			}
-
+			
 		public void setBlueColorChooser(JColorChooser blueColorChooser)
 			{
 				this.blueColorChooser = blueColorChooser;
 			}
-
+			
 		public JColorChooser getBrightYellowColorChooser()
 			{
 				return brightYellowColorChooser;
 			}
-
+			
 		public void setBrightYellowColorChooser(JColorChooser brightYellowColorChooser)
 			{
 				this.brightYellowColorChooser = brightYellowColorChooser;
 			}
-
+			
 		public JColorChooser getBrightMagentaColorChooser()
 			{
 				return brightMagentaColorChooser;
 			}
-
+			
 		public void setBrightMagentaColorChooser(JColorChooser brightMagentaColorChooser)
 			{
 				this.brightMagentaColorChooser = brightMagentaColorChooser;
 			}
-
+			
 		public JColorChooser getCyanColorChooser()
 			{
 				return cyanColorChooser;
 			}
-
+			
 		public void setCyanColorChooser(JColorChooser cyanColorChooser)
 			{
 				this.cyanColorChooser = cyanColorChooser;
 			}
-
+			
 		public JColorChooser getWhiteColorChooser()
 			{
 				return whiteColorChooser;
 			}
-
+			
 		public void setWhiteColorChooser(JColorChooser whiteColorChooser)
 			{
 				this.whiteColorChooser = whiteColorChooser;
 			}
-
+			
 		public JColorChooser getBrightRedColorChooser()
 			{
 				return brightRedColorChooser;
 			}
-
+			
 		public void setBrightRedColorChooser(JColorChooser brightRedColorChooser)
 			{
 				this.brightRedColorChooser = brightRedColorChooser;
 			}
-
+			
 		public JColorChooser getBrightGreenColorChooser()
 			{
 				return brightGreenColorChooser;
 			}
-
+			
 		public void setBrightGreenColorChooser(JColorChooser brightGreenColorChooser)
 			{
 				this.brightGreenColorChooser = brightGreenColorChooser;
 			}
-
+			
 		public JColorChooser getBrightBlueColorChooser()
 			{
 				return brightBlueColorChooser;
 			}
-
+			
 		public void setBrightBlueColorChooser(JColorChooser brightBlueColorChooser)
 			{
 				this.brightBlueColorChooser = brightBlueColorChooser;
 			}
-
+			
 		public JColorChooser getBrightCyanColorChooser()
 			{
 				return brightCyanColorChooser;
 			}
-
+			
 		public void setBrightCyanColorChooser(JColorChooser brightCyanColorChooser)
 			{
 				this.brightCyanColorChooser = brightCyanColorChooser;
 			}
-
+			
 		public JColorChooser getBrightWhiteColorChooser()
 			{
 				return brightWhiteColorChooser;
 			}
-
+			
 		public void setBrightWhiteColorChooser(JColorChooser brightWhiteColorChooser)
 			{
 				this.brightWhiteColorChooser = brightWhiteColorChooser;
 			}
-
+			
 		public JPanel getFontColorsPanel()
 			{
 				return fontColorsJPanel;
 			}
-
+			
 		public void setFontColorsPanel(JPanel fontColorsPanel)
 			{
 				fontColorsJPanel = fontColorsPanel;
 			}
-
+			
 		public JColorChooser getBrightBlackColorChooser()
 			{
 				return brightBlackColorChooser;
 			}
-
+			
 		public void setBrightBlackColorChooser(JColorChooser brightBlackColorChooser)
 			{
 				this.brightBlackColorChooser = brightBlackColorChooser;
 			}
-
+			
 		public JTabbedPane getFontColorsTabbedPane()
 			{
 				return fontColorsTabbedPane;
 			}
-
+			
 		public void setFontColorsTabbedPane(JTabbedPane fontColorsTabbedPane)
 			{
 				this.fontColorsTabbedPane = fontColorsTabbedPane;
 			}
-
+			
 		public JPanel getTextSelectionPanel()
 			{
 				return textSelectionPanel;
 			}
-
+			
 		public void setTextSelectionPanel(JPanel textSelectionPanel)
 			{
 				this.textSelectionPanel = textSelectionPanel;
 			}
-
+			
 		public JTabbedPane getSelectionColors()
 			{
 				return selectionColors;
 			}
-
+			
 		public void setSelectionColors(JTabbedPane selectionColors)
 			{
 				this.selectionColors = selectionColors;
 			}
-
+			
 		public JColorChooser getSelectionFGColorChooser()
 			{
 				return selectionFGColorChooser;
 			}
-
+			
 		public void setSelectionFGColorChooser(JColorChooser selectionFGColorChooser)
 			{
 				this.selectionFGColorChooser = selectionFGColorChooser;
 			}
-
+			
 		public JColorChooser getSelectionBGColorChooser()
 			{
 				return selectionBGColorChooser;
 			}
-
+			
 		public void setSelectionBGColorChooser(JColorChooser selectionBGColorChooser)
 			{
 				this.selectionBGColorChooser = selectionBGColorChooser;
 			}
-
+			
 		public JPanel getPatternFoundPanel()
 			{
 				return patternFoundPanel;
 			}
-
+			
 		public void setPatternFoundPanel(JPanel patternFoundPanel)
 			{
 				this.patternFoundPanel = patternFoundPanel;
 			}
-
+			
 		public JTabbedPane getPatternFoundTabbedPane()
 			{
 				return patternFoundTabbedPane;
 			}
-
+			
 		public void setPatternFoundTabbedPane(JTabbedPane patternFoundTabbedPane)
 			{
 				this.patternFoundTabbedPane = patternFoundTabbedPane;
 			}
-
+			
 		public JColorChooser getFoundPatternForegroundColorChooser()
 			{
 				return foundPatternForegroundColorChooser;
 			}
-
+			
 		public void setFoundPatternForegroundColorChooser(JColorChooser foundPatternForegroundColorChooser)
 			{
 				this.foundPatternForegroundColorChooser = foundPatternForegroundColorChooser;
 			}
-
+			
 		public JColorChooser getFoundPatternBackgroundColorChooser()
 			{
 				return foundPatternBackgroundColorChooser;
 			}
-
+			
 		public void setFoundPatternBackgroundColorChooser(JColorChooser foundPatternBackgroundColorChooser)
 			{
 				this.foundPatternBackgroundColorChooser = foundPatternBackgroundColorChooser;
 			}
-
+			
 		public JPanel getLinkPanel()
 			{
 				return linkPanel;
 			}
-
+			
 		public void setLinkPanel(JPanel linkPanel)
 			{
 				this.linkPanel = linkPanel;
 			}
-
+			
 		public JTabbedPane getHyperlinkTabbedPane()
 			{
 				return hyperlinkTabbedPane;
 			}
-
+			
 		public void setHyperlinkTabbedPane(JTabbedPane hyperlinkTabbedPane)
 			{
 				this.hyperlinkTabbedPane = hyperlinkTabbedPane;
 			}
-
+			
 		public JColorChooser getHyperlinkForegroundColorChooser()
 			{
 				return hyperlinkForegroundColorChooser;
 			}
-
+			
 		public void setHyperlinkForegroundColorChooser(JColorChooser hyperlinkForegroundColorChooser)
 			{
 				this.hyperlinkForegroundColorChooser = hyperlinkForegroundColorChooser;
 			}
-
+			
 		public JColorChooser getHyperlinkBackgroundColorChooser()
 			{
 				return hyperlinkBackgroundColorChooser;
 			}
-
+			
 		public void setHyperlinkBackgroundColorChooser(JColorChooser hyperlinkBackgroundColorChooser)
 			{
 				this.hyperlinkBackgroundColorChooser = hyperlinkBackgroundColorChooser;
 			}
-
+			
 		public JPanel getDefaultStylePanel()
 			{
 				return defaultStylePanel;
 			}
-
+			
 		public void setDefaultStylePanel(JPanel defaultStylePanel)
 			{
 				this.defaultStylePanel = defaultStylePanel;
 			}
-
+			
 		public JTabbedPane getDefstyleTabbedPane()
 			{
 				return defstyleTabbedPane;
 			}
-
+			
 		public void setDefstyleTabbedPane(JTabbedPane defstyleTabbedPane)
 			{
 				this.defstyleTabbedPane = defstyleTabbedPane;
 			}
-
+			
 		public JPanel getForegroundColorPanel()
 			{
 				return foregroundColorPanel;
 			}
-
+			
 		public void setForegroundColorPanel(JPanel foregroundColorPanel)
 			{
 				this.foregroundColorPanel = foregroundColorPanel;
 			}
-
+			
 		public JColorChooser getForegroundColorChooser()
 			{
 				return foregroundColorChooser;
 			}
-
+			
 		public void setForegroundColorChooser(JColorChooser foregroundColorChooser)
 			{
 				this.foregroundColorChooser = foregroundColorChooser;
 			}
-
+			
 		public JPanel getBackgroundColorsPanel()
 			{
 				return backgroundColorsPanel;
 			}
-
+			
 		public void setBackgroundColorsPanel(JPanel backgroundColorsPanel)
 			{
 				this.backgroundColorsPanel = backgroundColorsPanel;
 			}
-
+			
 		public JColorChooser getBackgroundColorChooser()
 			{
 				return backgroundColorChooser;
 			}
-
+			
 		public void setBackgroundColorChooser(JColorChooser backgroundColorChooser)
 			{
 				this.backgroundColorChooser = backgroundColorChooser;
 			}
-
+			
 		public JPanel getMiscPanel()
 			{
 				return miscPanel;
 			}
-
+			
 		public void setMiscPanel(JPanel miscPanel)
 			{
 				this.miscPanel = miscPanel;
 			}
-
+			
 		public JCheckBox getInverseSelectionColorsCheckbox()
 			{
 				return inverseSelectionColorsCheckbox;
 			}
-
+			
 		public void setInverseSelectionColorsCheckbox(JCheckBox inverseSelectionColorsCheckbox)
 			{
 				this.inverseSelectionColorsCheckbox = inverseSelectionColorsCheckbox;
 			}
-
+			
 		public JCheckBox getChckbxCopyOnSelect()
 			{
 				return chckbxCopyOnSelect;
 			}
-
+			
 		public void setChckbxCopyOnSelect(JCheckBox chckbxCopyOnSelect)
 			{
 				this.chckbxCopyOnSelect = chckbxCopyOnSelect;
 			}
-
+			
 		public JCheckBox getChckbxConsole()
 			{
 				return chckbxConsole;
 			}
-
+			
 		public void setChckbxConsole(JCheckBox chckbxConsole)
 			{
 				this.chckbxConsole = chckbxConsole;
 			}
-
+			
 		public JCheckBox getChckbxCygwin()
 			{
 				return chckbxCygwin;
 			}
-
+			
 		public void setChckbxCygwin(JCheckBox chckbxCygwin)
 			{
 				this.chckbxCygwin = chckbxCygwin;
 			}
-
+			
 		public JCheckBox getChckbxPasteOnMiddle()
 			{
 				return chckbxPasteOnMiddle;
 			}
-
+			
 		public void setChckbxPasteOnMiddle(JCheckBox chckbxPasteOnMiddle)
 			{
 				this.chckbxPasteOnMiddle = chckbxPasteOnMiddle;
 			}
-
+			
 		public JCheckBox getChckbxEmulatexCopypaste()
 			{
 				return chckbxEmulatexCopypaste;
 			}
-
+			
 		public void setChckbxEmulatexCopypaste(JCheckBox chckbxEmulatexCopypaste)
 			{
 				this.chckbxEmulatexCopypaste = chckbxEmulatexCopypaste;
 			}
-
+			
 		public JCheckBox getChckbxUseAntialiasing()
 			{
 				return chckbxUseAntialiasing;
 			}
-
+			
 		public void setChckbxUseAntialiasing(JCheckBox chckbxUseAntialiasing)
 			{
 				this.chckbxUseAntialiasing = chckbxUseAntialiasing;
 			}
-
+			
 		public JLabel getLblMaxRefreshRate()
 			{
 				return lblMaxRefreshRate;
 			}
-
+			
 		public void setLblMaxRefreshRate(JLabel lblMaxRefreshRate)
 			{
 				this.lblMaxRefreshRate = lblMaxRefreshRate;
 			}
-
+			
 		public JSpinner getMaxRefreshSpinner()
 			{
 				return maxRefreshSpinner;
 			}
-
+			
 		public void setMaxRefreshSpinner(JSpinner maxRefreshSpinner)
 			{
 				this.maxRefreshSpinner = maxRefreshSpinner;
 			}
-
+			
 		public JCheckBox getChckbxAudiBell()
 			{
 				return chckbxAudiBell;
 			}
-
+			
 		public void setChckbxAudiBell(JCheckBox chckbxAudiBell)
 			{
 				this.chckbxAudiBell = chckbxAudiBell;
 			}
-
+			
 		public JCheckBox getChckbxMouseReporting()
 			{
 				return chckbxMouseReporting;
 			}
-
+			
 		public void setChckbxMouseReporting(JCheckBox chckbxMouseReporting)
 			{
 				this.chckbxMouseReporting = chckbxMouseReporting;
 			}
-
+			
 		public JLabel getLblCaretBlinkMs()
 			{
 				return lblCaretBlinkMs;
 			}
-
+			
 		public void setLblCaretBlinkMs(JLabel lblCaretBlinkMs)
 			{
 				this.lblCaretBlinkMs = lblCaretBlinkMs;
 			}
-
+			
 		public JSpinner getSpinnerCaretBlink()
 			{
 				return spinnerCaretBlink;
 			}
-
+			
 		public void setSpinnerCaretBlink(JSpinner spinnerCaretBlink)
 			{
 				this.spinnerCaretBlink = spinnerCaretBlink;
 			}
-
+			
 		public JCheckBox getChckbxScrollToBottom()
 			{
 				return chckbxScrollToBottom;
 			}
-
+			
 		public void setChckbxScrollToBottom(JCheckBox chckbxScrollToBottom)
 			{
 				this.chckbxScrollToBottom = chckbxScrollToBottom;
 			}
-
+			
 		public JCheckBox getChckbxDecCompatibilityMode()
 			{
 				return chckbxDecCompatibilityMode;
 			}
-
+			
 		public void setChckbxDecCompatibilityMode(JCheckBox chckbxDecCompatibilityMode)
 			{
 				this.chckbxDecCompatibilityMode = chckbxDecCompatibilityMode;
 			}
-
+			
 		public JCheckBox getChckbxForceActionOn()
 			{
 				return chckbxForceActionOn;
 			}
-
+			
 		public void setChckbxForceActionOn(JCheckBox chckbxForceActionOn)
 			{
 				this.chckbxForceActionOn = chckbxForceActionOn;
 			}
-
+			
 		public JLabel getLblBufferMaxLines()
 			{
 				return lblBufferMaxLines;
 			}
-
+			
 		public void setLblBufferMaxLines(JLabel lblBufferMaxLines)
 			{
 				this.lblBufferMaxLines = lblBufferMaxLines;
 			}
-
+			
 		public JSpinner getMaxBufferLinesSpinner()
 			{
 				return maxBufferLinesSpinner;
 			}
-
+			
 		public void setMaxBufferLinesSpinner(JSpinner maxBufferLinesSpinner)
 			{
 				this.maxBufferLinesSpinner = maxBufferLinesSpinner;
 			}
-
+			
 		public JCheckBox getChckbxAltSendsEscape()
 			{
 				return chckbxAltSendsEscape;
 			}
-
+			
 		public void setChckbxAltSendsEscape(JCheckBox chckbxAltSendsEscape)
 			{
 				this.chckbxAltSendsEscape = chckbxAltSendsEscape;
 			}
-
+			
 		public JCheckBox getChckbxAmbiguousCharsAre()
 			{
 				return chckbxAmbiguousCharsAre;
 			}
-
+			
 		public void setChckbxAmbiguousCharsAre(JCheckBox chckbxAmbiguousCharsAre)
 			{
 				this.chckbxAmbiguousCharsAre = chckbxAmbiguousCharsAre;
 			}
-
+			
 		public JTextField getTxtLogjconffield()
 			{
 				return txtLogjconffield;
@@ -985,7 +983,23 @@ public class SettingsPopup extends JDialog
 				settings = win.getSettings();
 				String commandString = getCommandString();
 				Map<String, Charset> optList = Charset.availableCharsets();
-				getContentPane().add(tabbedPane, BorderLayout.NORTH);
+				GridBagLayout gridBagLayout = new GridBagLayout();
+				gridBagLayout.columnWidths = new int[]
+					{ 700, 0 };
+				gridBagLayout.rowHeights = new int[]
+					{ 517, 30, 2 };
+				gridBagLayout.columnWeights = new double[]
+					{ 1.0, Double.MIN_VALUE };
+				gridBagLayout.rowWeights = new double[]
+					{ 0.0, 0.0, 0.0 };
+				getContentPane().setLayout(gridBagLayout);
+				GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
+				gbc_tabbedPane.anchor = GridBagConstraints.NORTH;
+				gbc_tabbedPane.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
+				gbc_tabbedPane.gridx = 0;
+				gbc_tabbedPane.gridy = 0;
+				getContentPane().add(tabbedPane, gbc_tabbedPane);
 				tabbedPane.addTab("Terminal Settings", null, settingsPanel, null);
 				GridBagLayout gbl_settingsPanel = new GridBagLayout();
 				gbl_settingsPanel.columnWidths = new int[]
@@ -1043,11 +1057,6 @@ public class SettingsPopup extends JDialog
 				gbc_charSetComboBox.gridx = 1;
 				gbc_charSetComboBox.gridy = 2;
 				settingsPanel.add(charSetComboBox, gbc_charSetComboBox);
-				for (String key : optList.keySet())
-					{
-						charSetComboBox.addItem(key);
-					}
-				charSetComboBox.setSelectedItem(settings.getCharSetName());
 				lblTermType.setToolTipText("set the environment variable TERM");
 				GridBagConstraints gbc_lblTermType = new GridBagConstraints();
 				gbc_lblTermType.anchor = GridBagConstraints.WEST;
@@ -1114,7 +1123,6 @@ public class SettingsPopup extends JDialog
 				settingsPanel.add(txtLogjconffield, gbc_txtLogjconffield);
 				txtLogjconffield.setColumns(10);
 				txtLogjconffield.setText(settings.getLog4jconf());
-				
 				GridBagConstraints gbc_lblColumns = new GridBagConstraints();
 				gbc_lblColumns.anchor = GridBagConstraints.WEST;
 				gbc_lblColumns.insets = new Insets(0, 0, 5, 5);
@@ -1122,7 +1130,6 @@ public class SettingsPopup extends JDialog
 				gbc_lblColumns.gridy = 7;
 				lblColumns.setToolTipText("initial value for the COLUMNS environment variable");
 				settingsPanel.add(lblColumns, gbc_lblColumns);
-				
 				GridBagConstraints gbc_initcolumnsSpinner = new GridBagConstraints();
 				gbc_initcolumnsSpinner.fill = GridBagConstraints.HORIZONTAL;
 				gbc_initcolumnsSpinner.insets = new Insets(0, 0, 5, 0);
@@ -1130,7 +1137,6 @@ public class SettingsPopup extends JDialog
 				gbc_initcolumnsSpinner.gridy = 7;
 				settingsPanel.add(columnsSpinner, gbc_initcolumnsSpinner);
 				columnsSpinner.setValue(settings.getColumns());
-				
 				GridBagConstraints gbc_lblLines = new GridBagConstraints();
 				gbc_lblLines.anchor = GridBagConstraints.WEST;
 				gbc_lblLines.insets = new Insets(0, 0, 5, 5);
@@ -1138,7 +1144,6 @@ public class SettingsPopup extends JDialog
 				gbc_lblLines.gridy = 8;
 				lblLines.setToolTipText("Initial value for the LINES environment value");
 				settingsPanel.add(lblLines, gbc_lblLines);
-				
 				GridBagConstraints gbc_linesSpinner = new GridBagConstraints();
 				gbc_linesSpinner.fill = GridBagConstraints.HORIZONTAL;
 				gbc_linesSpinner.insets = new Insets(0, 0, 5, 0);
@@ -1146,12 +1151,6 @@ public class SettingsPopup extends JDialog
 				gbc_linesSpinner.gridy = 8;
 				settingsPanel.add(linesSpinner, gbc_linesSpinner);
 				linesSpinner.setValue(settings.getRows());
-				GridBagConstraints gbc_btnApplySettings = new GridBagConstraints();
-				gbc_btnApplySettings.anchor = GridBagConstraints.WEST;
-				gbc_btnApplySettings.insets = new Insets(0, 0, 0, 5);
-				gbc_btnApplySettings.gridx = 0;
-				gbc_btnApplySettings.gridy = 9;
-				settingsPanel.add(btnApplySettings, gbc_btnApplySettings);
 				tabbedPane.addTab("Font", null, fontPanel, null);
 				GridBagLayout gbl_fontPanel = new GridBagLayout();
 				gbl_fontPanel.columnWidths = new int[]
@@ -1176,12 +1175,6 @@ public class SettingsPopup extends JDialog
 				gbc_fontComboBox.gridx = 1;
 				gbc_fontComboBox.gridy = 0;
 				fontPanel.add(fontComboBox, gbc_fontComboBox);
-				String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-				for (String font : fontList)
-					{
-						fontComboBox.addItem(font);
-					}
-				fontComboBox.setSelectedItem(settings.getFontFamily());
 				lblFontSize.setToolTipText("font size for terminal text");
 				GridBagConstraints gbc_lblFontSize = new GridBagConstraints();
 				gbc_lblFontSize.insets = new Insets(0, 0, 5, 5);
@@ -1285,7 +1278,6 @@ public class SettingsPopup extends JDialog
 				gbl_miscPanel.rowWeights = new double[]
 					{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 				miscPanel.setLayout(gbl_miscPanel);
-				
 				GridBagConstraints gbc_lblLookAndFeel = new GridBagConstraints();
 				gbc_lblLookAndFeel.anchor = GridBagConstraints.WEST;
 				gbc_lblLookAndFeel.insets = new Insets(0, 0, 5, 5);
@@ -1297,10 +1289,7 @@ public class SettingsPopup extends JDialog
 				gbc_lafComboBox.fill = GridBagConstraints.HORIZONTAL;
 				gbc_lafComboBox.gridx = 1;
 				gbc_lafComboBox.gridy = 0;
-				
-				
 				miscPanel.add(lafComboBox, gbc_lafComboBox);
-				lafComboBox.setSelectedItem(settings.getLookAndFeel());
 				GridBagConstraints gbc_inverseSelectionColorsCheckbox = new GridBagConstraints();
 				gbc_inverseSelectionColorsCheckbox.anchor = GridBagConstraints.WEST;
 				gbc_inverseSelectionColorsCheckbox.insets = new Insets(0, 0, 5, 5);
@@ -1439,16 +1428,13 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxAmbiguousCharsAre.gridy = 17;
 				miscPanel.add(chckbxAmbiguousCharsAre, gbc_chckbxAmbiguousCharsAre);
 				chckbxAmbiguousCharsAre.setSelected(settings.isAmbiguousCharsDoubleWidth());
-				lblFineprint.setFont(new Font("Tahoma", Font.ITALIC, 11));
-				
-				getContentPane().add(lblFineprint, BorderLayout.SOUTH);
-				Map<String, String> lnfs = window.getLnfMap();
-				for (String s : lnfs.keySet()) {
-					lafComboBox.addItem(s);
-				}
 				lafComboBox.setSelectedItem(settings.getLookAndFeel());
-				
-				
+				GridBagConstraints gbc_btnApplySettings = new GridBagConstraints();
+				gbc_btnApplySettings.fill = GridBagConstraints.BOTH;
+				gbc_btnApplySettings.insets = new Insets(0, 0, 5, 0);
+				gbc_btnApplySettings.gridx = 0;
+				gbc_btnApplySettings.gridy = 1;
+				getContentPane().add(btnApplySettings, gbc_btnApplySettings);
 				btnApplySettings.addActionListener(evt -> {
 					settings.setCharSetName(charSetComboBox.getSelectedItem().toString());
 					settings.setDir(dirField.getText());
@@ -1503,34 +1489,56 @@ public class SettingsPopup extends JDialog
 					settings.setCygwin(chckbxCygwin.isSelected());
 					settings.setLog4jconf(txtLogjconffield.getText());
 					settings.setLookAndFeel(lafComboBox.getSelectedItem().toString());
-					settings.setColumns((Integer)columnsSpinner.getValue());
-					settings.setRows((Integer)linesSpinner.getValue());
+					settings.setColumns((Integer) columnsSpinner.getValue());
+					settings.setRows((Integer) linesSpinner.getValue());
 					changeLookAndFeel();
-
-					// save settings
 					window.saveSettings();
 				});
+				for (String key : optList.keySet())
+					{
+						charSetComboBox.addItem(key);
+					}
+				charSetComboBox.setSelectedItem(settings.getCharSetName());
+				String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+				for (String font : fontList)
+					{
+						fontComboBox.addItem(font);
+					}
+				fontComboBox.setSelectedItem(settings.getFontFamily());
+				setCurrentLinkHiglightMode();
+				lblFineprint.setFont(new Font("Tahoma", Font.ITALIC, 11));
+				GridBagConstraints gbc_lblFineprint = new GridBagConstraints();
+				gbc_lblFineprint.anchor = GridBagConstraints.NORTH;
+				gbc_lblFineprint.fill = GridBagConstraints.HORIZONTAL;
+				gbc_lblFineprint.gridx = 0;
+				gbc_lblFineprint.gridy = 2;
+				getContentPane().add(lblFineprint, gbc_lblFineprint);
+				Map<String, String> lnfs = window.getLnfMap();
+				for (String s : lnfs.keySet())
+					{
+						lafComboBox.addItem(s);
+					}
+				lafComboBox.setSelectedItem(settings.getLookAndFeel());
 			}
-
+			
 		private void changeLookAndFeel()
 			{
 				String lafClass = window.getLnfMap().get(lafComboBox.getSelectedItem());
-				if (lafClass != null) {
-					try
-						{
-							UIManager.setLookAndFeel(lafClass);
-							SwingUtilities.updateComponentTreeUI(window.getFrame());
-							SwingUtilities.updateComponentTreeUI(this);
-							
-						}
-					catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
-						{
-							SithTermMainWindow.getLogger().error("Could not change look and feel!",e);
-						}
-					
-				}
+				if (lafClass != null)
+					{
+						try
+							{
+								UIManager.setLookAndFeel(lafClass);
+								SwingUtilities.updateComponentTreeUI(window.getFrame());
+								SwingUtilities.updateComponentTreeUI(this);
+							}
+						catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
+							{
+								SithTermMainWindow.getLogger().error("Could not change look and feel!", e);
+							}
+					}
 			}
-
+			
 		private void getSelectedLinkHilightMode()
 			{
 				if (linkHighlightModeComboBox.getSelectedItem().toString().equals(ALWAYS))
@@ -1546,7 +1554,7 @@ public class SettingsPopup extends JDialog
 						settings.setLinkHighlightStyle(HyperlinkStyle.HighlightMode.HOVER);
 					}
 			}
-
+			
 		private void setCurrentLinkHiglightMode()
 			{
 				if (settings.getLinkHighlightStyle() == HyperlinkStyle.HighlightMode.ALWAYS)
@@ -1562,7 +1570,7 @@ public class SettingsPopup extends JDialog
 						linkHighlightModeComboBox.setSelectedItem(HOVER);
 					}
 			}
-
+			
 		private String getCommandString()
 			{
 				StringBuilder sb = new StringBuilder();

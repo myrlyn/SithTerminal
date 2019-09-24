@@ -106,6 +106,9 @@
 							<goal>launch4j</goal>
 						</goals>
 						<configuration>
+							<errTitle>SithTerm</errTitle>
+							<downloadUrl>https://jdk.java.net/13/</downloadUrl>
+							<supportUrl>https://github.com/myrlyn/SithTerminal</supportUrl>
 							<headerType>gui</headerType>
 							<outfile>target/SithTerm.exe</outfile>
 							<jar>target/SithTerm-${project.version}-jar-with-dependencies.jar</jar>
@@ -116,6 +119,11 @@
 							<icon>src/main/resources/sw.ico</icon>
 							<jre>
 								<minVersion>1.8.0</minVersion>
+								<initialHeapPercent>1</initialHeapPercent>
+								<maxHeapPercent>90</maxHeapPercent>
+								<opts>
+									<opt>-XX:+AggressiveOpts</opt>
+								</opts>
 							</jre>
 							<versionInfo>
 								<fileVersion>0.0.1.0</fileVersion>
@@ -127,7 +135,18 @@
 								<productName>SithTerm</productName>
 								<internalName>SithTerm</internalName>
 								<originalFilename>SithTerm.exe</originalFilename>
+
 							</versionInfo>
+							<splash>
+								<file>src/main/resources/star-wars.bmp</file>
+								<waitForWindow>true</waitForWindow>
+								<timeout>20</timeout>
+							</splash>
+							<messages>
+								<bundledJreErr>THIS PROJECT DOES NOT HAVE A BUNDLED JRE</bundledJreErr>
+								<jreVersionErr>WRONG JRE VERSION, 1.8.0 MINIMUM</jreVersionErr>
+								<launcherErr>Launcher Error!</launcherErr>
+							</messages>
 						</configuration>
 					</execution>
 				</executions>

@@ -4,14 +4,10 @@ import java.io.Serializable;
 
 public abstract class SithTermPlugin implements Serializable
 	{
-		/**
-	 * 
-	 */
 		private static final long serialVersionUID = 1L;
 		private SithTermMainWindow application;
 		private SithTermPlugin()
-			{
-				//hide no-args from other classes
+			{				//hide no-args from other classes
 			}
 		public SithTermPlugin(SithTermMainWindow application) {
 			this();

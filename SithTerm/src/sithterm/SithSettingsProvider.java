@@ -63,22 +63,23 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public TextStyle getSelectionColor()
 			{
-				TerminalColor fgc  =  TerminalColor.awt(settings.getSelectionForeground());
-				TerminalColor bgc  =  TerminalColor.awt(settings.getSelectionBackground());
+				TerminalColor fgc = TerminalColor.awt(settings.getSelectionForeground());
+				TerminalColor bgc = TerminalColor.awt(settings.getSelectionBackground());
 				return new TextStyle(fgc, bgc);
-				
 			}
 			
 		@Override
 		public TextStyle getFoundPatternColor()
 			{
-				return new TextStyle(TerminalColor.awt(settings.getFoundPatternForeGround()), TerminalColor.awt(settings.getFoundPatternBackGround()));
+				return new TextStyle(TerminalColor.awt(settings.getFoundPatternForeGround()),
+				    TerminalColor.awt(settings.getFoundPatternBackGround()));
 			}
 			
 		@Override
 		public TextStyle getHyperlinkColor()
 			{
-				return new TextStyle(TerminalColor.awt(settings.getFoundPatternForeGround()), TerminalColor.awt(settings.getFoundPatternBackGround()));
+				return new TextStyle(TerminalColor.awt(settings.getFoundPatternForeGround()),
+				    TerminalColor.awt(settings.getFoundPatternBackGround()));
 			}
 			
 		@Override
@@ -102,7 +103,7 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public boolean pasteOnMiddleMouseClick()
 			{
-			return settings.isPasteOnMiddleMouseClick();
+				return settings.isPasteOnMiddleMouseClick();
 			}
 			
 		@Override
@@ -150,7 +151,7 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public boolean DECCompatibilityMode()
 			{
-			return settings.isDecmode();
+				return settings.isDecmode();
 			}
 			
 		@Override

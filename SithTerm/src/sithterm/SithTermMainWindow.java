@@ -59,11 +59,8 @@ public class SithTermMainWindow implements Serializable
 		private static final String USER_HOME = "user.home";
 		private static final String SITH = ".Sith";
 		private static final String PLUGINS = "plugins";
-		/**
-		* 
-		*/
 		private static final long serialVersionUID = 1L;
-		private JFrame frame;
+		private JFrame frmSithterm;
 		private JMenuBar menuBar = new JMenuBar();
 		private JMenu mnFile = new JMenu("File");
 		private JMenu mnTabs = new JMenu("Tabs");
@@ -88,7 +85,7 @@ public class SithTermMainWindow implements Serializable
 					try
 						{
 							SithTermMainWindow window = new SithTermMainWindow();
-							window.frame.setVisible(true);
+							window.frmSithterm.setVisible(true);
 						}
 					catch (Exception e)
 						{
@@ -259,12 +256,13 @@ public class SithTermMainWindow implements Serializable
 				
 				spop = new SettingsPopup("JediTerm Settings", this);
 				spop.setBounds(50, 50, 700, 700);
-				frame = new JFrame();
-				frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SithTermMainWindow.class.getResource("/sw.png")));
-				frame.setBounds(100, 100, 450, 300);
-				frame.setOpacity(settings.getOpacity());
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setJMenuBar(menuBar);
+				frmSithterm = new JFrame();
+				frmSithterm.setTitle("SithTerm");
+				frmSithterm.setIconImage(Toolkit.getDefaultToolkit().getImage(SithTermMainWindow.class.getResource("/sw.png")));
+				frmSithterm.setBounds(100, 100, 450, 300);
+				frmSithterm.setOpacity(settings.getOpacity());
+				frmSithterm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frmSithterm.setJMenuBar(menuBar);
 				menuBar.add(mnFile);
 				mntmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));//replace ALT_MASK and teh like with ALT_DOWN_MASK as suggested
 				mntmClose.addActionListener(evt -> System.exit(0));
@@ -280,10 +278,10 @@ public class SithTermMainWindow implements Serializable
 				mntmTerminalSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 				mntmTerminalSettings.addActionListener(evt -> spop.setVisible(true));
 				mnSettings.add(mntmTerminalSettings);
-				frame.getContentPane().add(panel, BorderLayout.CENTER);
+				frmSithterm.getContentPane().add(panel, BorderLayout.CENTER);
 				panel.setLayout(new BorderLayout(0, 0));
 				panel.add(tabbedPane, BorderLayout.CENTER);
-				SwingUtilities.updateComponentTreeUI(frame);
+				SwingUtilities.updateComponentTreeUI(frmSithterm);
 				addNewTab();
 			}
 			
@@ -349,12 +347,12 @@ public class SithTermMainWindow implements Serializable
 			
 		public JFrame getFrame()
 			{
-				return frame;
+				return frmSithterm;
 			}
 			
 		public void setFrame(JFrame frame)
 			{
-				this.frame = frame;
+				this.frmSithterm = frame;
 			}
 			
 		public JMenuBar getMenuBar()
