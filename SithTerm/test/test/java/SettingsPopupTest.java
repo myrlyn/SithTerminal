@@ -3,6 +3,7 @@ package test.java;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import sithterm.SettingsPopup;
 import sithterm.SithTermMainWindow;
+import sithterm.SithTermSettings;
 
 class SettingsPopupTest
 	{
@@ -383,549 +386,392 @@ class SettingsPopupTest
 				assertEquals(j,pop.getSelectionColors());
 			}
 			
-		@Test
-		void testGetSelectionFGColorChooser()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testSetSelectionFGColorChooser()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testGetSelectionBGColorChooser()
-			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setSelectionFGColorChooser(j);
+				assertEquals(j,pop.getSelectionFGColorChooser());
 			}
 			
 		@Test
 		void testSetSelectionBGColorChooser()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testGetPatternFoundPanel()
-			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setSelectionBGColorChooser(j);
+				assertEquals(j,pop.getSelectionBGColorChooser());
 			}
 			
 		@Test
 		void testSetPatternFoundPanel()
 			{
-				// fail("Not yet implemented");
+				JPanel j = new JPanel();
+				pop.setPatternFoundPanel(j);
+				assertEquals(j,pop.getPatternFoundPanel());
 			}
 			
-		@Test
-		void testGetPatternFoundTabbedPane()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testSetPatternFoundTabbedPane()
 			{
-				// fail("Not yet implemented");
+				JTabbedPane j = new JTabbedPane();
+				pop.setPatternFoundTabbedPane(j);
+				assertEquals(j,pop.getPatternFoundTabbedPane());
 			}
 			
 		@Test
 		void testGetFoundPatternForegroundColorChooser()
 			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setFoundPatternForegroundColorChooser(j);
+				assertEquals(j,pop.getFoundPatternForegroundColorChooser());
 			}
 			
-		@Test
-		void testSetFoundPatternForegroundColorChooser()
-			{
-				// fail("Not yet implemented");
-			}
+
 			
 		@Test
 		void testGetFoundPatternBackgroundColorChooser()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetFoundPatternBackgroundColorChooser()
-			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setFoundPatternBackgroundColorChooser(j);
+				assertEquals(j,pop.getFoundPatternBackgroundColorChooser());
 			}
 			
 		@Test
 		void testGetLinkPanel()
 			{
-				// fail("Not yet implemented");
+				JPanel j = new JPanel();
+				pop.setLinkPanel(j);
+				assertEquals(j,pop.getLinkPanel());
 			}
 			
-		@Test
-		void testSetLinkPanel()
-			{
-				// fail("Not yet implemented");
-			}
+	
 			
 		@Test
 		void testGetHyperlinkTabbedPane()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetHyperlinkTabbedPane()
-			{
-				// fail("Not yet implemented");
+				JTabbedPane j = new JTabbedPane();
+				pop.setHyperlinkTabbedPane(j);
+				assertEquals(j,pop.getHyperlinkTabbedPane());
 			}
 			
 		@Test
 		void testGetHyperlinkForegroundColorChooser()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetHyperlinkForegroundColorChooser()
-			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setHyperlinkForegroundColorChooser(j);
+				assertEquals(j,pop.getHyperlinkForegroundColorChooser());
 			}
 			
 		@Test
 		void testGetHyperlinkBackgroundColorChooser()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetHyperlinkBackgroundColorChooser()
-			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setHyperlinkBackgroundColorChooser(j);
+				assertEquals(j,pop.getHyperlinkBackgroundColorChooser());
 			}
 			
 		@Test
 		void testGetDefaultStylePanel()
 			{
-				// fail("Not yet implemented");
+				JPanel j = new JPanel();
+				pop.setDefaultStylePanel(j);
+				assertEquals(j,pop.getDefaultStylePanel());
 			}
 			
-		@Test
-		void testSetDefaultStylePanel()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetDefstyleTabbedPane()
 			{
-				// fail("Not yet implemented");
+				JTabbedPane j = new JTabbedPane();
+				pop.setDefstyleTabbedPane(j);
+				assertEquals(j,pop.getDefstyleTabbedPane());
 			}
-			
-		@Test
-		void testSetDefstyleTabbedPane()
-			{
-				// fail("Not yet implemented");
-			}
-			
+	
 		@Test
 		void testGetForegroundColorPanel()
 			{
-				// fail("Not yet implemented");
+				JPanel j = new JPanel();
+				pop.setForegroundColorPanel(j);
+				assertEquals(j,pop.getForegroundColorPanel());
 			}
 			
-		@Test
-		void testSetForegroundColorPanel()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetForegroundColorChooser()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetForegroundColorChooser()
-			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setForegroundColorChooser(j);
+				assertEquals(j,pop.getForegroundColorChooser());
 			}
 			
 		@Test
 		void testGetBackgroundColorsPanel()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetBackgroundColorsPanel()
-			{
-				// fail("Not yet implemented");
+				JPanel j = new JPanel();
+				pop.setBackgroundColorsPanel(j);
+				assertEquals(j,pop.getBackgroundColorsPanel());
 			}
 			
 		@Test
 		void testGetBackgroundColorChooser()
 			{
-				// fail("Not yet implemented");
+				JColorChooser j = new JColorChooser();
+				pop.setBackgroundColorChooser(j);
+				assertEquals(j,pop.getBackgroundColorChooser());
 			}
 			
-		@Test
-		void testSetBackgroundColorChooser()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetMiscPanel()
 			{
-				// fail("Not yet implemented");
+				JPanel j = new JPanel();
+				pop.setMiscPanel(j);
+				assertEquals(j,pop.getMiscPanel());
 			}
-			
-		@Test
-		void testSetMiscPanel()
-			{
-				// fail("Not yet implemented");
-			}
-			
+	
 		@Test
 		void testGetInverseSelectionColorsCheckbox()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetInverseSelectionColorsCheckbox()
-			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setInverseSelectionColorsCheckbox(j);
+				assertEquals(j,pop.getInverseSelectionColorsCheckbox());
 			}
 			
 		@Test
 		void testGetChckbxCopyOnSelect()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxCopyOnSelect(j);
+				assertEquals(j,pop.getChckbxCopyOnSelect());
 			}
 			
-		@Test
-		void testSetChckbxCopyOnSelect()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxConsole()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxConsole(j);
+				assertEquals(j,pop.getChckbxConsole());
 			}
 			
-		@Test
-		void testSetChckbxConsole()
-			{
-				// fail("Not yet implemented");
-			}
+	
 			
 		@Test
 		void testGetChckbxCygwin()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxCygwin(j);
+				assertEquals(j,pop.getChckbxCygwin());
 			}
 			
-		@Test
-		void testSetChckbxCygwin()
-			{
-				// fail("Not yet implemented");
-			}
+	
 			
 		@Test
 		void testGetChckbxPasteOnMiddle()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxPasteOnMiddle(j);
+				assertEquals(j,pop.getChckbxPasteOnMiddle());
+	
 			}
 			
-		@Test
-		void testSetChckbxPasteOnMiddle()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxEmulatexCopypaste()
 			{
-				// fail("Not yet implemented");
-			}
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxEmulatexCopypaste(j);
+				assertEquals(j,pop.getChckbxEmulatexCopypaste());
+		}
 			
-		@Test
-		void testSetChckbxEmulatexCopypaste()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxUseAntialiasing()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxUseAntialiasing(j);
+				assertEquals(j,pop.getChckbxUseAntialiasing());
 			}
 			
-		@Test
-		void testSetChckbxUseAntialiasing()
-			{
-				// fail("Not yet implemented");
-			}
+	
 			
 		@Test
 		void testGetLblMaxRefreshRate()
 			{
-				// fail("Not yet implemented");
+				JLabel j = new JLabel();
+				pop.setLblMaxRefreshRate(j);
+				assertEquals(j,pop.getLblMaxRefreshRate());
 			}
 			
-		@Test
-		void testSetLblMaxRefreshRate()
-			{
-				// fail("Not yet implemented");
-			}
+		
 			
 		@Test
 		void testGetMaxRefreshSpinner()
 			{
-				// fail("Not yet implemented");
+				JSpinner j = new JSpinner();
+				pop.setMaxRefreshSpinner(j);
+				assertEquals(j,pop.getMaxRefreshSpinner());
 			}
 			
-		@Test
-		void testSetMaxRefreshSpinner()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxAudiBell()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxAudiBell(j);
+				assertEquals(j,pop.getChckbxAudiBell());
 			}
 			
-		@Test
-		void testSetChckbxAudiBell()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxMouseReporting()
 			{
-				// fail("Not yet implemented");
-			}
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxMouseReporting(j);
+				assertEquals(j,pop.getChckbxMouseReporting());
+		}
 			
-		@Test
-		void testSetChckbxMouseReporting()
-			{
-				// fail("Not yet implemented");
-			}
+		
 			
 		@Test
 		void testGetLblCaretBlinkMs()
 			{
-				// fail("Not yet implemented");
+				JLabel j = new JLabel();
+				pop.setLblCaretBlinkMs(j);
+				assertEquals(j,pop.getLblCaretBlinkMs());
 			}
 			
-		@Test
-		void testSetLblCaretBlinkMs()
-			{
-				// fail("Not yet implemented");
-			}
-			
+	
 		@Test
 		void testGetSpinnerCaretBlink()
 			{
-				// fail("Not yet implemented");
+				JSpinner j = new JSpinner();
+				pop.setSpinnerCaretBlink(j);
+				assertEquals(j,pop.getSpinnerCaretBlink());
 			}
 			
-		@Test
-		void testSetSpinnerCaretBlink()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxScrollToBottom()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetChckbxScrollToBottom()
-			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxScrollToBottom(j);
+				assertEquals(j,pop.getChckbxScrollToBottom());
 			}
 			
 		@Test
 		void testGetChckbxDecCompatibilityMode()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetChckbxDecCompatibilityMode()
-			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxDecCompatibilityMode(j);
+				assertEquals(j,pop.getChckbxDecCompatibilityMode());
 			}
 			
 		@Test
 		void testGetChckbxForceActionOn()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetChckbxForceActionOn()
-			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxForceActionOn(j);
+				assertEquals(j,pop.getChckbxForceActionOn());
 			}
 			
 		@Test
 		void testGetLblBufferMaxLines()
 			{
-				// fail("Not yet implemented");
+				JLabel j  = new JLabel();
+				pop.setLblBufferMaxLines(j);
+				assertEquals(j,pop.getLblBufferMaxLines());
 			}
 			
-		@Test
-		void testSetLblBufferMaxLines()
-			{
-				// fail("Not yet implemented");
-			}
-			
+				
 		@Test
 		void testGetMaxBufferLinesSpinner()
 			{
-				// fail("Not yet implemented");
+				JSpinner j = new JSpinner();
+				pop.setMaxBufferLinesSpinner(j);
+				assertEquals(j,pop.getMaxBufferLinesSpinner());
 			}
 			
-		@Test
-		void testSetMaxBufferLinesSpinner()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxAltSendsEscape()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxAltSendsEscape(j);
+				assertEquals(j,pop.getChckbxAltSendsEscape());
 			}
 			
-		@Test
-		void testSetChckbxAltSendsEscape()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetChckbxAmbiguousCharsAre()
 			{
-				// fail("Not yet implemented");
+				JCheckBox j = new JCheckBox();
+				pop.setChckbxAmbiguousCharsAre(j);
+				assertEquals(j,pop.getChckbxAmbiguousCharsAre());
 			}
 			
-		@Test
-		void testSetChckbxAmbiguousCharsAre()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetTxtLogjconffield()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetTxtLogjconffield()
-			{
-				// fail("Not yet implemented");
+				JTextField j = new JTextField();
+				pop.setTxtLogjconffield(j);
+				assertEquals(j,pop.getTxtLogjconffield());
 			}
 			
 		@Test
 		void testGetTabbedPane()
 			{
-				// fail("Not yet implemented");
+				JTabbedPane j = new JTabbedPane();
+				pop.setTabbedPane(j);
+				assertEquals(j,pop.getTabbedPane());
 			}
 			
-		@Test
-		void testSetTabbedPane()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetCommandField()
 			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSetCommandField()
-			{
-				// fail("Not yet implemented");
+				JTextField j = new JTextField();
+				pop.setCommandField(j);
+				assertEquals(j,pop.getCommandField());
 			}
 			
 		@Test
 		void testGetDirField()
 			{
-				// fail("Not yet implemented");
+				JTextField j = new JTextField();
+				pop.setDirField(j);
+				assertEquals(j,pop.getDirField());
 			}
 			
-		@Test
-		void testSetDirField()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testGetTermField()
 			{
-				// fail("Not yet implemented");
+				JTextField j = new JTextField();
+				pop.setTermField(j);
+				assertEquals(j,pop.getTermField());
 			}
 			
-		@Test
-		void testSetTermField()
-			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testGetSettings()
-			{
-				// fail("Not yet implemented");
-			}
 			
 		@Test
 		void testSetSettings()
 			{
-				// fail("Not yet implemented");
+				SithTermSettings s = new SithTermSettings();
+				pop.setSettings(s);
+				assertEquals(s,pop.getSettings());
 			}
 			
 		@Test
 		void testGetWindow()
-			{
-				// fail("Not yet implemented");
+			{	SithTermMainWindow j = new SithTermMainWindow();
+				pop.setWindow(j);
+				assertEquals(j,pop.getWindow());
 			}
 			
-		@Test
-		void testSetWindow()
-			{
-				// fail("Not yet implemented");
-			}
 			
-		@Test
-		void testGetSerialversionuid()
-			{
-				// fail("Not yet implemented");
-			}
 			
-		@Test
-		void testSettingsPopupSithTermMainWindow()
-			{
-				// fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSettingsPopupStringSithTermMainWindow()
-			{
-				// fail("Not yet implemented");
-			}
+		
 	}

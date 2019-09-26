@@ -68,7 +68,7 @@ public class SithTermMainWindow implements Serializable
 		private JMenuItem mntmNewTab = new JMenuItem("New Tab");
 		private JMenuItem mntmCloseTab = new JMenuItem("Close Tab");
 		private JPanel panel = new JPanel();
-		private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane tabbedPane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private static Logger logger = Logger.getLogger(SithTermMainWindow.class);
 		private final JMenuItem mntmTerminalSettings = new JMenuItem("Terminal Settings");
 		private JMenuItem mntmClose = new JMenuItem("Close");
