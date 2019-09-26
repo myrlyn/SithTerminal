@@ -549,7 +549,7 @@ public class SithTermSettings implements Serializable
 				return opacity;
 			}
 			
-		public Color getBgcolor()
+		public Color getBgColor()
 			{
 				return bgcolor;
 			}

@@ -520,8 +520,8 @@ public class SithTermMainWindow implements Serializable
 				procBuilder.setCygwin(isCygwin);
 				SithSettingsProvider settingsProvider = new SithSettingsProvider(settings);
 				JediTermWidget jtw = new JediTermWidget(settingsProvider);
-				logger.info("Setting bgcolor" + settings.getBgcolor().toString());
-				jtw.setBackground(settings.getBgcolor());
+				logger.info("Setting bgcolor" + settings.getBgColor().toString());
+				jtw.setBackground(settings.getBgColor());
 				logger.info("Setting fgcolor" + settings.getFgColor().toString());
 				jtw.setForeground(settings.getFgColor());
 				try

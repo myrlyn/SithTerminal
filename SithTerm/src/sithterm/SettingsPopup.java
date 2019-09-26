@@ -1266,7 +1266,7 @@ public class SettingsPopup extends JDialog
 				defstyleTabbedPane.addTab(BACKGROUND, null, backgroundColorsPanel, null);
 				backgroundColorsPanel.setToolTipText("color for terminal background");
 				backgroundColorsPanel.add(backgroundColorChooser);
-				backgroundColorChooser.setColor(settings.getBgcolor());
+				backgroundColorChooser.setColor(settings.getBgColor());
 				tabbedPane.addTab("Misc.", null, miscPanel, null);
 				GridBagLayout gbl_miscPanel = new GridBagLayout();
 				gbl_miscPanel.columnWidths = new int[]

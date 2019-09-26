@@ -55,7 +55,7 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public TextStyle getDefaultStyle()
 			{
-				TerminalColor bg = TerminalColor.awt(settings.getBgcolor());
+				TerminalColor bg = TerminalColor.awt(settings.getBgColor());
 				TerminalColor fg = TerminalColor.awt(settings.getFgColor());
 				return new TextStyle(fg, bg);
 			}
@@ -78,8 +78,8 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public TextStyle getHyperlinkColor()
 			{
-				return new TextStyle(TerminalColor.awt(settings.getFoundPatternForeGround()),
-				    TerminalColor.awt(settings.getFoundPatternBackGround()));
+				return new TextStyle(TerminalColor.awt(settings.getHyperlinkForeground()),
+				    TerminalColor.awt(settings.getHyperlinkBackground()));
 			}
 			
 		@Override
