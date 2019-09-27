@@ -542,13 +542,13 @@ public class SithTermMainWindow implements Serializable
 		    String[] command, int initialRows, int initialColumns, boolean windowAnsiColor, String dir, String chsetName, String termType
 		)
 			{
-				boolean isConsole = false;
-				boolean isCygwin = false;
+				boolean isConsole = settings.isConsole();
+				boolean isCygwin = settings.isCygwin();
 				Map<String, String> environment = System.getenv();
 				Map<String, String> tmpEnv = new HashMap<>();
 				if (termType == null)
 					{
-						termType = "vt100";
+						termType = settings.getTermType();
 					}
 				for (Map.Entry<String, String> e : environment.entrySet())
 					{
