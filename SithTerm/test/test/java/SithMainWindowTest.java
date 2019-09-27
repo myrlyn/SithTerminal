@@ -19,10 +19,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.Map;
 
 import sithterm.SettingsPopup;
 import sithterm.SithTermMainWindow;
+import sithterm.SithTermPlugin;
 import sithterm.SithTermSettings;
 
 class SithMainWindowTest
@@ -185,4 +189,49 @@ class SithMainWindowTest
 				win.setSettings(s);
 				assertEquals(s, win.getSettings());
 			}
+		
+		@Test
+		void testGetFrmSithTerm()
+		{
+			JFrame j = new JFrame();
+			win.setFrmSithterm(j);
+			assertEquals(j,win.getFrmSithterm());
+		}
+		@Test
+		void testGetJsParser()
+		{
+			Gson g = new GsonBuilder().create();
+			win.setJsParser(g);
+			assertEquals(g,win.getJsParser());
+		}
+		@Test
+		void plugMap() {
+			SithTermPlugin bar = new SithTermPlugin(win) {
+
+				@Override
+				public void initialize(String jarName)
+					{
+						//nope
+						
+					}
+
+				@Override
+				public void remove()
+					{
+						// nothing to do
+						
+					}
+
+				@Override
+				public String getPluginName()
+					{
+						
+						return "foo";
+					}
+			};
+			Map<String,SithTermPlugin> m = new HashMap<>();
+			m.put(bar.getPluginName(), bar);
+			win.setPluginMapV1(m);
+			assertEquals(m,win.getPluginMapV1());
+		}
 	}

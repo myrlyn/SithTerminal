@@ -45,7 +45,7 @@ public class SettingsPopup extends JDialog
 		private SithTermSettings settings = null;
 		private SithTermMainWindow window = null;
 		private JTextField txtLogjconffield;
-		private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane tabbedPane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JPanel settingsPanel = new JPanel();
 		private JLabel lblCommand = new JLabel("Command");
 		private JLabel lblCharacterSet = new JLabel("Character Set");
@@ -65,7 +65,7 @@ public class SettingsPopup extends JDialog
 		private JSpinner fontSizeSpinner = new JSpinner();
 		private JLabel lblLinkHighlightStyle = new JLabel("Link Highlight Style");
 		private JComboBox<String> linkHighlightModeComboBox = new JComboBox<>();
-		private JTabbedPane palettePane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane palettePane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JColorChooser blackColorChooser = new JColorChooser();
 		private JColorChooser redColorChooser = new JColorChooser();
 		private JColorChooser greenColorChooser = new JColorChooser();
@@ -83,21 +83,21 @@ public class SettingsPopup extends JDialog
 		private JColorChooser brightWhiteColorChooser = new JColorChooser();
 		private JPanel fontColorsJPanel = new JPanel();
 		private JColorChooser brightBlackColorChooser = new JColorChooser();
-		private JTabbedPane fontColorsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane fontColorsTabbedPane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JPanel textSelectionPanel = new JPanel();
-		private JTabbedPane selectionColors = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane selectionColors = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JColorChooser selectionFGColorChooser = new JColorChooser();
 		private JColorChooser selectionBGColorChooser = new JColorChooser();
 		private JPanel patternFoundPanel = new JPanel();
-		private JTabbedPane patternFoundTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane patternFoundTabbedPane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JColorChooser foundPatternForegroundColorChooser = new JColorChooser();
 		private JColorChooser foundPatternBackgroundColorChooser = new JColorChooser();
 		private JPanel linkPanel = new JPanel();
-		private JTabbedPane hyperlinkTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane hyperlinkTabbedPane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JColorChooser hyperlinkForegroundColorChooser = new JColorChooser();
 		private JColorChooser hyperlinkBackgroundColorChooser = new JColorChooser();
 		private JPanel defaultStylePanel = new JPanel();
-		private JTabbedPane defstyleTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		private JTabbedPane defstyleTabbedPane = new JTabbedPane(javax.swing.SwingConstants.TOP);
 		private JPanel foregroundColorPanel = new JPanel();
 		private JColorChooser foregroundColorChooser = new JColorChooser();
 		private JPanel backgroundColorsPanel = new JPanel();
@@ -1518,7 +1518,6 @@ public class SettingsPopup extends JDialog
 						lafComboBox.addItem(s);
 					}
 				lafComboBox.setSelectedItem(settings.getLookAndFeel());
-//				lafComboBox.setSelectedItem(settings.getLookAndFeel());
 
 			}
 			

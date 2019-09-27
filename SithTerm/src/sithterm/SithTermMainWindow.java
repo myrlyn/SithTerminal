@@ -348,7 +348,7 @@ public class SithTermMainWindow implements Serializable
 				return serialVersionUID;
 			}
 			
-		private void closeCurrentTab()
+		public void closeCurrentTab()
 			{
 				Component c = tabbedPane.getSelectedComponent();
 				if (c instanceof JediTermWidget)
@@ -374,7 +374,7 @@ public class SithTermMainWindow implements Serializable
 				tabbedPane.remove(c);
 			}
 			
-		private void addNewTab()
+		public void addNewTab()
 			{
 				List<String> cmdList = settings.getCommand();
 				String[] command = new String[cmdList.size()];
@@ -395,7 +395,7 @@ public class SithTermMainWindow implements Serializable
 			
 		public JFrame getFrame()
 			{
-				return frmSithterm;
+				return getFrmSithterm();
 			}
 			
 		public void setFrame(JFrame frame)
