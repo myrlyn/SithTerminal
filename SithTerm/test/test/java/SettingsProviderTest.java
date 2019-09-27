@@ -15,6 +15,7 @@ class SettingsProviderTest
 	{
 		SithTermSettings settings = new SithTermSettings();
 		SithSettingsProvider provider = null;
+		
 		@BeforeAll
 		static void setUpBeforeClass()
 		    throws Exception
@@ -43,31 +44,31 @@ class SettingsProviderTest
 		@Test
 		void testGetTerminalFontSize()
 			{
-				assertEquals(settings.getFontSize(),provider.getTerminalFontSize());
+				assertEquals(settings.getFontSize(), provider.getTerminalFontSize());
 			}
 			
 		@Test
 		void testGetLineSpace()
 			{
-				assertEquals(settings.getLineSpace(),provider.getLineSpace());
+				assertEquals(settings.getLineSpace(), provider.getLineSpace());
 			}
 			
 		@Test
 		void testUseInverseSelectionColor()
 			{
-				assertEquals(settings.isUseInverseSelectionColor(),provider.useInverseSelectionColor());
+				assertEquals(settings.isUseInverseSelectionColor(), provider.useInverseSelectionColor());
 			}
 			
 		@Test
 		void testCopyOnSelect()
 			{
-				assertEquals(settings.isCopyOnSelect(),provider.copyOnSelect());
+				assertEquals(settings.isCopyOnSelect(), provider.copyOnSelect());
 			}
 			
 		@Test
 		void testPasteOnMiddleMouseClick()
 			{
-				assertEquals(settings.isPasteOnMiddleMouseClick(),provider.pasteOnMiddleMouseClick());
+				assertEquals(settings.isPasteOnMiddleMouseClick(), provider.pasteOnMiddleMouseClick());
 			}
 			
 		@Test
@@ -91,7 +92,7 @@ class SettingsProviderTest
 		@Test
 		void testAudibleBell()
 			{
-				assertEquals(settings.isAudibleBell(),provider.audibleBell());
+				assertEquals(settings.isAudibleBell(), provider.audibleBell());
 			}
 			
 		@Test
@@ -115,47 +116,48 @@ class SettingsProviderTest
 		@Test
 		void testDECCompatibilityMode()
 			{
-				assertEquals(settings.isDecmode(),provider.DECCompatibilityMode());
+				assertEquals(settings.isDecmode(), provider.DECCompatibilityMode());
 			}
 			
 		@Test
 		void testForceActionOnMouseReporting()
 			{
-				assertEquals(settings.isForceActionOnMouseReporting(),provider.forceActionOnMouseReporting());
+				assertEquals(settings.isForceActionOnMouseReporting(), provider.forceActionOnMouseReporting());
 			}
 			
 		@Test
 		void testGetBufferMaxLinesCount()
 			{
-				assertEquals(settings.getBufferMaxLinesCount(),provider.getBufferMaxLinesCount());
+				assertEquals(settings.getBufferMaxLinesCount(), provider.getBufferMaxLinesCount());
 			}
 			
 		@Test
 		void testAltSendsEscape()
 			{
-				assertEquals(settings.isAltSendsEscape(),provider.altSendsEscape());
+				assertEquals(settings.isAltSendsEscape(), provider.altSendsEscape());
 			}
 			
 		@Test
 		void testAmbiguousCharsAreDoubleWidth()
 			{
-				assertEquals(settings.isAmbiguousCharsDoubleWidth(),provider.ambiguousCharsAreDoubleWidth());
+				assertEquals(settings.isAmbiguousCharsDoubleWidth(), provider.ambiguousCharsAreDoubleWidth());
 			}
 			
 		@Test
 		void testGetTerminalColorPalette()
 			{
-				//assertEquals(settings.getPalette(),provider.getTerminalColorPalette().getIndexColors());
-				for (int i = 0 ; i < settings.getPalette().length ; i++) {
-					assertEquals(settings.getPalette()[i],provider.getTerminalColorPalette().getIndexColors()[i]);
-				}
+				// assertEquals(settings.getPalette(),provider.getTerminalColorPalette().getIndexColors());
+				for (int i = 0; i < settings.getPalette().length; i++)
+					{
+						assertEquals(settings.getPalette()[i], provider.getTerminalColorPalette().getIndexColors()[i]);
+					}
 			}
 			
 		@Test
 		void testGetTerminalFont()
 			{
-				assertEquals(settings.getFontFamily(),provider.getTerminalFont().getFamily());
-				assertEquals(settings.getFontSize(),provider.getTerminalFont().getSize());
+				assertEquals(settings.getFontFamily(), provider.getTerminalFont().getFamily());
+				assertEquals(settings.getFontSize(), provider.getTerminalFont().getSize());
 			}
 			
 		@Test
@@ -165,8 +167,8 @@ class SettingsProviderTest
 				int fg = provider.getDefaultStyle().getForeground().toAwtColor().getRGB();
 				int ebg = settings.getBgColor().getRGB();
 				int efg = settings.getFgColor().getRGB();
-				assertEquals(ebg,bg);
-				assertEquals(efg,fg);
+				assertEquals(ebg, bg);
+				assertEquals(efg, fg);
 			}
 			
 		@Test
@@ -176,8 +178,8 @@ class SettingsProviderTest
 				int fg = provider.getSelectionColor().getForeground().toAwtColor().getRGB();
 				int ebg = settings.getSelectionBackground().getRGB();
 				int efg = settings.getSelectionForeground().getRGB();
-				assertEquals(ebg,bg);
-				assertEquals(efg,fg);
+				assertEquals(ebg, bg);
+				assertEquals(efg, fg);
 			}
 			
 		@Test
@@ -187,8 +189,8 @@ class SettingsProviderTest
 				int fg = provider.getFoundPatternColor().getForeground().toAwtColor().getRGB();
 				int ebg = settings.getFoundPatternBackGround().getRGB();
 				int efg = settings.getFoundPatternForeGround().getRGB();
-				assertEquals(ebg,bg);
-				assertEquals(efg,fg);
+				assertEquals(ebg, bg);
+				assertEquals(efg, fg);
 			}
 			
 		@Test
@@ -198,15 +200,15 @@ class SettingsProviderTest
 				int fg = provider.getHyperlinkColor().getForeground().toAwtColor().getRGB();
 				int ebg = settings.getHyperlinkBackground().getRGB();
 				int efg = settings.getHyperlinkForeground().getRGB();
-				System.out.println("Settings: "+settings.getHyperlinkBackground().getRGB());
-				System.out.println("provider: "+provider.getHyperlinkColor().getBackground().toAwtColor().getRGB());
-				assertEquals(ebg,bg);
-				assertEquals(efg,fg);
+				System.out.println("Settings: " + settings.getHyperlinkBackground().getRGB());
+				System.out.println("provider: " + provider.getHyperlinkColor().getBackground().toAwtColor().getRGB());
+				assertEquals(ebg, bg);
+				assertEquals(efg, fg);
 			}
 			
 		@Test
 		void testGetHyperlinkHighlightingMode()
 			{
-				assertEquals(settings.getLinkHighlightStyle(),provider.getHyperlinkHighlightingMode());
+				assertEquals(settings.getLinkHighlightStyle(), provider.getHyperlinkHighlightingMode());
 			}
 	}

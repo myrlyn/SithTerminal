@@ -75,6 +75,51 @@ public class SithTermMainWindow implements Serializable
 		private int tabNumber = 1;
 		private SettingsPopup spop = null;
 		private SithTermSettings settings = new SithTermSettings();
+		
+		public static String getUserHome()
+			{
+				return USER_HOME;
+			}
+			
+		public JFrame getFrmSithterm()
+			{
+				return frmSithterm;
+			}
+			
+		public void setFrmSithterm(JFrame frmSithterm)
+			{
+				this.frmSithterm = frmSithterm;
+			}
+			
+		public Gson getJsParser()
+			{
+				return jsParser;
+			}
+			
+		public void setJsParser(Gson jsParser)
+			{
+				this.jsParser = jsParser;
+			}
+			
+		public Map<String, SithTermPlugin> getPluginMapV1()
+			{
+				return pluginMapV1;
+			}
+			
+		public void setPluginMapV1(Map<String, SithTermPlugin> pluginMapV1)
+			{
+				this.pluginMapV1 = pluginMapV1;
+			}
+			
+		public static String getSith()
+			{
+				return SITH;
+			}
+			
+		public static String getPlugins()
+			{
+				return PLUGINS;
+			}
 		private transient Gson jsParser = new GsonBuilder().setPrettyPrinting().setLenient().create();
 		private Map<String, String> lnfMap = new HashMap<>();
 		private Map<String, SithTermPlugin> pluginMapV1 = new HashMap<>();
@@ -108,7 +153,7 @@ public class SithTermMainWindow implements Serializable
 							{
 								String[] jars = pd.list((File dir, String name) -> name.toLowerCase().endsWith(".jar"));
 								if (jars == null)
-										return;
+									return;
 								for (String jar : jars)
 									{
 										logger.info("Found Jar " + jar);
@@ -137,8 +182,8 @@ public class SithTermMainWindow implements Serializable
 						logger.info("Check Jar File" + jf.toString());
 						Enumeration<JarEntry> pluginEntries = jf.entries();
 						URL[] urls =
-							{ new URL("jar:file:" + System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS
-							    + File.separator + jar + "!/") };
+							{ new URL("jar:file:" + System.getProperty(USER_HOME) + File.separator + SITH + File.separator + PLUGINS + File.separator
+							    + jar + "!/") };
 						logger.info("Loader URL: " + urls[0]);
 						try (URLClassLoader jarloader = URLClassLoader.newInstance(urls);)
 							{
@@ -225,7 +270,6 @@ public class SithTermMainWindow implements Serializable
 				if (webLaf.equalsIgnoreCase(settings.getLookAndFeel()))
 					{
 						logger.debug("SETTING WEBLAF");
-
 						WebLookAndFeel.install();
 					}
 				else if (null != settings.getLookAndFeel())
@@ -234,26 +278,29 @@ public class SithTermMainWindow implements Serializable
 						String classname = lnfMap.get(settings.getLookAndFeel());
 						if (classname != null)
 							{
-								logger.debug("TRY "+classname);
+								logger.debug("TRY " + classname);
 								try
 									{
 										UIManager.setLookAndFeel(classname);
-										logger.debug("Look and Feel: "+classname);
+										logger.debug("Look and Feel: " + classname);
 									}
 								catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
 									{
 										logger.debug("Could not set look and feel!", e);
 									}
-							}else {
-								logger.info("Could not find LAF in MAP "+settings.getLookAndFeel());
+							}
+						else
+							{
+								logger.info("Could not find LAF in MAP " + settings.getLookAndFeel());
 								logger.info(lnfMap.toString());
 							}
-					}else {
+					}
+				else
+					{
 						logger.debug("LNF WAS NULL");
 					}
 				JDialog.setDefaultLookAndFeelDecorated(true);
 				JFrame.setDefaultLookAndFeelDecorated(true);
-				
 				spop = new SettingsPopup("JediTerm Settings", this);
 				spop.setBounds(50, 50, 700, 700);
 				frmSithterm = new JFrame();
@@ -264,7 +311,8 @@ public class SithTermMainWindow implements Serializable
 				frmSithterm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frmSithterm.setJMenuBar(menuBar);
 				menuBar.add(mnFile);
-				mntmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));//replace ALT_MASK and teh like with ALT_DOWN_MASK as suggested
+				mntmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));// replace ALT_MASK and teh like with
+				                                                                                           // ALT_DOWN_MASK as suggested
 				mntmClose.addActionListener(evt -> System.exit(0));
 				mnFile.add(mntmClose);
 				menuBar.add(mnTabs);

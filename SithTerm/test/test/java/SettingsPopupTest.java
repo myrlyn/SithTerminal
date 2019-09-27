@@ -361,13 +361,13 @@ class SettingsPopupTest
 				pop.setBrightBlackColorChooser(j);
 				assertEquals(j, pop.getBrightBlackColorChooser());
 			}
-				
+			
 		@Test
 		void testSetFontColorsTabbedPane()
 			{
 				JTabbedPane j = new JTabbedPane();
 				pop.setFontColorsTabbedPane(j);
-				assertEquals(j,pop.getFontColorsTabbedPane());
+				assertEquals(j, pop.getFontColorsTabbedPane());
 			}
 			
 		@Test
@@ -375,7 +375,7 @@ class SettingsPopupTest
 			{
 				JPanel j = new JPanel();
 				pop.setTextSelectionPanel(j);
-				assertEquals(j,pop.getTextSelectionPanel());
+				assertEquals(j, pop.getTextSelectionPanel());
 			}
 			
 		@Test
@@ -383,16 +383,15 @@ class SettingsPopupTest
 			{
 				JTabbedPane j = new JTabbedPane();
 				pop.setSelectionColors(j);
-				assertEquals(j,pop.getSelectionColors());
+				assertEquals(j, pop.getSelectionColors());
 			}
-			
 			
 		@Test
 		void testSetSelectionFGColorChooser()
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setSelectionFGColorChooser(j);
-				assertEquals(j,pop.getSelectionFGColorChooser());
+				assertEquals(j, pop.getSelectionFGColorChooser());
 			}
 			
 		@Test
@@ -400,7 +399,7 @@ class SettingsPopupTest
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setSelectionBGColorChooser(j);
-				assertEquals(j,pop.getSelectionBGColorChooser());
+				assertEquals(j, pop.getSelectionBGColorChooser());
 			}
 			
 		@Test
@@ -408,16 +407,15 @@ class SettingsPopupTest
 			{
 				JPanel j = new JPanel();
 				pop.setPatternFoundPanel(j);
-				assertEquals(j,pop.getPatternFoundPanel());
+				assertEquals(j, pop.getPatternFoundPanel());
 			}
-			
 			
 		@Test
 		void testSetPatternFoundTabbedPane()
 			{
 				JTabbedPane j = new JTabbedPane();
 				pop.setPatternFoundTabbedPane(j);
-				assertEquals(j,pop.getPatternFoundTabbedPane());
+				assertEquals(j, pop.getPatternFoundTabbedPane());
 			}
 			
 		@Test
@@ -425,17 +423,15 @@ class SettingsPopupTest
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setFoundPatternForegroundColorChooser(j);
-				assertEquals(j,pop.getFoundPatternForegroundColorChooser());
+				assertEquals(j, pop.getFoundPatternForegroundColorChooser());
 			}
-			
-
 			
 		@Test
 		void testGetFoundPatternBackgroundColorChooser()
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setFoundPatternBackgroundColorChooser(j);
-				assertEquals(j,pop.getFoundPatternBackgroundColorChooser());
+				assertEquals(j, pop.getFoundPatternBackgroundColorChooser());
 			}
 			
 		@Test
@@ -443,17 +439,15 @@ class SettingsPopupTest
 			{
 				JPanel j = new JPanel();
 				pop.setLinkPanel(j);
-				assertEquals(j,pop.getLinkPanel());
+				assertEquals(j, pop.getLinkPanel());
 			}
-			
-	
 			
 		@Test
 		void testGetHyperlinkTabbedPane()
 			{
 				JTabbedPane j = new JTabbedPane();
 				pop.setHyperlinkTabbedPane(j);
-				assertEquals(j,pop.getHyperlinkTabbedPane());
+				assertEquals(j, pop.getHyperlinkTabbedPane());
 			}
 			
 		@Test
@@ -461,7 +455,7 @@ class SettingsPopupTest
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setHyperlinkForegroundColorChooser(j);
-				assertEquals(j,pop.getHyperlinkForegroundColorChooser());
+				assertEquals(j, pop.getHyperlinkForegroundColorChooser());
 			}
 			
 		@Test
@@ -469,7 +463,7 @@ class SettingsPopupTest
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setHyperlinkBackgroundColorChooser(j);
-				assertEquals(j,pop.getHyperlinkBackgroundColorChooser());
+				assertEquals(j, pop.getHyperlinkBackgroundColorChooser());
 			}
 			
 		@Test
@@ -477,33 +471,31 @@ class SettingsPopupTest
 			{
 				JPanel j = new JPanel();
 				pop.setDefaultStylePanel(j);
-				assertEquals(j,pop.getDefaultStylePanel());
+				assertEquals(j, pop.getDefaultStylePanel());
 			}
-			
 			
 		@Test
 		void testGetDefstyleTabbedPane()
 			{
 				JTabbedPane j = new JTabbedPane();
 				pop.setDefstyleTabbedPane(j);
-				assertEquals(j,pop.getDefstyleTabbedPane());
+				assertEquals(j, pop.getDefstyleTabbedPane());
 			}
-	
+			
 		@Test
 		void testGetForegroundColorPanel()
 			{
 				JPanel j = new JPanel();
 				pop.setForegroundColorPanel(j);
-				assertEquals(j,pop.getForegroundColorPanel());
+				assertEquals(j, pop.getForegroundColorPanel());
 			}
-			
 			
 		@Test
 		void testGetForegroundColorChooser()
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setForegroundColorChooser(j);
-				assertEquals(j,pop.getForegroundColorChooser());
+				assertEquals(j, pop.getForegroundColorChooser());
 			}
 			
 		@Test
@@ -511,7 +503,7 @@ class SettingsPopupTest
 			{
 				JPanel j = new JPanel();
 				pop.setBackgroundColorsPanel(j);
-				assertEquals(j,pop.getBackgroundColorsPanel());
+				assertEquals(j, pop.getBackgroundColorsPanel());
 			}
 			
 		@Test
@@ -519,24 +511,23 @@ class SettingsPopupTest
 			{
 				JColorChooser j = new JColorChooser();
 				pop.setBackgroundColorChooser(j);
-				assertEquals(j,pop.getBackgroundColorChooser());
+				assertEquals(j, pop.getBackgroundColorChooser());
 			}
-			
 			
 		@Test
 		void testGetMiscPanel()
 			{
 				JPanel j = new JPanel();
 				pop.setMiscPanel(j);
-				assertEquals(j,pop.getMiscPanel());
+				assertEquals(j, pop.getMiscPanel());
 			}
-	
+			
 		@Test
 		void testGetInverseSelectionColorsCheckbox()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setInverseSelectionColorsCheckbox(j);
-				assertEquals(j,pop.getInverseSelectionColorsCheckbox());
+				assertEquals(j, pop.getInverseSelectionColorsCheckbox());
 			}
 			
 		@Test
@@ -544,121 +535,103 @@ class SettingsPopupTest
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxCopyOnSelect(j);
-				assertEquals(j,pop.getChckbxCopyOnSelect());
+				assertEquals(j, pop.getChckbxCopyOnSelect());
 			}
-			
 			
 		@Test
 		void testGetChckbxConsole()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxConsole(j);
-				assertEquals(j,pop.getChckbxConsole());
+				assertEquals(j, pop.getChckbxConsole());
 			}
-			
-	
 			
 		@Test
 		void testGetChckbxCygwin()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxCygwin(j);
-				assertEquals(j,pop.getChckbxCygwin());
+				assertEquals(j, pop.getChckbxCygwin());
 			}
-			
-	
 			
 		@Test
 		void testGetChckbxPasteOnMiddle()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxPasteOnMiddle(j);
-				assertEquals(j,pop.getChckbxPasteOnMiddle());
-	
+				assertEquals(j, pop.getChckbxPasteOnMiddle());
 			}
-			
 			
 		@Test
 		void testGetChckbxEmulatexCopypaste()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxEmulatexCopypaste(j);
-				assertEquals(j,pop.getChckbxEmulatexCopypaste());
-		}
-			
+				assertEquals(j, pop.getChckbxEmulatexCopypaste());
+			}
 			
 		@Test
 		void testGetChckbxUseAntialiasing()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxUseAntialiasing(j);
-				assertEquals(j,pop.getChckbxUseAntialiasing());
+				assertEquals(j, pop.getChckbxUseAntialiasing());
 			}
-			
-	
 			
 		@Test
 		void testGetLblMaxRefreshRate()
 			{
 				JLabel j = new JLabel();
 				pop.setLblMaxRefreshRate(j);
-				assertEquals(j,pop.getLblMaxRefreshRate());
+				assertEquals(j, pop.getLblMaxRefreshRate());
 			}
-			
-		
 			
 		@Test
 		void testGetMaxRefreshSpinner()
 			{
 				JSpinner j = new JSpinner();
 				pop.setMaxRefreshSpinner(j);
-				assertEquals(j,pop.getMaxRefreshSpinner());
+				assertEquals(j, pop.getMaxRefreshSpinner());
 			}
-			
 			
 		@Test
 		void testGetChckbxAudiBell()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxAudiBell(j);
-				assertEquals(j,pop.getChckbxAudiBell());
+				assertEquals(j, pop.getChckbxAudiBell());
 			}
-			
 			
 		@Test
 		void testGetChckbxMouseReporting()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxMouseReporting(j);
-				assertEquals(j,pop.getChckbxMouseReporting());
-		}
-			
-		
+				assertEquals(j, pop.getChckbxMouseReporting());
+			}
 			
 		@Test
 		void testGetLblCaretBlinkMs()
 			{
 				JLabel j = new JLabel();
 				pop.setLblCaretBlinkMs(j);
-				assertEquals(j,pop.getLblCaretBlinkMs());
+				assertEquals(j, pop.getLblCaretBlinkMs());
 			}
 			
-	
 		@Test
 		void testGetSpinnerCaretBlink()
 			{
 				JSpinner j = new JSpinner();
 				pop.setSpinnerCaretBlink(j);
-				assertEquals(j,pop.getSpinnerCaretBlink());
+				assertEquals(j, pop.getSpinnerCaretBlink());
 			}
-			
 			
 		@Test
 		void testGetChckbxScrollToBottom()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxScrollToBottom(j);
-				assertEquals(j,pop.getChckbxScrollToBottom());
+				assertEquals(j, pop.getChckbxScrollToBottom());
 			}
 			
 		@Test
@@ -666,7 +639,7 @@ class SettingsPopupTest
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxDecCompatibilityMode(j);
-				assertEquals(j,pop.getChckbxDecCompatibilityMode());
+				assertEquals(j, pop.getChckbxDecCompatibilityMode());
 			}
 			
 		@Test
@@ -674,51 +647,47 @@ class SettingsPopupTest
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxForceActionOn(j);
-				assertEquals(j,pop.getChckbxForceActionOn());
+				assertEquals(j, pop.getChckbxForceActionOn());
 			}
 			
 		@Test
 		void testGetLblBufferMaxLines()
 			{
-				JLabel j  = new JLabel();
+				JLabel j = new JLabel();
 				pop.setLblBufferMaxLines(j);
-				assertEquals(j,pop.getLblBufferMaxLines());
+				assertEquals(j, pop.getLblBufferMaxLines());
 			}
 			
-				
 		@Test
 		void testGetMaxBufferLinesSpinner()
 			{
 				JSpinner j = new JSpinner();
 				pop.setMaxBufferLinesSpinner(j);
-				assertEquals(j,pop.getMaxBufferLinesSpinner());
+				assertEquals(j, pop.getMaxBufferLinesSpinner());
 			}
-			
 			
 		@Test
 		void testGetChckbxAltSendsEscape()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxAltSendsEscape(j);
-				assertEquals(j,pop.getChckbxAltSendsEscape());
+				assertEquals(j, pop.getChckbxAltSendsEscape());
 			}
-			
 			
 		@Test
 		void testGetChckbxAmbiguousCharsAre()
 			{
 				JCheckBox j = new JCheckBox();
 				pop.setChckbxAmbiguousCharsAre(j);
-				assertEquals(j,pop.getChckbxAmbiguousCharsAre());
+				assertEquals(j, pop.getChckbxAmbiguousCharsAre());
 			}
-			
 			
 		@Test
 		void testGetTxtLogjconffield()
 			{
 				JTextField j = new JTextField();
 				pop.setTxtLogjconffield(j);
-				assertEquals(j,pop.getTxtLogjconffield());
+				assertEquals(j, pop.getTxtLogjconffield());
 			}
 			
 		@Test
@@ -726,16 +695,15 @@ class SettingsPopupTest
 			{
 				JTabbedPane j = new JTabbedPane();
 				pop.setTabbedPane(j);
-				assertEquals(j,pop.getTabbedPane());
+				assertEquals(j, pop.getTabbedPane());
 			}
-			
 			
 		@Test
 		void testGetCommandField()
 			{
 				JTextField j = new JTextField();
 				pop.setCommandField(j);
-				assertEquals(j,pop.getCommandField());
+				assertEquals(j, pop.getCommandField());
 			}
 			
 		@Test
@@ -743,35 +711,30 @@ class SettingsPopupTest
 			{
 				JTextField j = new JTextField();
 				pop.setDirField(j);
-				assertEquals(j,pop.getDirField());
+				assertEquals(j, pop.getDirField());
 			}
-			
 			
 		@Test
 		void testGetTermField()
 			{
 				JTextField j = new JTextField();
 				pop.setTermField(j);
-				assertEquals(j,pop.getTermField());
+				assertEquals(j, pop.getTermField());
 			}
-			
 			
 		@Test
 		void testSetSettings()
 			{
 				SithTermSettings s = new SithTermSettings();
 				pop.setSettings(s);
-				assertEquals(s,pop.getSettings());
+				assertEquals(s, pop.getSettings());
 			}
 			
 		@Test
 		void testGetWindow()
-			{	SithTermMainWindow j = new SithTermMainWindow();
+			{
+				SithTermMainWindow j = new SithTermMainWindow();
 				pop.setWindow(j);
-				assertEquals(j,pop.getWindow());
+				assertEquals(j, pop.getWindow());
 			}
-			
-			
-			
-		
 	}

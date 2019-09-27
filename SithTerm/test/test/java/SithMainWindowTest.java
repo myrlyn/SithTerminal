@@ -9,7 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,11 +21,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import sithterm.SettingsPopup;
 import sithterm.SithTermMainWindow;
+import sithterm.SithTermSettings;
 
 class SithMainWindowTest
 	{
 		SithTermMainWindow win = null;
+		
 		@BeforeAll
 		static void setUpBeforeClass()
 		    throws Exception
@@ -52,29 +58,28 @@ class SithMainWindowTest
 		void testGetLnfMap()
 			{
 				java.util.Map<String, String> m = win.getLnfMap();
-				for (Entry<String,String> e : m.entrySet()) {
-					assertEquals(true,e.getKey() instanceof String);
-					assertEquals(true,e.getValue() instanceof String);
-				}
+				for (Entry<String, String> e : m.entrySet())
+					{
+						assertEquals(true, e.getKey() instanceof String);
+						assertEquals(true, e.getValue() instanceof String);
+					}
 			}
 			
 		@Test
 		void testSetLnfMap()
 			{
-				Map<String,String> foo = new HashMap<String,String>();
-				foo.put("a","b");
+				Map<String, String> foo = new HashMap<String, String>();
+				foo.put("a", "b");
 				win.setLnfMap(foo);
-				assertEquals(foo,win.getLnfMap());
+				assertEquals(foo, win.getLnfMap());
 			}
-			
-			
 			
 		@Test
 		void testSetFrame()
 			{
 				JFrame j = new JFrame();
 				win.setFrame(j);
-				assertEquals(j,win.getFrame());
+				assertEquals(j, win.getFrame());
 			}
 			
 		@Test
@@ -82,121 +87,102 @@ class SithMainWindowTest
 			{
 				JMenuBar j = new JMenuBar();
 				win.setMenuBar(j);
-				assertEquals(j,win.getMenuBar());
+				assertEquals(j, win.getMenuBar());
 			}
 			
-		
 		@Test
 		void testGetMnFile()
 			{
 				JMenu j = new JMenu();
 				win.setMnFile(j);
-				assertEquals(j,win.getMnFile());
+				assertEquals(j, win.getMnFile());
 			}
-			
-	
 			
 		@Test
 		void testGetMnTabs()
 			{
 				JMenu j = new JMenu();
 				win.setMnTabs(j);
-				assertEquals(j,win.getMnTabs());
-						
+				assertEquals(j, win.getMnTabs());
 			}
 			
 		@Test
 		void testGetMnSettings()
 			{
-				JMenu j  = new JMenu();
+				JMenu j = new JMenu();
 				win.setMnSettings(j);
-				assertEquals(j,win.getMnSettings());
+				assertEquals(j, win.getMnSettings());
 			}
-			
 			
 		@Test
 		void testGetMntmNewTab()
 			{
 				JMenuItem j = new JMenuItem();
 				win.setMntmNewTab(j);
-				assertEquals(j,win.getMntmNewTab());
+				assertEquals(j, win.getMntmNewTab());
 			}
-			
 			
 		@Test
 		void testGetMntmCloseTab()
 			{
-				//fail("Not yet implemented");
+				JMenuItem j = new JMenuItem();
+				win.setMntmCloseTab(j);
+				assertEquals(j, win.getMntmCloseTab());
 			}
-			
 			
 		@Test
 		void testGetPanel()
 			{
-				//fail("Not yet implemented");
+				JPanel j = new JPanel();
+				win.setPanel(j);
+				assertEquals(j, win.getPanel());
 			}
 			
 		@Test
 		void testGetTabbedPane()
 			{
-				//fail("Not yet implemented");
+				JTabbedPane j = new JTabbedPane();
+				win.setTabbedPane(j);
+				assertEquals(j, win.getTabbedPane());
 			}
-			
 			
 		@Test
 		void testGetLogger()
 			{
-				//fail("Not yet implemented");
+				Logger l = Logger.getRootLogger();
+				SithTermMainWindow.setLogger(l);
+				assertEquals(l, SithTermMainWindow.getLogger());
 			}
 			
 		@Test
 		void testGetMntmClose()
 			{
-				//fail("Not yet implemented");
+				JMenuItem j = new JMenuItem();
+				win.setMntmClose(j);
+				assertEquals(j, win.getMntmClose());
 			}
-			
 			
 		@Test
 		void testGetTabNumber()
 			{
-				//fail("Not yet implemented");
+				int tabNumber = 100;
+				win.setTabNumber(tabNumber);
+				assertEquals(tabNumber, win.getTabNumber());
 			}
-			
 			
 		@Test
 		void testGetSpop()
 			{
-				//fail("Not yet implemented");
+				SettingsPopup j = new SettingsPopup(win);
+				win.setSpop(j);
+				assertEquals(j, win.getSpop());
 			}
-			
 			
 		@Test
 		void testGetSettings()
 			{
-				//fail("Not yet implemented");
-			}
-			
-		@Test
-		void testGetMntmTerminalSettings()
-			{
-				//fail("Not yet implemented");
-			}
-			
-		@Test
-		void testGetWidget()
-			{
-				//fail("Not yet implemented");
-			}
-			
-		@Test
-		void testSaveSettings()
-			{
-				//fail("Not yet implemented");
-			}
-			
-		@Test
-		void testLoadSettings()
-			{
-				//fail("Not yet implemented");
+				SithTermSettings s = new SithTermSettings();
+				win.setSettings(s);
+				assertEquals(s, win.getSettings());
 			}
 	}

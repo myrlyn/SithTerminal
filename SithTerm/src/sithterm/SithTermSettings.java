@@ -49,12 +49,12 @@ public class SithTermSettings implements Serializable
 		private String fontFamily = new DefaultSettingsProvider().getTerminalFont().getFamily();
 		private float fontSize = new DefaultSettingsProvider().getTerminalFontSize();
 		private float lineSpace = 0.0f;
-		private Color selectionForeground = new Color(-1);//magic number derived from DefaultSettingsProvider color
-		private Color selectionBackground = new Color(-11375195); //magic number derived from DefaultSettingsProvider color 
-		private Color foundPatternForeGround = new Color(-16777216);//magic number derived from DefaultSettingsProvider color 
-		private Color foundPatternBackGround = new Color(-256);//magic number derived from DefaultSettingsProvider color 
-		private Color hyperlinkBackground = new Color(-1);//magic number derived from DefaultSettingsProvider color 
-		private Color hyperlinkForeground = new Color(-16776961);//magic number derived from DefaultSettingsProvider color 
+		private Color selectionForeground = new Color(-1);// magic number derived from DefaultSettingsProvider color
+		private Color selectionBackground = new Color(-11375195); // magic number derived from DefaultSettingsProvider color
+		private Color foundPatternForeGround = new Color(-16777216);// magic number derived from DefaultSettingsProvider color
+		private Color foundPatternBackGround = new Color(-256);// magic number derived from DefaultSettingsProvider color
+		private Color hyperlinkBackground = new Color(-1);// magic number derived from DefaultSettingsProvider color
+		private Color hyperlinkForeground = new Color(-16776961);// magic number derived from DefaultSettingsProvider color
 		private HyperlinkStyle.HighlightMode linkHighlightStyle = HyperlinkStyle.HighlightMode.HOVER;
 		private boolean useInverseSelectionColor = new DefaultSettingsProvider().useInverseSelectionColor();
 		private boolean copyOnSelect = new DefaultSettingsProvider().copyOnSelect();
@@ -73,40 +73,41 @@ public class SithTermSettings implements Serializable
 		private boolean ambiguousCharsDoubleWidth = new DefaultSettingsProvider().ambiguousCharsAreDoubleWidth();
 		private boolean cygwin = false;
 		private boolean console = false;
-		private String log4jconf = System.getProperty("user.home")+File.separator+".Sith"+File.separator+"log4j.properties";
+		private String log4jconf = System.getProperty("user.home") + File.separator + ".Sith" + File.separator + "log4j.properties";
 		private String lookAndFeel = new WebLookAndFeel().getName();
 		private int columns = 80;
 		private int rows = 24;
+		
 		public int getColumns()
 			{
 				return columns;
 			}
-
+			
 		public void setColumns(int columns)
 			{
 				this.columns = columns;
 			}
-
+			
 		public int getRows()
 			{
 				return rows;
 			}
-
+			
 		public void setRows(int rows)
 			{
 				this.rows = rows;
 			}
-
+			
 		public String getLog4jconf()
 			{
 				return log4jconf;
 			}
-
+			
 		public void setLog4jconf(String log4jconf)
 			{
 				this.log4jconf = log4jconf;
 			}
-
+			
 		public boolean isCygwin()
 			{
 				return cygwin;
@@ -346,7 +347,7 @@ public class SithTermSettings implements Serializable
 			{
 				this.selectionBackground = selectionBackground;
 			}
-		
+			
 		public Color[] getPalette()
 			{
 				return new Color[]
@@ -635,14 +636,14 @@ public class SithTermSettings implements Serializable
 			{
 				this.termType = termType;
 			}
-
+			
 		public String getLookAndFeel()
 			{
-					return lookAndFeel;
+				return lookAndFeel;
 			}
-
+			
 		public void setLookAndFeel(String lookAndFeel)
 			{
-					this.lookAndFeel = lookAndFeel;
+				this.lookAndFeel = lookAndFeel;
 			}
 	}

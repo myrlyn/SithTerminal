@@ -78,8 +78,7 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		@Override
 		public TextStyle getHyperlinkColor()
 			{
-				return new TextStyle(TerminalColor.awt(settings.getHyperlinkForeground()),
-				    TerminalColor.awt(settings.getHyperlinkBackground()));
+				return new TextStyle(TerminalColor.awt(settings.getHyperlinkForeground()), TerminalColor.awt(settings.getHyperlinkBackground()));
 			}
 			
 		@Override
