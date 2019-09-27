@@ -1428,7 +1428,6 @@ public class SettingsPopup extends JDialog
 				gbc_chckbxAmbiguousCharsAre.gridy = 17;
 				miscPanel.add(chckbxAmbiguousCharsAre, gbc_chckbxAmbiguousCharsAre);
 				chckbxAmbiguousCharsAre.setSelected(settings.isAmbiguousCharsDoubleWidth());
-				lafComboBox.setSelectedItem(settings.getLookAndFeel());
 				GridBagConstraints gbc_btnApplySettings = new GridBagConstraints();
 				gbc_btnApplySettings.fill = GridBagConstraints.BOTH;
 				gbc_btnApplySettings.insets = new Insets(0, 0, 5, 0);
@@ -1519,6 +1518,8 @@ public class SettingsPopup extends JDialog
 						lafComboBox.addItem(s);
 					}
 				lafComboBox.setSelectedItem(settings.getLookAndFeel());
+//				lafComboBox.setSelectedItem(settings.getLookAndFeel());
+
 			}
 			
 		private void changeLookAndFeel()
