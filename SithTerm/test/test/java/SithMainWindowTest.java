@@ -207,6 +207,7 @@ class SithMainWindowTest
 		@Test
 		void plugMap() {
 			SithTermPlugin bar = new SithTermPlugin(win) {
+				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void initialize(String jarName)
