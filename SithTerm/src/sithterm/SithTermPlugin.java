@@ -17,6 +17,7 @@ public abstract class SithTermPlugin implements Serializable
 				this.application = application;
 			}
 			
+		public abstract void applySettings();
 		public abstract void initialize(String jarName);
 		
 		public abstract void remove();

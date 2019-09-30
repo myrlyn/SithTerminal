@@ -16,6 +16,7 @@ import java.awt.Insets;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -1491,6 +1492,9 @@ public class SettingsPopup extends JDialog
 					settings.setColumns((Integer) columnsSpinner.getValue());
 					settings.setRows((Integer) linesSpinner.getValue());
 					changeLookAndFeel();
+					for (Entry<String,SithTermPlugin> e :win.getPluginMapV1().entrySet()) {
+						e.getValue().applySettings();
+					}
 					window.saveSettings();
 				});
 				for (String key : optList.keySet())

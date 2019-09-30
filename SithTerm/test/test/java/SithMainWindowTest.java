@@ -219,7 +219,7 @@ class SithMainWindowTest
 				@Override
 				public void remove()
 					{
-						// nothing to do
+						// dummy class
 						
 					}
 
@@ -228,6 +228,13 @@ class SithMainWindowTest
 					{
 						
 						return "foo";
+					}
+
+				@Override
+				public void applySettings()
+					{
+						//dummy class
+						
 					}
 			};
 			Map<String,SithTermPlugin> m = new HashMap<>();
