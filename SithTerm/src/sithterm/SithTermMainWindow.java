@@ -389,8 +389,10 @@ public class SithTermMainWindow implements Serializable
 				String dir = settings.getDir();
 				String chsetName = settings.getCharSetName();
 				String termType = settings.getTermType();
-				tabbedPane.addTab("Term: " + this.tabNumber++,
-				    this.getWidget(command, initialRows, initialColumns, windowAnsiColor, dir, chsetName, termType));
+				Component c = this.getWidget(command, initialRows, initialColumns, windowAnsiColor, dir, chsetName, termType);
+				tabbedPane.addTab("Term: " + this.tabNumber++,c
+				    );
+				tabbedPane.setSelectedComponent(c);
 			}
 			
 		public JFrame getFrame()
