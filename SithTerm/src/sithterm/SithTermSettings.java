@@ -74,7 +74,7 @@ public class SithTermSettings implements Serializable
 		private boolean cygwin = false;
 		private boolean console = false;
 		private String log4jconf = System.getProperty("user.home") + File.separator + ".Sith" + File.separator + "log4j.properties";
-		private String lookAndFeel = new WebLookAndFeel().getName();
+		private String lookAndFeel = "Metal";
 		private int columns = 80;
 		private int rows = 24;
 		
