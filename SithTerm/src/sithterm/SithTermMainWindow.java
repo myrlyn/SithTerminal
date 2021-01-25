@@ -17,8 +17,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.Level;
 
 import com.alee.laf.WebLookAndFeel;
 import com.google.gson.Gson;
@@ -390,13 +390,14 @@ public class SithTermMainWindow implements Serializable
 				String dir = settings.getDir();
 				String chsetName = settings.getCharSetName();
 				String termType = settings.getTermType();
-				logger.log(Priority.DEBUG, "Command ="+ command);
-				logger.log(Priority.DEBUG, "Initial Rows =" + initialRows);
-				logger.log(Priority.DEBUG, "Initial Columns =" + initialColumns);
-				logger.log(Priority.DEBUG, "Window Ansi Color =" + windowAnsiColor);
-				logger.log(Priority.DEBUG, "Dir =" + dir);
-				logger.log(Priority.DEBUG, "chsetName =" + chsetName);
-				logger.log(Priority.DEBUG, "termType =" + termType);
+				for (String arg : command)
+					logger.log(Level.DEBUG, "Command item =" + arg);
+				logger.log(Level.DEBUG, "Initial Rows =" + initialRows);
+				logger.log(Level.DEBUG, "Initial Columns =" + initialColumns);
+				logger.log(Level.DEBUG, "Window Ansi Color =" + windowAnsiColor);
+				logger.log(Level.DEBUG, "Dir =" + dir);
+				logger.log(Level.DEBUG, "chsetName =" + chsetName);
+				logger.log(Level.DEBUG, "termType =" + termType);
 				
 				Component c = this.getWidget(command, initialRows, initialColumns, windowAnsiColor, dir, chsetName, termType);
 				tabbedPane.addTab("Term: " + this.tabNumber++,c

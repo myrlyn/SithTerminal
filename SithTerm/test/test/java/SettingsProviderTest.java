@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.jediterm.terminal.TextStyle;
+
 import sithterm.SithSettingsProvider;
 import sithterm.SithTermSettings;
 
@@ -15,7 +17,6 @@ class SettingsProviderTest
 	{
 		SithTermSettings settings = new SithTermSettings();
 		SithSettingsProvider provider = null;
-		
 		@BeforeAll
 		static void setUpBeforeClass()
 		    throws Exception
@@ -163,47 +164,75 @@ class SettingsProviderTest
 		@Test
 		void testGetDefaultStyle()
 			{
-				int bg = provider.getDefaultStyle().getBackground().toAwtColor().getRGB();
-				int fg = provider.getDefaultStyle().getForeground().toAwtColor().getRGB();
-				int ebg = settings.getBgColor().getRGB();
-				int efg = settings.getFgColor().getRGB();
-				assertEquals(ebg, bg);
-				assertEquals(efg, fg);
+				TextStyle ts = provider.getDefaultStyle();
+				if (ts == null)
+					fail();
+				else
+					{
+						int bg = ts.getBackground().toAwtColor().getRGB();
+						int fg = ts.getForeground().toAwtColor().getRGB();
+						int ebg = settings.getBgColor().getRGB();
+						int efg = settings.getFgColor().getRGB();
+						assertEquals(ebg, bg);
+						assertEquals(efg, fg);
+					}
 			}
 			
 		@Test
 		void testGetSelectionColor()
 			{
-				int bg = provider.getSelectionColor().getBackground().toAwtColor().getRGB();
-				int fg = provider.getSelectionColor().getForeground().toAwtColor().getRGB();
-				int ebg = settings.getSelectionBackground().getRGB();
-				int efg = settings.getSelectionForeground().getRGB();
-				assertEquals(ebg, bg);
-				assertEquals(efg, fg);
+				TextStyle sc = provider.getSelectionColor();
+				if (sc == null)
+					fail();
+				else
+					{
+						int bg = provider.getSelectionColor().getBackground().toAwtColor().getRGB();
+						int fg = provider.getSelectionColor().getForeground().toAwtColor().getRGB();
+						int ebg = settings.getSelectionBackground().getRGB();
+						int efg = settings.getSelectionForeground().getRGB();
+						assertEquals(ebg, bg);
+						assertEquals(efg, fg);
+					}
 			}
 			
 		@Test
 		void testGetFoundPatternColor()
 			{
-				int bg = provider.getFoundPatternColor().getBackground().toAwtColor().getRGB();
-				int fg = provider.getFoundPatternColor().getForeground().toAwtColor().getRGB();
-				int ebg = settings.getFoundPatternBackGround().getRGB();
-				int efg = settings.getFoundPatternForeGround().getRGB();
-				assertEquals(ebg, bg);
-				assertEquals(efg, fg);
+				if (provider == null ) {
+					fail();
+					return;
+				}
+				TextStyle sc = provider.getSelectionColor();
+				if (sc == null)
+					fail();
+				else
+					{
+						int bg = provider.getFoundPatternColor().getBackground().toAwtColor().getRGB();
+						int fg = provider.getFoundPatternColor().getForeground().toAwtColor().getRGB();
+						int ebg = settings.getFoundPatternBackGround().getRGB();
+						int efg = settings.getFoundPatternForeGround().getRGB();
+						assertEquals(ebg, bg);
+						assertEquals(efg, fg);
+					}
 			}
 			
 		@Test
 		void testGetHyperlinkColor()
 			{
-				int bg = provider.getHyperlinkColor().getBackground().toAwtColor().getRGB();
-				int fg = provider.getHyperlinkColor().getForeground().toAwtColor().getRGB();
-				int ebg = settings.getHyperlinkBackground().getRGB();
-				int efg = settings.getHyperlinkForeground().getRGB();
-				System.out.println("Settings: " + settings.getHyperlinkBackground().getRGB());
-				System.out.println("provider: " + provider.getHyperlinkColor().getBackground().toAwtColor().getRGB());
-				assertEquals(ebg, bg);
-				assertEquals(efg, fg);
+				TextStyle sc = provider.getSelectionColor();
+				if (sc == null)
+					fail();
+				else
+					{
+						int bg = provider.getHyperlinkColor().getBackground().toAwtColor().getRGB();
+						int fg = provider.getHyperlinkColor().getForeground().toAwtColor().getRGB();
+						int ebg = settings.getHyperlinkBackground().getRGB();
+						int efg = settings.getHyperlinkForeground().getRGB();
+						System.out.println("Settings: " + settings.getHyperlinkBackground().getRGB());
+						System.out.println("provider: " + provider.getHyperlinkColor().getBackground().toAwtColor().getRGB());
+						assertEquals(ebg, bg);
+						assertEquals(efg, fg);
+					}
 			}
 			
 		@Test
