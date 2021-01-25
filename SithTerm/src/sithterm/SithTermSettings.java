@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alee.laf.WebLookAndFeel;
 import com.jediterm.terminal.HyperlinkStyle;
 import com.jediterm.terminal.model.LinesBuffer;
 import com.jediterm.terminal.ui.settings.DefaultSettingsProvider;
@@ -48,7 +47,7 @@ public class SithTermSettings implements Serializable
 		private Color fgColor = Color.WHITE;
 		private String fontFamily = new DefaultSettingsProvider().getTerminalFont().getFamily();
 		private float fontSize = new DefaultSettingsProvider().getTerminalFontSize();
-		private float lineSpace = 0.0f;
+		private float lineSpace = 1.0f;
 		private Color selectionForeground = new Color(-1);// magic number derived from DefaultSettingsProvider color
 		private Color selectionBackground = new Color(-11375195); // magic number derived from DefaultSettingsProvider color
 		private Color foundPatternForeGround = new Color(-16777216);// magic number derived from DefaultSettingsProvider color

@@ -13,7 +13,6 @@ import com.jediterm.terminal.ui.settings.UserSettingsProvider;
 public class SithSettingsProvider extends DefaultSettingsProvider implements UserSettingsProvider, SystemSettingsProvider
 	{
 		SithTermSettings settings = new SithTermSettings();
-		
 		public SithSettingsProvider(SithTermSettings set)
 			{
 				this.settings = set;
@@ -50,6 +49,12 @@ public class SithSettingsProvider extends DefaultSettingsProvider implements Use
 		public float getLineSpace()
 			{
 				return settings.getLineSpace();
+			}
+			
+		@Override
+		public float getLineSpacing()
+			{
+				return 1.0f;
 			}
 			
 		@Override
